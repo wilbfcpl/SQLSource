@@ -19,6 +19,50 @@ group by cloc.LOCNAME
 order by cloc.LOCNAME
 ;
 
+-- Report 15 Work alike
+select
+
+cloc.LOCNAME,
+count(cloc.LOCNAME),
+codes.CODEDESCRIPTION
+
+from txlog_v2 tx
+join location_v2 cloc on tx.itemlocation=cloc.locnumber
+join CARLREPORTS.SYSTEMCODEVALUES_V2 codes on codes.CODEVALUE= tx.TRANSACTIONTYPE
+join BRANCH_V2 branch on branch.BRANCHNUMBER = tx.ENVBRANCH
+join BTY_V2 btype on btype.BTYNUMBER = tx.PATRONBTY
+
+where
+ trunc(tx.TXTRANSDATE) BETWEEN '01-MAY-2023' and '01-MAY-2024'
+   and tx.transactiontype in ('CH','DC','RN')
+    and codes.CODEDESCRIPTION not like 'Received%'
+  -- and codes.CODETYPE in (1,2,3,4,5,8)
+    --and
+
+ --codes.CODEDESCRIPTION like 'Return%'
+-- (
+--      codes.codetype = 2 and codes.CODEVALUE like 'C%'
+--          OR
+--      codes.codetype = 5 and codes.CODEVALUE like 'C%'
+--          or
+--      codes.CODETYPE = 4 and codes.CODEVALUE like 'C%'
+--          or
+--      codes.CODETYPE = 5 and codes.CODEVALUE ='RN'
+--          or
+--      codes.CODETYPE = 3 and codes.CODEVALUE = 'RT'
+--          or
+--      codes.CODETYPE = 8 and codes.CODEVALUE = 'R'
+--         or
+--       codes.CODETYPE = 5 and codes.CODEVALUE = 'DC'
+-- --
+--      )
+  and branch.BRANCHCODE=     :BRANCH
+and btype.BTYCODE not in ('ILL','LIBUSE')
+
+group by cloc.LOCNAME, codes.CODEDESCRIPTION
+order by cloc.LOCNAME
+;
+
 -- Last Month New Student Cards from FCPS, e.g. trunc(regdate)='30-NOV-22'
 select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,
