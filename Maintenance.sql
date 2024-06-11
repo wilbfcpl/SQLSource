@@ -1,4 +1,11 @@
 
+-- Misc Utilities
+SHOW DATABASES;
+▶ SHOW TABLES IN database;
+▶ SHOW COLUMNS IN table;
+▶ DESCRIBE table; - show
+
+
 select distinct bib.bid, bib.BIBTYPE, bib.HIDDENTYPE ,  bib.ERESOURCE,bib.CALLNUMBER,
        bib.TITLE
 
