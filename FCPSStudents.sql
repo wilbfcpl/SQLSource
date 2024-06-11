@@ -626,3 +626,38 @@ select student.patronid, student.firstname, student.lastname, student.middlename
          and trunc(regdate) between '31-MAR-24' and '01-MAY-24'
 
     order by student.lastname
+
+-- Student Account Inactive for Andrew Thompson
+select count(refid) CNV_NOTE from CARLREPORTS.PATRONNOTETEXT_V2 note
+where upper(text) like '%SUCCESS ACCOUNT INACTIVE%'
+;
+-- All Similar accounts.
+select PATRONID , name, BTYCODE,ACTDATE,EDITDATE,USERID from patron_v2 patron
+
+    --inner join BTY_V2 bty on bty.BTYNUMBER = patron.BTY
+    inner join PATRONNOTETEXT_V2 note on  note.REFID = patron.PATRONID
+    inner join CARLREPORTS.BTY_V2 btype on btype.BTYNUMBER = patron.BTY
+    where upper(text) like '%SUCCESS ACCOUNT INACTIVE%'
+order by ACTDATE
+;
+
+select refid CNV_NOTE from CARLREPORTS.PATRONNOTETEXT_V2 note
+
+where upper(text) like '%SUCCESS ACCOUNT INACTIVE%'
+;
+
+
+select refid CNV_NOTE ,to_date(patron.ACTDATE) actdate from PATRONNOTETEXT_V2 note , PATRON_V2 patron
+
+where upper(note.TEXT) like '%SUCCESS ACCOUNT INACTIVE%'
+order by actdate asc
+
+;
+
+select REFID CNV_NOTE ,patron.ACTDATE actdate from PATRONNOTETEXT_V2 note , PATRON_V2 patron
+
+where upper(note.TEXT) like '%SUCCESS ACCOUNT INACTIVE%' and TO_DATE(patron.ACTDATE)>='01-JAN-2021'
+group by refid, actdate
+order by actdate asc
+
+;
