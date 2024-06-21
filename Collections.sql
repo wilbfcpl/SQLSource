@@ -1,4 +1,4 @@
-s--08/08/2023 Adult Graphic Call Number Change
+--08/08/2023 Adult Graphic Call Number Change
 select item.item,
        bib.bid,
        bib.CALLNUMBER "bib call",
@@ -108,6 +108,27 @@ where
     marc.tagnumber='245' and upper(tags.WORDDATA) like '%SERIES, BOOK%'
 ;
 
+--Double series, book from Undo Macro script applied twice
+select distinct bib.bid,
+       bib.CALLNUMBER,
+title,
+marc.TAGNUMBER,
+tags.TAGDATA,
+tags.WORDDATA
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where
+
+     bib.ERESOURCE ='Y'
+
+    and
+
+    marc.TAGNUMBER='245' and regexp_like (upper(tags.WORDDATA) ,'SERIES, BOOK.+SERIESw')
+;
+
 select distinct count(bib.bid)
 
 from bbibmap_v2 bib
@@ -134,7 +155,7 @@ tags.WORDDATA
 from bbibmap_v2 bib
      inner join bbibcontents_v2 marc on bib.bid = marc.bid
      inner join btags_v2 tags on tags.tagid = marc.tagid
-     inner join btags_v2 tags2 on tags.tagid = marc.tagid
+    -- inner join btags_v2 tags2 on tags.tagid = marc.tagid
 where
     --bib.CALLNUMBER like 'OVERDRIVE%'
     --AND
@@ -143,8 +164,8 @@ where
    -- marc.TAGNUMBER='092' and upper(tags.WORDDATA) like 'OVERDRIVE'
     and
     (marc.tagnumber = '590' and upper(tags.WORDDATA) like '%SERIES, BOOK%'
-    OR
-         marc.tagnumber = '490' and regexp_like(upper(tags2.WORDDATA),'BOOK\s+[0-9]+\s*/$')
+    --OR
+         --marc.tagnumber = '490' and regexp_like(upper(tags2.WORDDATA),'BOOK\s+[0-9]+\s*/$')
     )
 ;
 
@@ -165,4 +186,30 @@ where
     marc.tagnumber = '590' and upper(tags.WORDDATA) like '%SERIES, BOOK%'
 
 
+;
+
+--ILL For Sam / Aftan
+SELECT
+    item_v2.item,
+    --item_v2.status,
+    systemitemcodes_v2.description,
+    item_v2.statusdate,
+    LOCATION_V2.LOCCODE,
+    MEDIA_V2.MEDCODE,
+    transitem_v2.patronid,
+    BRANCH_V2.branchcode,
+    transitem_v2.lastactiondate,
+    patronnote.TEXT
+   -- ITEMNOTETEXT_V2.TEXT AS ITEMNOTE
+
+FROM item_v2
+LEFT JOIN TRANSITEM_V2 ON ITEM_V2.ITEM = TRANSITEM_V2.ITEM
+JOIN LOCATION_V2 ON ITEM_V2.LOCATION = LOCATION_V2.LOCNUMBER
+JOIN BRANCH_V2 ON ITEM_V2.BRANCH = BRANCH_V2.BRANCHNUMBER
+JOIN MEDIA_V2 ON ITEM_V2.MEDIA = MEDIA_V2.MEDNUMBER
+LEFT JOIN SYSTEMITEMCODES_V2 ON ITEM_V2.STATUS = SYSTEMITEMCODES_V2.CODE
+-- LEFT JOIN ITEMNOTETEXT_V2 ON ITEM_V2.ITEM = ITEMNOTETEXT_V2.REFID
+LEFT JOIN PATRON_V2 patron on patron.PATRONID=TRANSITEM_V2.PATRONID
+LEFT JOIN PATRONNOTETEXT_V2 patronnote on patronnote.REFID = patron.PATRONID
+WHERE location_v2.loccode = 'ILL' and patronnote.alias='sv0'
 ;
