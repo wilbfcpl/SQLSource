@@ -1,9 +1,9 @@
 
 -- Misc Utilities
-SHOW DATABASES;
-SHOW TABLES IN database;
-SHOW COLUMNS IN table;
-DESCRIBE table; 
+-- SHOW DATABASES;
+-- SHOW TABLES IN database;
+-- SHOW COLUMNS IN table;
+-- DESCRIBE table;
 
 
 select distinct bib.bid, bib.BIBTYPE, bib.HIDDENTYPE ,  bib.ERESOURCE,bib.CALLNUMBER,
@@ -14,22 +14,22 @@ inner join "ItemlessBids-06132023" list on bib.bid = list.BIDS
 -- inner join BIBLOG_V2 log on bib.bid = log.bid
 
 ;
-select * from "ItemlessBids-06132023";
-
---select distinct bib.bid, bib.BIBTYPE, bib.HIDDENTYPE ,  bib.ERESOURCE,bib.CALLNUMBER, bib.TITLE
-select list.BIDS
-       --, bib.BIBTYPE, bib.CALLNUMBER,bib.ERESOURCE,bib.HIDDENTYPE,
-       -- bib.ACQTYPE,bib.SUPPRESSDATE,bib.SUPPRESSTYPE, bib.title
-
-from "ItemlessBids-06132023" list
--- inner join  BBIBMAP_V2 bib on bib.bid = list.BIDS
---left outer join GMU_BIDS_06132023 gmu on list.BIDS=gmu.BID
- -- join GMU_BIDS_06132023 gmu on gmu.bid = list.BIDS
-where
-    BIDS not in (select bid from ILL_06132023 ILL)
-and
-BIDS not in (select bid from GMU_BIDS_06132023 gmu )
-;
+-- select * from "ItemlessBids-06132023";
+--
+-- --select distinct bib.bid, bib.BIBTYPE, bib.HIDDENTYPE ,  bib.ERESOURCE,bib.CALLNUMBER, bib.TITLE
+-- select list.BIDS
+--        --, bib.BIBTYPE, bib.CALLNUMBER,bib.ERESOURCE,bib.HIDDENTYPE,
+--        -- bib.ACQTYPE,bib.SUPPRESSDATE,bib.SUPPRESSTYPE, bib.title
+--
+-- from "ItemlessBids-06132023" list
+-- -- inner join  BBIBMAP_V2 bib on bib.bid = list.BIDS
+-- --left outer join GMU_BIDS_06132023 gmu on list.BIDS=gmu.BID
+--  -- join GMU_BIDS_06132023 gmu on gmu.bid = list.BIDS
+-- where
+--     BIDS not in (select bid from ILL_06132023 ILL)
+-- and
+-- BIDS not in (select bid from GMU_BIDS_06132023 gmu )
+-- ;
 -- Need some view of the Logs after Delete Bibs runs.
 
 -- Look for the Delete Bibs Remove String
