@@ -111,17 +111,17 @@ select distinct student.patronid, student.name, student.zip1,student.STATUS,
     order by PATRONID ;
 
 -- Get the notes to remove as cleanup.
-select student.patronid, note.noteid, note.notetype, note.alias, note.TIMESTAMP
-       ,note.text, patron_v2.NAME,
-       student.STATUS
-    from "12toPUBLIC_VerifyBirthdateNote_1" student
-    inner join PATRON_V2 on student.PATRONID = patron_v2.PATRONID
-   inner join PATRONNOTETEXT_V2 note on student.PATRONID=note.REFID
-
-     where
-               note.NOTETYPE=501
-              -- NOT regexp_like (upper(note.text),'WE WOULD LIKE.+BIRTHDATE.+$')
-    order by PATRONID ;
+-- select student.patronid, note.noteid, note.notetype, note.alias, note.TIMESTAMP
+--        ,note.text, patron_v2.NAME,
+--        student.STATUS
+--     from "12toPUBLIC_VerifyBirthdateNote_1" student
+--     inner join PATRON_V2 on student.PATRONID = patron_v2.PATRONID
+--    inner join PATRONNOTETEXT_V2 note on student.PATRONID=note.REFID
+--
+--      where
+--                note.NOTETYPE=501
+--               -- NOT regexp_like (upper(note.text),'WE WOULD LIKE.+BIRTHDATE.+$')
+--     order by PATRONID ;
 
 -- Circulation float maintenance
 SELECT     ITEM_V2.BID,
