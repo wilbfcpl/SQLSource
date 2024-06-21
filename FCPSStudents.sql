@@ -631,8 +631,8 @@ select student.patronid, student.firstname, student.lastname, student.middlename
 select count(refid) CNV_NOTE from CARLREPORTS.PATRONNOTETEXT_V2 note
 where upper(text) like '%SUCCESS ACCOUNT INACTIVE%'
 ;
--- All Similar accounts.
-select PATRONID , name, BTYCODE,ACTDATE,EDITDATE,USERID from patron_v2 patron
+-- All Similar accounts with a conversion note
+select PATRONID , name, BTYCODE,ACTDATE,TO_DATE(EDITDATE) editdate,USERID from patron_v2 patron
 
     --inner join BTY_V2 bty on bty.BTYNUMBER = patron.BTY
     inner join PATRONNOTETEXT_V2 note on  note.REFID = patron.PATRONID

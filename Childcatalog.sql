@@ -1216,7 +1216,7 @@ where (
 --                  bib.bid, title
         order by bib.callnumber, trunc(log.ACTIONTIMESTAMP) desc   ;
 
---08/08/2023 Adult Graphic
+--08/08/2023 Adult Graphic Call Number Change
 select item.item,
        bib.bid,
        bib.CALLNUMBER "bib call",

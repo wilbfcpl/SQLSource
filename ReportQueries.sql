@@ -1,4 +1,4 @@
--- Report 16 Work alike
+-- Report 16 Aggregate work alike
 select
 
 cloc.LOCNAME,
@@ -18,6 +18,37 @@ and btype.BTYCODE not in ('ILL','LIBUSE')
 group by cloc.LOCNAME
 order by cloc.LOCNAME
 ;
+-- Low Level Report 15/16 work alike
+select
+    'Frederick County Public Library' AS Institution,
+    :begin as begin,
+    :end as end,
+    TO_DATE(tx.TXTRANSDATE) as TransDate,
+    branch.branchcode ,
+    transtypes.CODEDESCRIPTION,
+    cloc.LOCNAME,
+    media.MEDNAME,
+    btype.BTYNAME,
+ 'Frederick County Public Libraries' as BRANCHGROUP,
+ count(media.MEDNAME)
+from txlog_v2 tx
+join SYSTEMCODEVALUES_V2 transtypes on transtypes.CODEVALUE=tx.TRANSACTIONTYPE
+join location_v2 cloc on tx.itemlocation=cloc.locnumber
+join MEDIA_V2 media on tx.ITEMMEDIA=media.MEDNUMBER
+join BRANCH_V2 branch on branch.BRANCHNUMBER = tx.ENVBRANCH
+join BTY_V2 btype on btype.BTYNUMBER = tx.PATRONBTY
+where
+
+TO_DATE(tx.TXTRANSDATE) BETWEEN :begin and :end
+   and transtypes.CODEDESCRIPTION in ('Renew','Discharge (Return)','Charge')
+and branch.BRANCHCODE=     :BRANCH
+and btype.BTYCODE not in ('ILL','LIBUSE')
+
+group by TO_DATE(tx.TXTRANSDATE),branchcode,transtypes.CODEDESCRIPTION,cloc.LOCNAME,media.MEDNAME,btype.BTYNAME
+order by TO_DATE(tx.TXTRANSDATE)
+;
+
+
 
 -- Report 15 Work alike
 select
@@ -74,7 +105,7 @@ select student.patronid, student.firstname, student.lastname, student.middlename
     inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
     where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
       --and upper(street1)  like 'MARYLAND%'
-         and trunc(regdate) between '31-MAR-24' and '01-MAY-24'
+         and trunc(regdate) between '30-APRIL-24' and '31-MAY-24'
 
     order by student.lastname ;
 

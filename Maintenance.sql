@@ -1,9 +1,9 @@
 
 -- Misc Utilities
 SHOW DATABASES;
-▶ SHOW TABLES IN database;
-▶ SHOW COLUMNS IN table;
-▶ DESCRIBE table; - show
+SHOW TABLES IN database;
+SHOW COLUMNS IN table;
+DESCRIBE table; 
 
 
 select distinct bib.bid, bib.BIBTYPE, bib.HIDDENTYPE ,  bib.ERESOURCE,bib.CALLNUMBER,
@@ -558,3 +558,14 @@ ORDER BY COUNT(t.item) DESC
 FETCH FIRST 25 ROWS ONLY;
 
 
+-- ILL Titles have INTERLIBRARY_LOAN ==Y in BBIBMAP_V2, ITEM MEDIA / MEDIA_V2 MEDCODE value of 19 or 23
+
+select title.BID, INTERLIBRARY_LOAN, title.TITLE,  MEDNAME
+    from ITEM_V2 item
+        inner join BBIBMAP_V2 title on item.bid = title.bid
+        inner join MEDIA_V2 media on media.MEDNUMBER = item.MEDIA
+
+    where
+        --INTERLIBRARY_LOAN = 'Y'
+      ( MEDIA = 19 OR MEDIA = 23)
+;
