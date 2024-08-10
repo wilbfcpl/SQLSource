@@ -82,8 +82,7 @@ AND (p.editdate IS NULL)
 AND (p.sactdate IS NULL)
 ORDER BY p.patronguid
 --Another Experiment
-SELECT p.patronguid, p.patronid, trunc(p.actdate) AS actdate, trunc(p.editdate) AS editdate, 
-userid, p.regby, tx.pwd, tx.transactiontype, tx.systemtimestamp
+SELECT  p.patronid,p.name, tx.transactiontype, trunc(p.actdate) AS actdate, p.regby,  tx.systemtimestamp
 FROM patron_v2 p
 LEFT JOIN txlog_v2 tx ON p.patronguid=tx.patronguid
 --2=GRAD, 5=JUV, 7=PUBLIC, 10=STUDNT, 11=TEMP, 12=WEBREG, 13=JVOPTO, 14=OPTOUT
@@ -93,6 +92,37 @@ AND (p.sactdate IS NULL OR p.sactdate<sysdate-1096)
 --list only those with transactions
 AND tx.transactiontype IS NOT NULL
 ORDER BY p.patronguid ;
+
+-- Student transactions FY 24
+SELECT p.patronid, p.name, tx.transactiontype, codes.CODETYPE,trunc(tx.systemtimestamp), trunc(p.editdate) AS editdate
+FROM patron_v2 p
+inner join BTY_V2 bty on bty.BTYNUMBER = p.BTY
+INNER JOIN txlog_v2 tx ON p.patronguid=tx.patronguid
+inner join SYSTEMCODEVALUES_V2 vals on vals.CODEVALUE=  tx.TRANSACTIONTYPE
+inner join SYSTEMCODETYPES_V2 codes on codes.CODETYPE = vals.CODETYPE and codes.CODETYPE = 5
+--2=GRAD, 5=JUV, 7=PUBLIC, 10=STUDNT, 11=TEMP, 12=WEBREG, 13=JVOPTO, 14=OPTOUT
+WHERE bty.btycode in ('STUDNT','GRAD')
+
+and trunc(tx.SYSTEMTIMESTAMP) between '01-JULY-2023' and '30-JUN-2024'
+
+AND upper(tx.transactiontype) in ('CH','HP','RN')
+ORDER BY p.patronguid ;
+
+SELECT count(*)
+FROM patron_v2 p
+inner join BTY_V2 bty on bty.BTYNUMBER = p.BTY
+INNER JOIN txlog_v2 tx ON p.patronguid=tx.patronguid
+inner join SYSTEMCODEVALUES_V2 vals on vals.CODEVALUE=  tx.TRANSACTIONTYPE
+inner join SYSTEMCODETYPES_V2 codes on codes.CODETYPE = vals.CODETYPE and codes.CODETYPE = 5
+--2=GRAD, 5=JUV, 7=PUBLIC, 10=STUDNT, 11=TEMP, 12=WEBREG, 13=JVOPTO, 14=OPTOUT
+WHERE bty.btycode in ('STUDNT','GRAD')
+
+and trunc(tx.SYSTEMTIMESTAMP) between '01-JULY-2023' and '30-JUN-2024'
+
+AND upper(tx.transactiontype) in ('CH')
+ORDER BY p.patronguid ;
+
+
 select patronid,name,street1,regdate, editdate,status ,userid from patron_v2 where patronid='11982920028271'  ;
 select patronid , bty, name, birthdate,street1, defaultbranch , userid, regby, regdate, editdate,actdate, defaultbranch from patron_v2 patron where (bty=10 and defaultbranch=11 and birthdate is not null ) order by patronid ; 
 
@@ -305,6 +335,7 @@ select student.patronid, student.FIRSTNAME, student.MIDDLENAME, student.lastname
     order by PATRONID ;
 
 -- 2/16/2023 Soft Block Need the staff note, pairs with perl script FcpsAddNote_min.pl
+
 select student.patronid, student.name, status, BTYCODE, student.STREET1,notes,trunc(regdate),trunc(editdate),
        trunc(actdate)
     from patron_v2 student
@@ -323,6 +354,24 @@ select student.patronid, student.name, status, BTYCODE, student.STREET1,notes,tr
       --and branchcode ='SSL'
       and status='S'
       and note.REFID is null    ;
+
+--Find the Graduated recently
+-- Date format '17-JUL-2024'
+select student.patronid, student.name, status, BTYCODE,note.TEXT, student.STREET1,trunc(regdate),trunc(editdate),
+       trunc(actdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    left outer join PATRONNOTETEXT_V2 note on student.PATRONID=note.REFID
+    where (btycode='GRAD')
+      --and branchcode ='SSL'
+      and status='S'
+      and trunc (editdate )= :editdate
+     -- and note.REFID is not null
+      --and note.text is not null
+order by trunc(editdate) desc
+
+;
 
 -- 11/9/2023 Informational Note
 
@@ -532,7 +581,7 @@ select student.patronid, trunc(student.REGDATE), trunc(student.EDITDATE), studen
                 OR
              (type.btycode = 'GRAD')
         )
-    AND trunc(student.regdate) > '31-JAN-24' and trunc(student.regdate)<'01-MAR-24'
+    AND trunc(student.regdate) > '31-MAY-24' and trunc(student.regdate)<'01-JUL-24'
 --AND trunc(student.editdate) > :regDate
       --AND trunc(regdate)<'01-NOV-23'
     order by school , trunc(REGDATE) desc ;
@@ -660,4 +709,10 @@ where upper(note.TEXT) like '%SUCCESS ACCOUNT INACTIVE%' and TO_DATE(patron.ACTD
 group by refid, actdate
 order by actdate asc
 
+;
+select * from Patron_v2 patron
+Inner join STUDENTS0805 students on patron.PATRONID = students.PATRONID
+;
+select count(*) from Patron_v2 patron
+Inner join STUDENTS0805 students on patron.PATRONID = students.PATRONID
 ;
