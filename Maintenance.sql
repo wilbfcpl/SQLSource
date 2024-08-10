@@ -569,3 +569,47 @@ select title.BID, INTERLIBRARY_LOAN, title.TITLE,  MEDNAME
         --INTERLIBRARY_LOAN = 'Y'
       ( MEDIA = 19 OR MEDIA = 23)
 ;
+
+-- New Bookmobile Items Checked out with Old publishing Date
+select Title.Bid, item.item ,branch.BRANCHCODE,title.TITLE,
+       title.PUBLISHINGDATE, item.STATUS, loc.LOCCODE
+
+From BBIBMAP_V2 title
+
+inner join ITEM_V2 item on item.bid = title.BID
+    inner join MEDIA_V2 media on media.MEDNUMBER = item.media
+inner join BRANCH_V2 branch on branch.BRANCHNUMBER = item.OWNINGBRANCH
+inner join branch_v2 branch2 on branch2.BRANCHNUMBER = item.BRANCH
+inner join LOCATION_V2 loc on loc.LOCNUMBER = item.LOCATION
+
+where (
+    (branch.BRANCHCODE = 'BKE' and branch2.BRANCHCODE = 'BKE')
+    OR
+     (branch.BRANCHCODE = 'BKC' and branch2.BRANCHCODE = 'BKC')
+    )
+and status = 'C'
+and title.PUBLISHINGDATE < '2023'
+and loc.LOCCODE LIKE '%NEW' ;
+
+;
+-- Patrons setup to receive SMS Text Messages
+select patron.PATRONID, EMAILNOTICES, status.DESCRIPTION,patron.PHONETYPEID1
+from PATRON_V2 patron
+inner join bst_v2 status on status.bst = patron.STATUS
+where EMAILNOTICES=1 and PHONETYPEID1 > 1 and PHONETYPEID1 !=47
+
+;
+select count(patron.PATRONID)
+from PATRON_V2 patron
+inner join bst_v2 status on status.bst = patron.STATUS
+where EMAILNOTICES=1 and PHONETYPEID1 > 1 and PHONETYPEID1 !=47
+
+;
+-- Staff Barrower Patrons setup to receive SMS Text Messages
+select patron.PATRONID, patron.name,EMAILNOTICES, status.DESCRIPTION,patron.PHONETYPEID1
+from PATRON_V2 patron
+inner join bst_v2 status on status.bst = patron.STATUS
+inner join BTY_V2 type on type.BTYNUMBER = patron.BTY
+where EMAILNOTICES=1 and PHONETYPEID1 > 1 and PHONETYPEID1 !=47 and type.BTYCODE='STFBRW'
+
+;

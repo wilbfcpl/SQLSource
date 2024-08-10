@@ -213,3 +213,5 @@ LEFT JOIN PATRON_V2 patron on patron.PATRONID=TRANSITEM_V2.PATRONID
 LEFT JOIN PATRONNOTETEXT_V2 patronnote on patronnote.REFID = patron.PATRONID
 WHERE location_v2.loccode = 'ILL' and patronnote.alias='sv0'
 ;
+
+
