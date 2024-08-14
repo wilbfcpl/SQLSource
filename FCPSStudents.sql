@@ -177,6 +177,13 @@ where udf.fieldid= 3
 -- Emails with MyFCPS.org
 select * from patron_v2 patron where patron.email like '%my.fcps.org' and patronid like '______';
 
+
+select patron.patronid ,patron.NAME,patron.email, patron.EMAILNOTICES,type.BTYCODE, branch.BRANCHCODE,trunc(patron.REGDATE) from patron_v2 patron
+         inner join BTY_V2 type on patron.bty=BTYNUMBER
+         inner join BRANCH_V2 branch on patron.REGBRANCH = branch.BRANCHNUMBER
+         where patron.email like '%my.fcps.org' and BTYCODE = 'STUDNT'
+;
+
 --First Student Update August 8 2022
 select patron.patronid, patron.name, patron.street1, patron.regdate from patron_v2 patron inner join students080822 students on patron.patronid=students.patronid ;
 select patron.patronid, patron.name, patron.street1, patron.regdate from patron_v2 patron inner join students083122 students on patron.patronid=students.patronid ;
@@ -711,8 +718,33 @@ order by actdate asc
 
 ;
 select * from Patron_v2 patron
-Inner join STUDENTS0805 students on patron.PATRONID = students.PATRONID
+Inner join STUDENTS080524 students on patron.PATRONID = students.PATRONID
 ;
 select count(*) from Patron_v2 patron
-Inner join STUDENTS0805 students on patron.PATRONID = students.PATRONID
+Inner join STUDENTS080524 students on patron.PATRONID = students.PATRONID
+;
+
+select * from STUDENTS080524 students
+
+left outer join  PATRON_V2 patron on  patron.PATRONID = students.PATRONID
+where patron.PATRONID is null
+;
+
+-- FCPS Fall 2024 Update with Registration date as 080524
+-- Temporary Tables PatronLoaderAdded0805 with the new Student Accounts
+-- Temporary Table STUDENTS080524 with the entire roster of 47,000
+
+select patrons.PATRONID , students.patronid "studentid", type.BTYCODE, patrons.firstname, patrons.LASTNAME
+from PATRON_V2 patrons
+    inner join BTY_V2 type on patrons.bty = type.BTYNUMBER
+    inner join "PatronLoaderAdded0805" students on patrons.NAME = students."Patron Name"
+                                                  and patrons.PATRONID != students.PATRONID
+;
+select patrons.PATRONID , students.patronid "studentid", type.BTYCODE, patrons.firstname, patrons.LASTNAME
+from PATRON_V2 patrons
+    inner join BTY_V2 type on patrons.bty = type.BTYNUMBER
+    inner join "PatronLoaderAdded0805" students on patrons.NAME = students."Patron Name"
+                                                  and patrons.PATRONID != students.PATRONID
+
+where type.BTYCODE= 'STUDNT' and patrons.PATRONID not like '119829%'
 ;
