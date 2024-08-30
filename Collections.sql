@@ -169,9 +169,144 @@ where
     )
 ;
 
+-- Find 856u jacket image in Kanopy, save BIB and prepare to move to 029a
+-- Find 856u jacket image in Kanopy, save BIB and prepare to move to 029a
+select  bib.bid,
+       bib.CALLNUMBER,
+title,
+marc.TAGNUMBER,
+tags.WORDDATA
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+    -- inner join btags_v2 tags2 on tags.tagid = marc.tagid
+where
+    --bib.CALLNUMBER like 'OVERDRIVE%'
+    --AND
+     --bib.ERESOURCE ='Y'
+    (marc.tagnumber = '029' and upper(tags.WORDDATA) like '%WWW.KANOPYSTREAMING%')
+ ;
+select  count(bib.bid),
+       bib.CALLNUMBER,
+title,
+marc.TAGNUMBER,
+upper(tags.WORDDATA)
+--tags.TAGDATA
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+    -- inner join btags_v2 tags2 on tags.tagid = marc.tagid
+where
+    --bib.CALLNUMBER like 'OVERDRIVE%'
+    --AND
+     --bib.ERESOURCE ='Y'
+    (marc.tagnumber = '856' and
+     regexp_like(upper(tags.WORDDATA),'^COVER IMAGE.+HTTPS://WWW.KANOPYSTREAMING.COM/NODE'))
+group by bib.CALLNUMBER, title, marc.TAGNUMBER, tags.WORDDATA
+;
+
+--OverDrive Cover Images
+select   bib.bid,
+ bib.CALLNUMBER,
+title,
+marc.TAGNUMBER,
+upper(tags.WORDDATA),
+upper(tags.TAGDATA)
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where
+     bib.CALLNUMBER like 'OVERDRIVE%' and
+    (marc.tagnumber = '856' and
+     regexp_like(upper(tags.WORDDATA),'^THUMBNAIL HTTPS://IMG1.OD-CDN\.COM/IMAGETYPE'))
+
+;
+-- OverDrive
+select  bib.bid,
+       bib.CALLNUMBER,
+title,
+marc.TAGNUMBER,
+upper(tags.WORDDATA),
+upper(tags.TAGDATA)
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+    -- inner join btags_v2 tags2 on tags.tagid = marc.tagid
+where
+
+    (marc.tagnumber = '856' and
+     regexp_like(upper(tags.WORDDATA),'^.*HTTPS://IMG1.OD-CDN\.COM/IMAGETYPE'))
+;
+
+select  bib.bid,
+ --      bib.CALLNUMBER,
+title,
+marc.TAGNUMBER,
+upper(tags.WORDDATA)
+,tags.TAGDATA
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where
+
+    ( bib.bid between '401551' and '410560' and
+        marc.tagnumber = '856' and
+     regexp_like(upper(tags.WORDDATA),'^COVER IMAGE.+HTTPS://WWW.KANOPY(STREAMING)*\.COM/NODE'))
+ ;
+
+
+select  bib.bid,
+ --      bib.CALLNUMBER,
+title,
+marc.TAGNUMBER,
+upper(tags.WORDDATA)
+, tags.TAGDATA
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where (marc.tagnumber = '029' and
+    --regexp_like(upper(tags.WORDDATA),'^.*HTTPS://WWW.KANOPYSTREAMING.COM/NODE'))
+    --regexp_like(upper(tags.TAGDATA),'^\WAHTTPS://WWW.KANOPYSTREAMING.COM/NODE'))
+    --or
+       --upper(tags.TAGDATA) like HEXTORAW('1F') || 'AHTTPS://WWW.KANOPYSTREAMING.COM/NODE%'
+       -- upper(tags.TAGDATA) like CHR(31) || 'AHTTPS://WWW.KANOPYSTREAMING.COM/NODE/%'
+     regexp_like(upper(tags.TAGDATA),'^' || CHR(31) || 'AHTTPS://WWW.KANOPY(STREAMING)*.COM/NODE'))
+
+
+ ;
+
+-- OverDrive or Kanopy Thumbnail/Cover in 856u
+select  bib.bid,
+ --      bib.CALLNUMBER,
+title,
+marc.TAGNUMBER,
+upper(tags.WORDDATA)
+, upper(tags.TAGDATA)
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where (marc.tagnumber = '856' and
+       (
+           regexp_like(upper(tags.TAGDATA), '^' || CHR(31) || 'ZCOVER IMAGE' || CHR(31) || 'UHTTPS://WWW.KANOPY(STREAMING)*\.COM/NODE')
+           OR
+           regexp_like(upper(tags.TAGDATA), '^' || CHR(31) || '3THUMBNAIL' || CHR(31) || 'UHTTPS://IMG1.OD-CDN\.COM/IMAGETYPE')
+           )
+          )
+
+ ;
+
 select distinct count(bib.bid)
-
-
 
 from bbibmap_v2 bib
      inner join bbibcontents_v2 marc on bib.bid = marc.bid
@@ -187,6 +322,7 @@ where
 
 
 ;
+
 
 --ILL For Sam / Aftan
 SELECT
@@ -215,3 +351,28 @@ WHERE location_v2.loccode = 'ILL' and patronnote.alias='sv0'
 ;
 
 
+-- MD Room
+SELECT
+    bib.bid,
+    title,
+    item.item,
+    LOCATION.LOCCODE,
+  --marc.TAGNUMBER,
+ upper(tags.WORDDATA)
+, upper(tags.TAGDATA)
+
+
+FROM item_v2 item
+    inner join bbibmap_v2 bib on item.bid = bib.bid
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+JOIN LOCATION_V2 location ON ITEM.LOCATION = LOCATION.LOCNUMBER
+
+WHERE location.loccode LIKE 'MDRM%'
+        and marc.tagnumber = '856'
+--   and (
+--     regexp_like(upper(tags.TAGDATA), '^' || CHR(31) || 'ZCOVER IMAGE' || CHR(31) || 'UHTTPS:/')
+--         or
+--     regexp_like(upper(tags.TAGDATA), '^' || CHR(31) || '3THUMBNAIL' || CHR(31) || 'UHTTPS:/')
+--     )
+;

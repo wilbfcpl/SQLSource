@@ -227,7 +227,7 @@ select patron.patronid , type.BTYNAME ,email from PATRON_V2 patron
 ;
 --  Outreach new registrations
 
-select distinct newreg.patronid, /*newreg.name,*/ branch.BRANCHCODE regbranch,type.BTYNAME,/*trans.TERMNUMBER,*/newreg.REGDATE
+select distinct newreg.patronid, newreg.name , branch.BRANCHCODE regbranch,newreg.USERID,type.BTYNAME,newreg.REGDATE
 
     from patron_v2 newreg
     --inner join UDFVALUE_V2 udfvalue on (udfvalue.numcode = udfpatron.numcode) and (udfvalue.fieldid = udfpatron.fieldid)
@@ -235,10 +235,12 @@ select distinct newreg.patronid, /*newreg.name,*/ branch.BRANCHCODE regbranch,ty
    inner join branch_v2 branch on newreg.REGBRANCH = branch.BRANCHNUMBER
     inner join TXLOG_V2 trans on trans.patronid=newreg.PATRONID
     where
+        newreg.USERID='cc0' and
+        upper(trans.TRANSACTIONTYPE)= 'PR' and
          -- newreg.REGBRANCH = 18 and
-        branch.BRANCHCODE='CBA' and
-        trans.termnumber='$ZT0.#EC' and
-        trunc(regdate) ='09-Sep-23'
+       -- branch.BRANCHCODE='VAN' and
+       trans.termnumber='$ZT0.#EC' and
+        trunc(regdate) ='14-Sep-24'
 
     order by trunc(REGDATE) desc ;
 
@@ -259,6 +261,23 @@ select distinct newreg.patronid, /*newreg.name,*/ branch.BRANCHCODE regbranch,
         trunc(newreg.regdate) = '31-JAN-24'
 
     order by trunc(newreg.REGDATE) desc ;
+
+-- All New Reg
+select distinct newreg.patronid, newreg.name , branch.BRANCHCODE regbranch,newreg.USERID,type.BTYNAME,
+                trunc(newreg.REGDATE)
+
+    from patron_v2 newreg
+    --inner join UDFVALUE_V2 udfvalue on (udfvalue.numcode = udfpatron.numcode) and (udfvalue.fieldid = udfpatron.fieldid)
+   inner join bty_v2 type on newreg.bty = type.BTYNUMBER
+   inner join branch_v2 branch on newreg.REGBRANCH = branch.BRANCHNUMBER
+    --inner join TXLOG_V2 trans on trans.patronid=newreg.PATRONID
+    where
+
+        trunc(regdate) LIKE '%SEP-24'
+    --and BTYNAME not like 'Web Registration%'
+
+    order by trunc(REGDATE) asc  ;
+
 
 select patronid,name from PATRON_V2 where name like ('%PROGRAM%');
 
@@ -578,3 +597,90 @@ LOCATION_V2.LOCCODE
 
 --ORDER BY ITEM_V2.BRANCH, ITEM_V2.STATUS
 ;
+-- Patrons born since 1/1/2000
+select count(PATRONID)
+    from CARLREPORTS.PATRON_V2 patron
+    inner join BTY_V2 type on type.BTYNUMBER = patron.BTY
+    where
+        trunc(patron.BIRTHDATE) >= '1-JAN-2000'
+       OR
+     upper(type.BTYCODE) in ('STUDNT', 'GRAD')
+
+;
+-- Grad accounts activity since 9/1/2021
+select count(PATRONID)
+    from CARLREPORTS.PATRON_V2 patron
+    inner join BTY_V2 type on type.BTYNUMBER = patron.BTY
+    where
+     upper(type.BTYCODE)= 'GRAD'
+and
+        trunc(patron.ACTDATE) > '01-SEP-2021'
+
+;
+-- All Grad accounts
+select count(PATRONID)
+    from CARLREPORTS.PATRON_V2 patron
+    inner join BTY_V2 type on type.BTYNUMBER = patron.BTY
+    where
+     upper(type.BTYCODE)= 'GRAD'
+    and
+    trunc(patron.actdate) < '09-SEP-2021'
+
+
+;
+
+
+-- All Student accounts
+select count(PATRONID)
+    from CARLREPORTS.PATRON_V2 patron
+    inner join BTY_V2 type on type.BTYNUMBER = patron.BTY
+    where
+     upper(type.BTYCODE)= 'STUDNT'
+
+;
+
+-- All Student accounts
+select count(PATRONID)
+    from CARLREPORTS.PATRON_V2 patron
+    inner join BTY_V2 type on type.BTYNUMBER = patron.BTY
+    where
+     patron.status != 'G' OR (
+        upper(type.BTYCODE) in ('GRAD', 'STUDNT') and
+        trunc(patron.ACTDATE) < '01-SEP-2021' and
+        trunc(patron.EDITDATE) < '01-SEP-2021' and
+        trunc(patron.REGDATE) < '01-SEP-2021'
+        )
+;
+
+select patron.PATRONID, patron.NAME, type.BTYCODE , patron.STATUS,
+       trunc(patron.ACTDATE), trunc(patron.REGDATE), trunc(patron.EDITDATE)
+    from CARLREPORTS.PATRON_V2 patron
+    inner join BTY_V2 type on type.BTYNUMBER = patron.BTY
+    --where upper(type.BTYCODE) in ('GRAD', 'STUDNT')
+    where upper(type.BTYCODE) in ('GRAD')
+          and
+          trunc(patron.ACTDATE) < '09-SEP-2021'
+       --  trunc(patron.EDITDATE) < '01-SEP-2021' and
+        --  trunc(patron.REGDATE) < '01-SEP-2021'
+order by trunc(patron.EDITDATE) asc
+    ;
+
+select count(patron.PATRONID)
+    from CARLREPORTS.PATRON_V2 patron
+    inner join BTY_V2 type on type.BTYNUMBER = patron.BTY
+    where upper(type.BTYCODE) in ('GRAD', 'STUDNT')
+        and
+          trunc(patron.ACTDATE) < '01-SEP-2021' and
+          trunc(patron.EDITDATE) < '01-SEP-2021' and
+          trunc(patron.REGDATE) < '01-SEP-2021'
+
+    ;
+-- Attempt to recreate Canned Report 33
+select trunc(current_date),BR.BRANCHCODE, BR.BRANCHNAME, BTYNAME,Count(*)
+from CARLREPORTS.PATRON_V2 P, BRANCH_V2 BR , BTY_V2 BT
+where P.DEFAULTBRANCH= BR.BRANCHNUMBER
+and trunc(P.REGDATE) < trunc(current_date)
+and P.BTY= BT.BTYNUMBER
+group by br.BRANCHCODE, trunc(current_date), BR.BRANCHNAME, BTYNAME
+order by BR.BRANCHCODE, BR.BRANCHNAME, BTYNAME
+       ;
