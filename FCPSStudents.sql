@@ -363,9 +363,9 @@ select student.patronid, student.name, status, BTYCODE, student.STREET1,notes,tr
       and note.REFID is null    ;
 
 --Find the Graduated recently
--- Date format '17-JUL-2024'
-select student.patronid, student.name, status, BTYCODE,note.TEXT, student.STREET1,trunc(regdate),trunc(editdate),
-       trunc(actdate)
+-- Date format for query parameter prompt (don't forget quotes) '17-JUL-2024'
+select student.patronid, student.name, BTYCODE,status, trunc(regdate),trunc(editdate),
+       trunc(actdate),note.TEXT, student.STREET1
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
@@ -373,11 +373,31 @@ select student.patronid, student.name, status, BTYCODE,note.TEXT, student.STREET
     where (btycode='GRAD')
       --and branchcode ='SSL'
       and status='S'
-      and trunc (editdate )= :editdate
+     and trunc (editdate )<= :editdate
+        -- and trunc (actdate )<= :actdate
      -- and note.REFID is not null
       --and note.text is not null
-order by trunc(editdate) desc
+order by trunc(editdate) asc
 
+;
+--Find the Graduated recently
+-- Date format for query parameter prompt (don't forget quotes) '17-JUL-2024'
+select count(*)
+
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    left outer join PATRONNOTETEXT_V2 note on student.PATRONID=note.REFID
+
+    where (btycode='GRAD')
+      --and branchcode ='SSL'
+      and status='S'
+     and trunc (editdate )<= :editdate
+        -- and trunc (actdate )<= :actdate
+     -- and note.REFID is not null
+      --and note.text is not null
+
+order by trunc(editdate) asc
 ;
 
 -- 11/9/2023 Informational Note
@@ -681,7 +701,31 @@ select student.patronid, student.firstname, student.lastname, student.middlename
       --and upper(street1)  like 'MARYLAND%'
          and trunc(regdate) between '31-MAR-24' and '01-MAY-24'
 
-    order by student.lastname
+    order by student.lastname ;
+
+-- Last Month New Student Cards from FCPS, e.g. trunc(regdate)='30-NOV-22'
+select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
+       street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,
+       trunc(regdate),trunc(editdate), trunc(actdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+        and (
+        (trunc(regdate) = '05-AUG-24')
+        and
+        ( trunc(EDITDATE)='12-AUG-24')
+        and
+        ( trunc(ACTDATE)='12-AUG-24'))
+       OR ((trunc(regdate) = '27-AUG-24') and (trunc(EDITDATE) = '27-AUG-24') and (trunc(ACTDATE) = '27-AUG-24')
+        )
+
+
+    order by student.lastname ;
+
 
 -- Student Account Inactive for Andrew Thompson
 select count(refid) CNV_NOTE from CARLREPORTS.PATRONNOTETEXT_V2 note
@@ -747,4 +791,12 @@ from PATRON_V2 patrons
                                                   and patrons.PATRONID != students.PATRONID
 
 where type.BTYCODE= 'STUDNT' and patrons.PATRONID not like '119829%'
+;
+-- Find the students that the pending imported table will add.
+-- Useful for keeping count. Can UNION all the imported tables for the month
+select  students.*
+from "STUDENTS082724" students
+   left outer join PATRON_V2 patrons ON patrons.PATRONID = students.PATRONID
+
+where patrons.PATRONID is null
 ;
