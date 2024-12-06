@@ -605,7 +605,7 @@ inner join bst_v2 status on status.bst = patron.STATUS
 where EMAILNOTICES=1 and PHONETYPEID1 > 1 and PHONETYPEID1 !=47
 
 ;
--- Staff Barrower Patrons setup to receive SMS Text Messages
+-- Staff Borrower Patrons setup to receive SMS Text Messages
 select patron.PATRONID, patron.name,EMAILNOTICES, status.DESCRIPTION,patron.PHONETYPEID1
 from PATRON_V2 patron
 inner join bst_v2 status on status.bst = patron.STATUS

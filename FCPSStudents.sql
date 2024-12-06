@@ -588,7 +588,7 @@ select student.patronid, trunc(student.REGDATE), trunc(student.EDITDATE), studen
                 OR
              (type.btycode = 'GRAD')
         )
-    AND trunc(student.regdate) > '31-MAY-24' and trunc(student.regdate)<'01-JUL-24'
+    AND trunc(student.regdate) > '31-OCT-24' and trunc(student.regdate)<'01-DEC-24'
 --AND trunc(student.editdate) > :regDate
       --AND trunc(regdate)<'01-NOV-23'
     order by school , trunc(REGDATE) desc ;
@@ -748,3 +748,347 @@ from PATRON_V2 patrons
 
 where type.BTYCODE= 'STUDNT' and patrons.PATRONID not like '119829%'
 ;
+
+-- Find the students that the pending imported table will add.
+-- Useful for keeping count. Can UNION all the imported tables for the month
+select  students.*
+from "STUDENTS082724" students
+   left outer join PATRON_V2 patrons ON patrons.PATRONID = students.PATRONID
+
+where patrons.PATRONID is null
+;
+
+-- Fines search
+SELECT distinct
+
+  P.PATRONID,
+ -- P.BTY,
+  P.NAME,
+ -- P.STREET1,
+  F.TRANSCODE,
+  F.TRANSDATE,
+ F.PAYMENTCODE,
+ F2.PAYMENTCODE SelfJoinPay,
+  F.ITEMID
+ -- F2.ITEMID
+FROM PATRON_V2 P
+JOIN PATRONFISCAL_V2 F ON P.PATRONID = F.PATRONID
+LEFT OUTER JOIN PATRONFISCAL_V2 F2 ON (P.PATRONID = F2.PATRONID )
+
+WHERE P.BTY = '10' --student
+AND F.TRANSCODE = 'FS' and F.PAYMENTCODE IS NULL
+and ( F2.PAYMENTCODE  not in ('P','W','C'))
+
+
+-- GROUP BY P.PATRONID, P.BTY, P.NAME, P.STREET1, F.TRANSCODE, F.TRANSDATE,  F.PAYMENTCODE,F.ITEMID
+
+-- having count(f.ITEMID) = 1
+ORDER by PATRONID
+;
+-- Students with Hard Block and Fines still on the books-not Waived,Paid, Cancelled
+select  student.patronid, student.NAME,
+           f.ITEMID,
+          TO_DATE(f.CREATIONDATE),
+           (f.AMOUNT / 100)
+
+    from PATRON_V2 student
+
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
+    LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID and F2.PAYMENTCODE in ('C','P','W')
+    where
+    BTYCODE = 'STUDNT' and
+    branch.BRANCHCODE='SSL' and
+    student.status='X' and
+    F.TRANSCODE = 'FS' and
+    F.PAYMENTCODE is NULL
+ AND  F2.ITEMID IS NULL
+;
+
+
+select  student.patronid, student.NAME, student.status,
+        -- BTYCODE, branch.BRANCHCODE,
+           --trunc(student.actdate),
+           --trunc(f.CREATIONDATE),
+           f.ITEMID,
+              f.TRANSCODE,
+           f.PAYMENTCODE,
+           (f.AMOUNT / 100)
+
+    from PATRON_V2 student
+
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+   -- inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
+
+    where
+    BTYCODE = 'STUDNT' and
+    student.status='X' and
+    F.TRANSCODE = 'FS' and
+    F.PAYMENTCODE is NULL AND
+    F.ITEMID NOT IN
+                             (select  F2.ITEMID
+                               from PATRON_V2 student
+                                inner join bty_v2 type on student.bty = type.BTYNUMBER
+                                --inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+                                JOIN PATRONFISCAL_V2 F2 ON student.PATRONID = F2.PATRONID
+                                where
+                                BTYCODE = 'STUDNT' and
+                                student.status='X'
+                                and
+                                  F2.PAYMENTCODE in ('C','P','W')
+
+                                  )
+
+     order by student.PATRONID, ITEMID
+     ;
+
+    select F2.ITEMID
+    from PATRON_V2 student
+
+        inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+        JOIN PATRONFISCAL_V2 F2 ON student.PATRONID = F2.PATRONID
+                              where
+                                  BTYCODE = 'STUDNT' and
+                                student.status='X'
+                                and
+                                  F2.PAYMENTCODE not in ('C','P','W')
+
+
+
+     order by student.PATRONID, ITEMID ;
+
+select  student.patronid, student.NAME, student.status,
+     udf.VALUENAME grade,
+         BTYCODE,
+         --branch.BRANCHCODE,
+           trunc(student.actdate) action,
+         trunc(student.REGDATE) reg,
+          -- trunc(student.EDITDATE),
+           f.ITEMID,
+           trunc(f.CREATIONDATE) finecreate
+    from PATRON_V2 student
+
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+   inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+   inner JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
+
+    where
+    BTYCODE = 'STUDNT' and
+     upper(label.label)='GRADE' and
+    student.status='X' and
+    F.TRANSCODE = 'FS' and
+    F.PAYMENTCODE is NULL and
+    trunc(f.creationdate) < '01-AUG-2024'
+ --and f.itemid not like ('#1770000%')
+
+order by trunc(student.regdate) desc ,trunc(f.creationdate) desc;
+
+
+
+--------------------------------------------------------------------------------------------
+--
+-- Baseline Select for FCPS Students. Allow for SSC Borrower Type, Branch, UDF Grade.
+--
+-- select  student.patronid, student.NAME, student.status,
+--      udf.VALUENAME grade,
+--          BTYCODE,
+--          --branch.BRANCHCODE,
+--            trunc(student.actdate) action,
+--          trunc(student.REGDATE) reg,
+--           -- trunc(student.EDITDATE),
+--            f.ITEMID,
+--            trunc(f.CREATIONDATE) finecreate
+--     from PATRON_V2 student
+--
+--     inner join bty_v2 type on student.bty = type.BTYNUMBER
+--    inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+--     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+--     inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+--------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------------
+--
+--Patron Loader Input Column Order
+--patronid,first,middle,last,grade,schooladdr,city,state,zip,status,regdate,DOB,<null>
+--
+--------------------------------------------------------------------------------------------
+
+--
+-- Find Hard Block. Birthdate <Null> or Patron Loader will fail. Column order for import by Patron Loader
+select
+
+    student.PATRONID,student.FIRSTNAME, student.MIDDLENAME,student.LASTNAME, udf.VALUENAME grade,
+    STREET1,city1,state1,zip1, STATUS,REGDATE,BIRTHDATE
+
+
+    from PATRON_V2 student
+
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+   inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+where
+    BTYCODE = 'STUDNT' and
+    branch.BRANCHCODE='SSL' and
+     upper(label.label)='GRADE' and
+    student.status='X'
+order by actdATE desc
+;
+
+-- Comment away the address fields and use the various Patron record dates
+select
+
+    student.PATRONID,student.FIRSTNAME, student.MIDDLENAME,student.LASTNAME, udf.VALUENAME grade,
+ STATUS,REGDATE,editdate,ACTDATE, BIRTHDATE
+    --STREET1,city1,state1,zip1,
+
+    from PATRON_V2 student
+
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+   inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+where
+    BTYCODE = 'STUDNT' and
+    branch.BRANCHCODE='SSL' and
+     upper(label.label)='GRADE' and
+    student.status='X'
+order by actdATE desc
+;
+
+--Another take on finding the unpaid. Is the *assumption* valid that the PATRONFISCAL_V2.TRANSCODE equal to 'FS' shows insertion of the Fee?
+-- Students with Hard Block and Lost Item Fees still on the books-not Waived,Paid, Cancelled
+-- Feed sscSettleFinesAndFees
+select  student.patronid Barcode, f.ITEMID ITEM,student.NAME,
+
+          regdate,
+          trunc(ACTDATE),
+
+          TO_DATE(f.CREATIONDATE) finedate,
+           (f.AMOUNT / 100) amount,
+           f.PAYMENTMETHOD
+    from PATRON_V2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
+    LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID and F2.PAYMENTCODE in ('C','P','W')
+    where
+    BTYCODE = 'STUDNT' and
+    branch.BRANCHCODE='SSL' and
+    student.status='X' and
+    F.TRANSCODE = 'FS' and
+    F.PAYMENTCODE is NULL
+ AND  F2.ITEMID IS NULL
+order by finedate desc
+;
+
+-- Want unpaid, not yet blocked
+    select  student.patronid Barcode, student.NAME,
+           f.ITEMID ITEM,
+          TO_DATE(f.CREATIONDATE) finedate,
+           (f.AMOUNT / 100) amount,
+           BRANCHCODE,
+           f.TERMINAL,
+           f.PAYMENTMETHOD
+    from PATRON_V2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
+    inner join branch_v2 branch on f.branch =branch.BRANCHNUMBER
+    LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID and F2.PAYMENTCODE in ('C','P','W')
+    where
+    --BTYCODE = 'STUDNT' and
+ --   branch.BRANCHCODE='SSL' and
+    student.status!='X' and
+    F.TRANSCODE = 'FS' and
+    F.PAYMENTCODE is NULL
+    and f.itemid not like ('#1770000%')
+ AND  F2.ITEMID IS NULL
+ORDER by to_date(f.CREATIONDATE) DESC
+    ;
+
+--Report 55 Audittrail Work alike Payments
+select  patron.patronid Barcode, patron.NAME,
+           f.ITEMID ITEM,
+           branch.BRANCHCODE,
+           	CASE WHEN F.transcode='FS' THEN 'Manual Fine'
+		 WHEN F.transcode='F1' THEN 'Borrow Fee'
+		WHEN F.transcode='F2' THEN 'Processing Fee'
+		WHEN F.transcode='FR' THEN 'Recall Fee'
+		WHEN SUBSTR(F.transcode,1,1)='F' THEN 'Fine'
+		WHEN SUBSTR(F.transcode,1,1)='L' THEN 'Lost'
+		WHEN SUBSTR(F.transcode,1,1)='O' THEN 'Overdue'
+		ELSE 'CODE='''||F.transcode||''''
+		    END TRANSTYPE,
+          TO_DATE(f.CREATIONDATE) paydate,
+           (f.AMOUNT / 100) amount,
+           f.PAYMENTCODE
+         -- ,f.PAYMENTMETHOD Unused
+    from PATRON_V2 patron
+   -- inner join bty_v2 type on patron.bty = type.BTYNUMBER
+
+    JOIN PATRONFISCAL_V2 F ON patron.PATRONID = F.PATRONID
+    inner join item_v2 item on F.ITEMID = ITEM.ITEM
+    inner join branch_v2 branch on F.BRANCH = branch.BRANCHNUMBER
+    where
+            --(F.TRANSCODE in ('FS', 'F1', 'F2', 'FR') OR
+           SUBSTR(F.TRANSCODE,1,1) in ('F','L','O')
+          AND
+    F.PAYMENTCODE  in ('C','P','W','F')
+;
+--------------------------------------------------------------------------------------------
+--Patron Loader Input Column Order
+--patronid,first,middle,last,grade,schooladdr,city,state,zip,status,regdate,DOB,<null>
+--
+--------------------------------------------------------------------------------------------
+-- Column format order Suitable for export and use by the Patron Loader
+
+select
+
+    student.PATRONID,student.FIRSTNAME, student.MIDDLENAME,student.LASTNAME, udf.VALUENAME grade,
+    STREET1,city1,state1,zip1,student.STATUS,student.REGDATE,student.BIRTHDATE
+
+    from PATRON_V2 student
+        inner join "Students112724-1" import on student.patronid=import.patronid
+
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+   inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+where
+    BTYCODE = 'STUDNT' and
+    branch.BRANCHCODE='SSL' and
+     upper(label.label)='GRADE' and
+    student.status='X'
+
+;
+
+-- blocked with Fine
+    select  student.patronid Barcode, student.NAME,
+           f.ITEMID ITEM,
+          to_char(TO_DATE(f.CREATIONDATE),'DD-MM-YYYY') finedate,
+       --   trunc(current_date),
+           (f.AMOUNT / 100) amount,
+           f.PAYMENTCODE,
+              f.PAYMENTMETHOD,
+           BRANCHCODE,
+           f.TERMINAL
+
+    from PATRON_V2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
+    inner join branch_v2 branch on f.branch =branch.BRANCHNUMBER
+    where
+    BTYCODE = 'STUDNT' and
+    student.status ='X' and
+    F.TRANSCODE = 'FS'
+   -- and F.PAYMENTCODE is NULL
+    --and to_date(f.CREATIONDATE) = '20-NOV-2024'
+
+ORDER by to_date(f.CREATIONDATE) DESC
+    ;
+
