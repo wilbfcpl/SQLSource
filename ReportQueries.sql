@@ -227,40 +227,131 @@ select patron.patronid , type.BTYNAME ,email from PATRON_V2 patron
 ;
 --  Outreach new registrations
 
-select distinct newreg.patronid, newreg.name , branch.BRANCHCODE regbranch,newreg.USERID,type.BTYNAME,newreg.REGDATE
+select distinct newreg.patronid, newreg.name , branch.BRANCHCODE ,newreg.USERID,TERMNUMBER,REGDATE
 
     from patron_v2 newreg
     --inner join UDFVALUE_V2 udfvalue on (udfvalue.numcode = udfpatron.numcode) and (udfvalue.fieldid = udfpatron.fieldid)
      inner join bty_v2 type on newreg.bty = type.BTYNUMBER
-   inner join branch_v2 branch on newreg.REGBRANCH = branch.BRANCHNUMBER
+
     inner join TXLOG_V2 trans on trans.patronid=newreg.PATRONID
+     inner join branch_v2 branch on trans.ENVBRANCH = branch.BRANCHNUMBER
     where
-        newreg.USERID='cc0' and
+       -- newreg.USERID='cc0' and
         upper(trans.TRANSACTIONTYPE)= 'PR' and
          -- newreg.REGBRANCH = 18 and
        -- branch.BRANCHCODE='VAN' and
-       trans.termnumber='$ZT0.#EC' and
-        trunc(regdate) ='14-Sep-24'
+       --trans.termnumber='$ZT0.#EC' and
+        trunc(regdate) ='20-DEC-24' and
+        TO_CHAR(newreg.regdate, 'HH24:MI:SS') BETWEEN '15:30:00' AND '16:30:00'
 
-    order by trunc(REGDATE) desc ;
+    order by REGDATE desc ;
 
 select patronid,name from PATRON_V2 where name like ('%PROGRAM%');
 
-select distinct newreg.patronid, /*newreg.name,*/ branch.BRANCHCODE regbranch,
+select distinct newreg.patronid, /*newreg.name,*/ branch.BRANCHCODE transbranch,
                 type.BTYNAME,trans.TERMNUMBER,newreg.REGDATE
 
     from patron_v2 newreg
     --inner join UDFVALUE_V2 udfvalue on (udfvalue.numcode = udfpatron.numcode) and (udfvalue.fieldid = udfpatron.fieldid)
      inner join bty_v2 type on newreg.bty = type.BTYNUMBER
-     inner join branch_v2 branch on newreg.REGBRANCH = branch.BRANCHNUMBER
+
+        -- 19 is Rover van
      inner join TXLOG_V2 trans on trans.patronid=newreg.PATRONID
+    inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
     where
          -- newreg.REGBRANCH = 18 and
-        branch.BRANCHCODE='VAN' AND
+        -- branch.BRANCHCODE='VAN' AND
        --trans.termnumber='$ZT0.#EC' and
-        trunc(newreg.regdate) = '31-JAN-24'
+        trans.ENVBRANCH = 19 and
+        trunc(newreg.regdate) = '15-NOV-24' and
+     TO_CHAR(newreg.regdate, 'HH24:MI:SS') BETWEEN '15:30:00' AND '16:30:00'
 
-    order by trunc(newreg.REGDATE) desc ;
+    order by newreg.REGDATE desc ;
+
+-- Search TXLOG for VAN outreach in late 2024: Oct 4, Oct 18, Nov 1, Nov 15, Dec 20
+-- 01/17/2025
+with trans as (
+    select
+        *
+    from txlog_v2
+    where trunc(systemtimestamp) >= '01-OCT-2024'
+)
+select case TRANSACTIONTYPE
+       when 'PR' then 'PATRON REG'
+       when 'CH' then 'CHARGE'
+       when 'DC' then 'RETURN'
+    else 'UNKNOWN'
+    end,
+       count (trans.TRANSACTIONTYPE), trunc(trans.SYSTEMTIMESTAMP)
+
+    from trans
+        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    where
+
+      upper(branch.BRANCHCODE)='VAN' and
+        ( trunc(trans.SYSTEMTIMESTAMP) = '04-OCT-24'  OR
+          trunc(trans.SYSTEMTIMESTAMP) = '18-OCT-24'  OR
+          trunc(trans.SYSTEMTIMESTAMP) = '01-NOV-24'  OR
+          trunc(trans.SYSTEMTIMESTAMP) = '15-NOV-24'  OR
+          trunc(trans.SYSTEMTIMESTAMP) = '20-DEC-24'
+
+            ) and
+      TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '15:30:00' AND '16:30:00'
+
+    group by TRANSACTIONTYPE,trunc(SYSTEMTIMESTAMP)
+    order by trunc(trans.SYSTEMTIMESTAMP)  ;
+
+
+
+--
+with trans as (
+    select
+        *
+    from transitem_v2
+    where trunc(TRANSDATE) >= ADD_MONTHS(SYSDATE,-1)
+)
+
+select
+    case TRANSCODE
+       when 'PR' then 'PATRON REG'
+       when 'C' then 'CHARGE'
+       when 'DC' then 'RETURN'
+        when 'H' then 'HOLD'
+        when 'IH' then 'InXitHold'
+        when 'L' then 'LOST'
+        when 'I' then 'INTRANSIT'
+        when 'O' then 'OVERDUE'
+    else TRANSCODE
+    end TRANSCODE,
+    transcode,
+
+    branch.branchcode thebranch,
+    xbranch.BRANCHCODE transbranch,
+    trunc(trans.TRANSDATE),
+
+    trunc(trans.DUEDATE),
+    trunc(trans.transdate),
+    trans.SITE
+
+    from trans
+        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join branch_v2 branch on trans.branch = branch.BRANCHNUMBER
+        inner join branch_v2 xbranch on trans.branch =xbranch.BRANCHNUMBER
+
+    where transcode in ('C','H','I','IH','L','O','R#','R*')
+    order by trunc(trans.TRANSDATE)  ;
+
+
+   select TRANSACTIONTYPE, count (trans.TRANSACTIONTYPE), trunc(trans.SYSTEMTIMESTAMP)
+
+    from txlog_v2 trans
+        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    where
+
+    group by TRANSACTIONTYPE,trunc(SYSTEMTIMESTAMP)
+    order by trunc(trans.SYSTEMTIMESTAMP)  ;
 
 -- All New Reg
 select distinct newreg.patronid, newreg.name , branch.BRANCHCODE regbranch,newreg.USERID,type.BTYNAME,
@@ -285,8 +376,6 @@ select patronid,name from PATRON_V2 where name like ('%PROGRAM%');
 select   newreg.patronid, /*trans.item,
                 book.bid, */ bib.title, book.cn,
               trunc(trans.TRANSDATE) LoanDate, branch.BRANCHCODE,  codes.CODEVALUE
-
-
     from patron_v2 newreg
 
     inner join bty_v2 type on newreg.bty = type.BTYNUMBER
@@ -684,3 +773,36 @@ and P.BTY= BT.BTYNUMBER
 group by br.BRANCHCODE, trunc(current_date), BR.BRANCHNAME, BTYNAME
 order by BR.BRANCHCODE, BR.BRANCHNAME, BTYNAME
        ;
+
+-- Shelving January 2025
+-- Branch-Location Combinations
+select branchcode, LOCcode, LOCNAME from branch_v2 branch cross join location_v2 location
+                           where
+                               ( BRANCHCODE not like 'BK%' AND BRANCHCODE !='VAN' and BRANCHCODE !='MDL' and BRANCHCODE !='DSC'
+                                     AND BRANCHCODE !='SSL' and BRANCHCODE !='ODC') and
+                               (LOCCODE not like 'MD%' and LOCCODE !='BNDRY' and LOCCODE !='TAMIL' and upper(LOCCODE) !='FRY'
+                                    and LOCCODE not like 'GS%' and LOCCODE !='ILL'  and LOCCODE !='ONLINE' and LOCCODE !='HISCTR'
+                                   and LOCCODE !='REFDSK' and LOCCODE !='RVW'  and LOCCODE !='LCOL' and
+                                LOCCODE !='ACQUIS' and loccode != 'GOVDOC' and loccode not like '%PROF' and loccode not like '%REF')
+
+order by branchcode, LOCCODE
+;
+
+-- Unclear locations
+ select loccode,locname, DOESNOTCIRCULATEFLAG,RENEWALSALLOWED,ALLOWHOLDS from LOCATION_V2 location
+ where
+ (LOCCODE  like 'MD%' OR LOCCODE ='BNDRY' OR LOCCODE ='TAMIL' OR upper(LOCCODE) ='FRY'
+                                    OR LOCCODE like 'GS%' OR LOCCODE ='ILL'  OR LOCCODE ='ONLINE' OR LOCCODE ='HISCTR'
+                                   OR LOCCODE ='REFDSK' OR LOCCODE ='RVW'  OR LOCCODE ='LCOL' OR
+                                LOCCODE ='ACQUIS' OR loccode = 'GOVDOC' OR loccode  like '%PROF' OR loccode like '%REF')
+ order by LOCCODE ;
+
+-- all locations
+select loccode,locname, DOESNOTCIRCULATEFLAG,RENEWALSALLOWED,ALLOWHOLDS from LOCATION_V2 location;
+
+-- Single Branch
+select branchcode, LOCcode,
+                           where
+
+order by branchcode, LOCCODE
+;
