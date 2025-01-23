@@ -588,7 +588,7 @@ select student.patronid, trunc(student.REGDATE), trunc(student.EDITDATE), studen
                 OR
              (type.btycode = 'GRAD')
         )
-    AND trunc(student.regdate) > '31-OCT-24' and trunc(student.regdate)<'01-DEC-24'
+    AND trunc(student.regdate) > '30-NOV-24' and trunc(student.regdate)<'01-JAN-25'
 --AND trunc(student.editdate) > :regDate
       --AND trunc(regdate)<'01-NOV-23'
     order by school , trunc(REGDATE) desc ;
@@ -964,14 +964,13 @@ order by actdATE desc
 --Another take on finding the unpaid. Is the *assumption* valid that the PATRONFISCAL_V2.TRANSCODE equal to 'FS' shows insertion of the Fee?
 -- Students with Hard Block and Lost Item Fees still on the books-not Waived,Paid, Cancelled
 -- Feed sscSettleFinesAndFees
-select  student.patronid Barcode, f.ITEMID ITEM,student.NAME,
-
+select  student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,
+         TO_DATE(f.CREATIONDATE) finedate,
+          --f.PAYMENTMETHOD,
+        student.NAME,
           regdate,
-          trunc(ACTDATE),
+          trunc(ACTDATE)
 
-          TO_DATE(f.CREATIONDATE) finedate,
-           (f.AMOUNT / 100) amount,
-           f.PAYMENTMETHOD
     from PATRON_V2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
@@ -981,11 +980,37 @@ select  student.patronid Barcode, f.ITEMID ITEM,student.NAME,
     BTYCODE = 'STUDNT' and
     branch.BRANCHCODE='SSL' and
     student.status='X' and
-    F.TRANSCODE = 'FS' and
-    F.PAYMENTCODE is NULL
+    F.TRANSCODE = 'FS'
+  and  F.PAYMENTCODE is NULL
  AND  F2.ITEMID IS NULL
-order by finedate desc
+order by finedate desc , student.name asc
 ;
+-- Find the api settled fees
+select  student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,
+        f.PAYMENTCODE paycode,
+         TO_DATE(f.CREATIONDATE) settledate,
+        student.NAME student,
+        student.STATUS,
+          f.alias,
+          f.notes
+
+    from PATRON_V2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
+    where
+    BTYCODE = 'STUDNT' and
+    --branch.BRANCHCODE='SSL' and
+    --UPPER(student.lastname) like 'C%' AND
+    to_date(f.CREATIONDATE)>'10-DEC-2024' and
+    upper(f.alias)='WB0' and
+    F.PAYMENTCODE in ('C','P','W') and
+    F.TRANSCODE = 'FS'
+
+order by settledate desc , student.name asc
+;
+
+
 
 -- Want unpaid, not yet blocked
     select  student.patronid Barcode, student.NAME,
