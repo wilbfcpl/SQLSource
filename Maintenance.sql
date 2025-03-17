@@ -491,6 +491,7 @@ WHERE (
 
 ORDER BY BID;
 
+
 -- Oracle KEEPs the genre
 SELECT
     bib.bid,
@@ -613,3 +614,329 @@ inner join BTY_V2 type on type.BTYNUMBER = patron.BTY
 where EMAILNOTICES=1 and PHONETYPEID1 > 1 and PHONETYPEID1 !=47 and type.BTYCODE='STFBRW'
 
 ;
+
+-- BIDs that do not have a 655. Use CTE
+with sixfivers as (select bib.bid sfbid from BBIBMAP_V2 bib, BBIBCONTENTS_V2 contents,BTAGS_V2 tags
+                                       where contents.bid = bib.bid and
+                                             tags.tagid=contents.tagid and
+                                             contents.tagnumber=655
+                                       )
+
+select distinct bib.bid, bib.TITLE
+    from bbibmap_v2 bib
+        inner join CARLREPORTS.BBIBCONTENTS_V2 contents on contents.bid=bib.bid
+        inner join btags_v2 tags on tags.tagid=contents.TAGID
+    left outer join sixfivers on bib.bid = sixfivers.sfbid
+    where
+        sfbid is null
+      order by bib.bid;
+
+select distinct bib.bid, bib.TITLE
+    from bbibmap_v2 bib, CARLREPORTS.BBIBCONTENTS_V2 contents, CARLREPORTS.BTAGS_V2 tags
+    where contents.bid = bib.bid and
+        tags.TAGID = contents.TAGID and
+        bib.bid  not in (select bib.bid sfbid from BBIBMAP_V2 bib, BBIBCONTENTS_V2 contents,BTAGS_V2 tags
+                                       where contents.bid = bib.bid and
+                                             tags.tagid=contents.tagid and
+                                             contents.tagnumber=655
+                                       )
+      order by bib.bid
+;
+with sixfivers as (select bib.bid sfbid from BBIBMAP_V2 bib, BBIBCONTENTS_V2 contents,BTAGS_V2 tags
+                                       where contents.bid = bib.bid and
+                                             tags.tagid=contents.tagid and
+                                             contents.tagnumber=655
+                                       )
+
+select distinct bib.bid, bib.TITLE
+    from bbibmap_v2 bib
+        inner join CARLREPORTS.BBIBCONTENTS_V2 contents on contents.bid=bib.bid
+        inner join btags_v2 tags on tags.tagid=contents.TAGID
+    left outer join sixfivers on bib.bid = sixfivers.sfbid
+    where
+       --contents.TAGNUMBER=650 and tags.TAGDATA like '%COMPUTER%' and
+        sfbid is null
+      order by bib.bid;
+
+
+with sixfivers as (select bib.bid sfbid from BBIBMAP_V2 bib, BBIBCONTENTS_V2 contents,BTAGS_V2 tags
+                                       where contents.bid = bib.bid and
+                                             tags.tagid=contents.tagid and
+                                             contents.tagnumber=655
+                                       )
+select distinct bib.bid, bib.TITLE
+    from bbibmap_v2 bib
+        inner join CARLREPORTS.BBIBCONTENTS_V2 contents on contents.bid=bib.bid
+        inner join btags_v2 tags on tags.tagid=contents.TAGID
+    left outer join sixfivers on bib.bid = sixfivers.sfbid
+    where
+    contents.TAGNUMBER=650 and upper(tags.TAGDATA) like '%COMPUTER%'
+      and sfbid is null
+      order by bib.bid;
+
+
+
+-- Eresource with 655 Genre
+select count(bib.BID)  from BBIBMAP_V2 bib, BBIBCONTENTS_V2 contents,
+                            BBIBCONTENTS_V2 c2,BTAGS_V2 tags, BTAGS_V2 tags2
+                                       where bib.ERESOURCE='Y' and
+                                             (contents.bid = bib.bid )and
+                                             (c2.bid = bib.bid ) and
+
+                                         (    tags.tagid=contents.tagid and
+                                         ( contents.tagnumber=655 and upper(tags.TAGDATA) like '%ELECTRONIC%' )
+                                     and
+                                         ( tags2.tagid=c2.tagid and
+                                          c2.tagnumber=650 ))
+                                       ;
+select distinct bib.bid, bib.TITLE from BBIBMAP_V2 bib, BBIBCONTENTS_V2 contents,
+                           BTAGS_V2 tags
+                                       where bib.ERESOURCE='Y' and
+                                             (contents.bid = bib.bid )and
+
+                                         (    tags.tagid=contents.tagid and
+                                         ( contents.tagnumber=655 and upper(tags.TAGDATA) like '%ELECTRONIC%' ))
+                                       ;
+
+
+
+
+-- Media type and code don't match
+
+SELECT i.ITEM, med.medname,tags.WORDDATA
+FROM item_v2 i
+join MEDIA_V2 med on med.MEDNUMBER =i.MEDIA
+JOIN BBIBMAP_V2 b ON i.bid = b.bid
+join BBIBCONTENTS_V2 cont on cont.bid=b.BID
+join btags_v2 tags on tags.TAGID = cont.TAGID
+WHERE
+( med.medcode = 'BKLP' and cont.TAGNUMBER=340
+AND LOWER(tags.worddata) not LIKE '%large print%' ) OR
+( med.medcode != 'BKLP' and cont.TAGNUMBER=340
+AND LOWER(tags.worddata)  LIKE '%large print%' )
+
+
+;
+SELECT i.ITEM, med.medname,tags.WORDDATA
+FROM item_v2 i
+join MEDIA_V2 med on med.MEDNUMBER =i.MEDIA
+JOIN BBIBMAP_V2 b ON i.bid = b.bid
+join BBIBCONTENTS_V2 cont on cont.bid=b.BID
+join btags_v2 tags on tags.TAGID = cont.TAGID
+WHERE med.medcode != 'BKLP' and cont.TAGNUMBER=340
+AND LOWER(tags.worddata)  LIKE '%large print%'
+;
+SELECT i.ITEM, med.medname,tags.WORDDATA
+FROM item_v2 i
+join MEDIA_V2 med on med.MEDNUMBER =i.MEDIA
+JOIN BBIBMAP_V2 b ON i.bid = b.bid
+join BBIBCONTENTS_V2 cont on cont.bid=b.BID
+join btags_v2 tags on tags.TAGID = cont.TAGID
+WHERE med.medcode != 'BKLP' and cont.TAGNUMBER=340
+AND LOWER(tags.worddata)  LIKE '%large print%'
+;
+SELECT i.ITEM, med.medname,tags.WORDDATA,tags.TAGDATA
+FROM item_v2 i
+join MEDIA_V2 med on med.MEDNUMBER =i.MEDIA
+JOIN BBIBMAP_V2 b ON i.bid = b.bid
+join BBIBCONTENTS_V2 cont on cont.bid=b.BID
+join btags_v2 tags on tags.TAGID = cont.TAGID
+WHERE
+   med.medcode != 'BKLP' and
+  cont.TAGNUMBER=8
+  and substr(tags.worddata,23,1)='d'
+;
+
+SELECT i.ITEM, med.medname,tags.WORDDATA,tags.TAGDATA
+FROM item_v2 i
+join MEDIA_V2 med on med.MEDNUMBER =i.MEDIA
+JOIN BBIBMAP_V2 b ON i.bid = b.bid
+join BBIBCONTENTS_V2 cont on cont.bid=b.BID
+join btags_v2 tags on tags.TAGID = cont.TAGID
+WHERE
+ med.medcode != 'BKLP' and ((cont.TAGNUMBER = 0 and substr(tags.worddata, 7, 2) = 'am')
+    OR
+                            (cont.TAGNUMBER = 8 and substr(tags.worddata, 23, 1) = 'd')
+    )
+;
+
+-- Customers without contact information Soft Block and Note similar to FCPS Grads
+select patron.patronid, patron.FIRSTNAME, patron.MIDDLENAME, patron.LASTNAME, 'Placeholder' place,
+     patron.street1, patron.CITY1, patron.STATE1,patron.ZIP1,patron.STATUS,email,email2,ph1,ph2,
+       trunc(regdate),trunc(editdate), trunc(actdate)
+      from patron_v2 patron
+     inner join bty_v2 type on patron.bty = type.BTYNUMBER
+     inner join branch_v2 branch on patron.REGBRANCH = branch.BRANCHNUMBER
+    -- inner join UDFPATRON_V2 udf on patron.patronid=udf.patronid
+    -- where btycode = 'STUDNT' and branchcode ='SSL' and status='S' and udf.FIELDID='3' and notes is null
+    where
+        -- (status='S' and udf.FIELDID='3') and
+       (status='G' and btycode != 'STUDNT' and branchcode !='SSL' ) and
+        ( patron.email is null and patron.EMAIL2 is null ) and
+        ( patron.ph1 is null and patron.ph2 is null) and
+        -- Don't repeat the note again
+        notes is null
+
+
+
+     order by patron.editdate desc
+
+
+-- CarlX Ad-Hoc Query group
+select CLAIMEDNEVERHADATBRANCH from CXDAT.TRANSITEM ;
+select INSTNAME from CXDAT.INSTITUTION ;
+select ITEM from CXDAT.ITEM  ;
+
+-- Feb 2025  Patron email notices
+select sample.id,name, email, patron.emailnotices from
+carlreports.nosendemail031225 sample, carlreports.PATRON_V2 patron
+where sample.id = patron.patronid order by sample.id;
+
+-- Fun and Games with CTE with select
+with logstuff as ( select
+    b.branchcode, l.locname,  m.medname, tx.itemstatusbefore, tx.itemstatusafter
+from txlog_v2 tx
+join branch_v2 b on tx.envbranch = b.branchnumber
+join location_v2 l on tx.itemlocation = l.locnumber
+join media_v2 m on tx.itemmedia = m.mednumber
+
+where (tx.systemtimestamp >= sysdate - 90)
+and tx.transactiontype = 'CH'
+and b.branchcode = 'EMM'
+and tx.patronbty not in ('3','6') --not staff-specific
+--and tx.itemstatusbefore in ('H', 'S')
+--and tx.itemstatusafter = 'C'
+group by b.branchcode, l.locname, m.medname, tx.itemstatusbefore, tx.itemstatusafter
+order by b.branchcode, l.locname, m.medname
+)
+select * from logstuff;
+
+
+select * from phonetype_v2_2 where obsolete = '1' ;
+delete * from phonetype_v2_2 where obsolete = '1' ;
+
+
+select address, description from phonetype_v2_2 where obsolete !='1' and address is not null
+from phonetype_v2_2 ;
+
+select
+    case when address is not null then '@e2s.messagemedia.com'
+    else address end as address,
+     'Sinch was ' || description || ' ' || address as description
+   from phonetype_v2_2
+    where obsolete !='1' and address is not null;
+
+update PHONETYPE_V2_2
+set
+    description = 'Sinch. Was ' || description
+-- address = '@e2s.messagemedia.com'
+where obsolete !='1' and address is not null;
+
+update PHONETYPE_BACKUP
+set
+    description = 'Sinch-was ' || address
+    --address = '@e2s.messagemedia.com'
+where obsolete !='1' and address is not null;
+
+update phonetype_backup
+set
+    description = regexp_replace(description, 'SinchEmail_2_SMS was ', '',1,1)
+where obsolete !='1' and address is not null;
+
+where address is not null and obsolete != '1' ;
+
+create table phonetype_backup as (select * from phonetype_v2) ;
+
+--03/14/2025 Fines and Fees WLB
+
+-- Students blocked with Fine
+    select  student.patronid Barcode, student.NAME,
+           f.ITEMID ITEM,
+          to_char(TO_DATE(f.CREATIONDATE),'DD-MM-YYYY') finedate,
+       --   trunc(current_date),
+           (f.AMOUNT / 100) amount,
+           f.PAYMENTCODE,
+              f.PAYMENTMETHOD,
+           BRANCHCODE,
+           f.TERMINAL
+
+    from PATRON_V2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
+    inner join branch_v2 branch on f.branch =branch.BRANCHNUMBER
+    where
+    BTYCODE = 'STUDNT' and
+    student.status ='X' and
+    F.TRANSCODE = 'FS'
+   -- and F.PAYMENTCODE is NULL
+    --and to_date(f.CREATIONDATE) = '20-NOV-2024'
+
+ORDER by to_date(f.CREATIONDATE) DESC
+    ;
+
+-- 03/14/25 Original Fines Query from Aftan
+--toward field order for input to the API script sscSettleFinesandFees.pl
+
+SELECT
+      P.PATRONID,
+  F.NOTES AS Item,
+
+  --T.BTYCODE "CARD TYPE",
+   (F.AMOUNT) /100 "FINEAMOUNT",
+     trunc(F.TRANSDATE) as "FINEDATE",
+   F.ITEMID hash177,
+  P.NAME,
+  p.status,
+  t.btycode,
+  --P.STREET1,
+  --B.BRANCHCODE "PATRON BRANCH",
+--(case when F.TRANSCODE = 'FS' then 'Manual Fine' else ' ' end) as "FINE TYPE",
+  --p.notes,
+  --trunc(p.regdate),
+   trunc(p.editdate) as "EDITDATE",
+  trunc(p.actdate) as "ACTDATE"
+--, F.PAYMENTCODE
+
+FROM PATRON_V2 P
+JOIN PATRONFISCAL_V2 F ON P.PATRONID = F.PATRONID
+--LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID
+LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID and F2.PAYMENTCODE in ('C','P','W')
+JOIN BTY_V2 T ON P.BTY=T.BTYNUMBER
+LEFT JOIN BRANCH_V2 B ON P.DEFAULTBRANCH=B.BRANCHNUMBER
+WHERE
+--P.STATUS = 'X' AND
+F.TRANSCODE = 'FS' --manual fine
+
+F.ITEMID LIKE '#177%'
+AND F2.ITEMID IS NULL
+AND F.NOTES  LIKE '_198%'
+AND (F.AMOUNT/100) = '4'
+--AND F.TRANSDATE < '31-JAN-23'
+AND F.TRANSDATE > '31-JAN-25'
+ORDER BY P.NAME, F.ITEMID;
+
+-- 03/16/2025 Fines and Fees WLB toward field order for input to the API script sscSettleFinesandFees.pl
+
+select f.patronid, f.alias, trunc(f.creationdate) as waive_date, f.paymentcode, f.itemid, f.notes, f.amount,
+       f.transcode, f.processed, f.fiscaltype, trunc(f.transdate) as transdate, trunc(f.duedate) as duedate
+FROM PATRON_V2 P
+JOIN PATRONFISCAL_V2 F ON P.PATRONID = F.PATRONID
+LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID
+JOIN BTY_V2 T ON P.BTY=T.BTYNUMBER
+LEFT JOIN BRANCH_V2 B ON P.DEFAULTBRANCH=B.BRANCHNUMBER
+join location_v2 L on F.location=l.locnumber
+
+where
+   upper(f.notes) like 'WAIVED%'
+;
+-- Counting
+select count(f.creationdate)
+FROM PATRON_V2 P
+JOIN PATRONFISCAL_V2 F ON P.PATRONID = F.PATRONID
+LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID
+JOIN BTY_V2 T ON P.BTY=T.BTYNUMBER
+LEFT JOIN BRANCH_V2 B ON P.DEFAULTBRANCH=B.BRANCHNUMBER
+join location_v2 L on F.location=l.locnumber
+
+where
+   upper(f.notes) like 'WAIVED%';
