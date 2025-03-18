@@ -1,2 +1,0 @@
-select bid, ordernumber, vendorcode,orderdate, status, notes from orderdetail_v2 where trunc(orderdate)=trunc(sysdate) and upper(status) like 'R%' and notes is not null ;
-select bid, ordernumber, vendorcode,orderdate, status, notes from orderdetail_v2 where  upper(status) like 'R%' ;

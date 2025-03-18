@@ -376,3 +376,41 @@ WHERE location.loccode LIKE 'MDRM%'
 --     regexp_like(upper(tags.TAGDATA), '^' || CHR(31) || '3THUMBNAIL' || CHR(31) || 'UHTTPS:/')
 --     )
 ;
+
+with eightfivesix as (select bib.bid efsbid, contents.tagid, tags.worddata from BBIBMAP_V2 bib, BBIBCONTENTS_V2 contents,BTAGS_V2 tags
+                                       where bib.ERESOURCE='Y' and
+                                           contents.bid = bib.bid and
+                                             tags.tagid=contents.tagid and
+                                             contents.tagnumber=856
+                                       )
+
+select eightfivesix.efsbid, eightfivesix.worddata from eightfivesix
+    where
+   upper(eightfivesix.WORDDATA) like '%INSTANTLY AVAILABLE ON HOOPLA.'
+    order by eightfivesix.efsbid;
+
+-- Search 856 for "Instantly available on hoopla."
+select  bib.bid
+--bib.CALLNUMBER,
+--title,
+--marc.TAGNUMBER,
+--upper(tags.WORDDATA),
+-- tags.TAGDATA
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+    -- inner join btags_v2 tags2 on tags.tagid = marc.tagid
+where
+    --bib.CALLNUMBER like 'OVERDRIVE%'
+    --AND
+     --bib.ERESOURCE ='Y'
+    (marc.tagnumber = '856'
+     --regexp_like(upper(tags.WORDDATA),'^.+HTTPS://WWW.HOOPLADIGITAL.COM/TITLE/[0-9]+\?UTM_SOURCE=MARC\S+INSTANTLY AVAILABLE ON HOOPLA\..*')
+--and regexp_like(upper(tags.WORDDATA),'^HTTPS://WWW.HOOPLADIGITAL.COM/TITLE/[0-9]+\?')
+       --and regexp_like(upper(tags.WORDDATA),'^HTTPS://WWW\.HOOPLADIGITAL\.COM/TITLE/[0-9]+\?UTM_SOURCE=MARC\s+INSTANTLY AVAILABLE ON HOOPLA\.$')
+        -- above too slow via regexp
+        and  upper(tags.WORDDATA) like '%INSTANTLY AVAILABLE ON HOOPLA.'
+        )
+group by bib.BID
+--group by bib.bib ,title, marc.TAGNUMBER, tags.WORDDATA, tags.TAGDATA
+;

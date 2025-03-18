@@ -875,45 +875,35 @@ ORDER by to_date(f.CREATIONDATE) DESC
     ;
 
 -- 03/14/25 Original Fines Query from Aftan
---toward field order for input to the API script sscSettleFinesandFees.pl
+--toward field order for input to the API script sscSettleFinesandFees.pl with the #177 hashoneseven as the itemid
 
 SELECT
       P.PATRONID,
-  F.NOTES AS Item,
-
-  --T.BTYCODE "CARD TYPE",
+F.ITEMID hash177,
    (F.AMOUNT) /100 "FINEAMOUNT",
      trunc(F.TRANSDATE) as "FINEDATE",
-   F.ITEMID hash177,
+  F.NOTES AS Item,
   P.NAME,
   p.status,
   t.btycode,
-  --P.STREET1,
-  --B.BRANCHCODE "PATRON BRANCH",
---(case when F.TRANSCODE = 'FS' then 'Manual Fine' else ' ' end) as "FINE TYPE",
-  --p.notes,
-  --trunc(p.regdate),
    trunc(p.editdate) as "EDITDATE",
   trunc(p.actdate) as "ACTDATE"
---, F.PAYMENTCODE
 
 FROM PATRON_V2 P
 JOIN PATRONFISCAL_V2 F ON P.PATRONID = F.PATRONID
---LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID
 LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID and F2.PAYMENTCODE in ('C','P','W')
 JOIN BTY_V2 T ON P.BTY=T.BTYNUMBER
 LEFT JOIN BRANCH_V2 B ON P.DEFAULTBRANCH=B.BRANCHNUMBER
 WHERE
---P.STATUS = 'X' AND
 F.TRANSCODE = 'FS' --manual fine
-
-F.ITEMID LIKE '#177%'
+AND F.ITEMID LIKE '#177%'
 AND F2.ITEMID IS NULL
 AND F.NOTES  LIKE '_198%'
 AND (F.AMOUNT/100) = '4'
---AND F.TRANSDATE < '31-JAN-23'
-AND F.TRANSDATE > '31-JAN-25'
+AND F.TRANSDATE < '31-JAN-23'
+--AND F.TRANSDATE < '01-MAR-25'
 ORDER BY P.NAME, F.ITEMID;
+
 
 -- 03/16/2025 Fines and Fees WLB toward field order for input to the API script sscSettleFinesandFees.pl
 

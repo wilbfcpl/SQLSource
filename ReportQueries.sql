@@ -806,3 +806,14 @@ select branchcode, LOCcode,
 
 order by branchcode, LOCCODE
 ;
+-- Simple Shelving Query
+select branch.BRANCHCODE, loc.loccode, count(item.location)
+from item_v2 item
+inner join location_v2 loc on item.location = loc.LOCNUMBER
+inner join branch_v2 branch on ( item.branch = branch.BRANCHNUMBER)
+
+where branchcode='BKE' AND ( item.status = 'S' or item.status ='ST')
+group by branch.BRANCHCODE, loc.loccode, item.LOCATION
+order by loc.loccode
+
+;
