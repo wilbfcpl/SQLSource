@@ -806,7 +806,7 @@ select branchcode, LOCcode,
 
 order by branchcode, LOCCODE
 ;
--- Simple Shelving Query
+-- 03/29/2025 Simple Shelving Query
 select branch.BRANCHCODE, loc.loccode, count(item.location)
 from item_v2 item
 inner join location_v2 loc on item.location = loc.LOCNUMBER

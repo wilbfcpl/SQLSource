@@ -87,7 +87,8 @@ select patron.PATRONID, patron.name, type.BTYCODE, patron.STREET1 , branch.BRANC
 where upper(type.BTYCODE) = 'TEEN' ;
 
 -- 11/08/2023 Uncertain DOB, new 501 Note
-select distinct student.patronid, student.name, student.userid, student.zip1,student.STATUS,trunc(ACTDATE) act,trunc(student.SACTDATE) sactdate,trunc(student.editdate) eddate,trunc(student.birthdate) dob,note.refid,note.NOTETYPE,
+select distinct student.patronid, student.name, student.userid, student.zip1,student.STATUS,trunc(ACTDATE) act,
+                trunc(student.SACTDATE) sactdate,trunc(student.editdate) eddate,trunc(student.birthdate) dob,note.refid,note.NOTETYPE,
        note.text
     from patron_v2 student
    -- inner join "12toPUBLIC_VerifyBirthdateNote_1" on student.patronid="12toPUBLIC_VerifyBirthdateNote_1".PATRONID
@@ -838,10 +839,18 @@ set
     --address = '@e2s.messagemedia.com'
 where obsolete !='1' and address is not null;
 
+select * from phonetype_backup
+where obsolete=0 AND address is NOT NULL AND
+    regexp_instr(description, '^.+ +@e2s\.messagemedia\.com.*$') !=0 ;
+
+
 update phonetype_backup
 set
-    description = regexp_replace(description, 'SinchEmail_2_SMS was ', '',1,1)
+    description = replace(description, ' @e2s.messagemedia.com','')
 where obsolete !='1' and address is not null;
+
+COMMIT;
+
 
 where address is not null and obsolete != '1' ;
 
@@ -888,7 +897,23 @@ F.ITEMID hash177,
   t.btycode,
    trunc(p.editdate) as "EDITDATE",
   trunc(p.actdate) as "ACTDATE"
+FROM PATRON_V2 P
+JOIN PATRONFISCAL_V2 F ON P.PATRONID = F.PATRONID
+LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID and F2.PAYMENTCODE in ('C','P','W')
+JOIN BTY_V2 T ON P.BTY=T.BTYNUMBER
+LEFT JOIN BRANCH_V2 B ON P.DEFAULTBRANCH=B.BRANCHNUMBER
+WHERE
+F.TRANSCODE = 'FS' --manual fine
+AND F.ITEMID LIKE '#177%'
+AND F2.ITEMID IS NULL
+AND F.NOTES  LIKE '_198%'
+AND (F.AMOUNT/100) = '4'
+--AND F.TRANSDATE < '31-JAN-23'
+AND F.TRANSDATE < '31-MAR-25'
+ORDER BY P.NAME, F.ITEMID;
 
+SELECT
+ count(*) as count
 FROM PATRON_V2 P
 JOIN PATRONFISCAL_V2 F ON P.PATRONID = F.PATRONID
 LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID and F2.PAYMENTCODE in ('C','P','W')
@@ -903,7 +928,6 @@ AND (F.AMOUNT/100) = '4'
 AND F.TRANSDATE < '31-JAN-23'
 --AND F.TRANSDATE < '01-MAR-25'
 ORDER BY P.NAME, F.ITEMID;
-
 
 -- 03/16/2025 Fines and Fees WLB toward field order for input to the API script sscSettleFinesandFees.pl
 
@@ -930,3 +954,61 @@ join location_v2 L on F.location=l.locnumber
 
 where
    upper(f.notes) like 'WAIVED%';
+
+
+-- 03/27/2025 for Newbery Honors AI Prompt Pub Date 2024
+select   bib.bid,bib.publishingdate, bib.isbn, bib.author,
+                 bib.TITLE,bib.CALLNUMBER, format.formattext
+from BBIBMAP_V2 bib
+
+--inner join BBIBCONTENTS_V2 bc on bib.bid = bc.bid
+--inner join btags_v2 tags on bc.tagid = tags.TAGID
+inner join formatterm_v2 format on format.FORMATtermid = bib.FORMAT
+--inner join btags_v2 tags2 on (tags2.WORDDATA = tags.worddata) and (tags.tagid != tags2.tagid)
+where (
+
+        (bib.publishingdate like '%2024%' or bib.publishingdate like '%2025%' or bib.publishingdate like '%2023%')
+       -- or
+
+        --(bc.tagnumber = 260
+        --  and (tags.tagdata like '%2024%' or tags.tagdata like '%2023%' or tags.tagdata like '%2025%'))
+
+    )
+
+and bib.eresource != 'Y'
+  -- Acqtype 0 book in house
+  and acqtype = 0
+
+     and  ( upper(formattext) like '%BOOK%' or upper(formattext) like '%PRINT%')
+
+;
+-- Streamlined version
+select   bid,publishingdate, isbn, author,
+                 TITLE,CALLNUMBER, formattext
+from BBIBMAP_V2 bib
+inner join formatterm_v2 format on format.FORMATtermid = bib.FORMAT
+where
+        (publishingdate like '%2024%' or publishingdate like '%2025%'
+or publishingdate like '%2023%')
+
+and  eresource != 'Y'
+  -- Acqtype 0 book in house
+  and acqtype = 0
+  and  ( upper(formattext) like '%BOOK%' or upper(formattext) like '%PRINT%')
+;
+
+-- 03/28/2025 Delete Notes
+select distinct note.noteid,note.refid, patron.name, branchcode, patron.STATUS,
+                trunc(patron.ACTDATE),trunc(patron.editdate),note.NOTETYPE,
+       note.text
+    from patron_v2 patron
+
+inner join PATRONNOTETEXT_V2 note on patron.PATRONID=note.REFID
+inner join bty_v2 on patron.bty = bty_v2.BTYNUMBER
+--inner join udfpatron_v2 udf on patron.patronid=udf.patronid
+inner join branch_v2 branch on patron.preferred_branch = branch.BRANCHNUMBER
+
+     where
+                note.NOTETYPE=501
+              -- NOT regexp_like (upper(note.text),'WE WOULD LIKE.+BIRTHDATE.+$')
+    order by note.noteid ;

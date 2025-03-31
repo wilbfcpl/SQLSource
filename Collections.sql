@@ -414,3 +414,4 @@ where
 group by bib.BID
 --group by bib.bib ,title, marc.TAGNUMBER, tags.WORDDATA, tags.TAGDATA
 ;
+
