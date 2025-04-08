@@ -588,7 +588,7 @@ select student.patronid, trunc(student.REGDATE), trunc(student.EDITDATE), studen
                 OR
              (type.btycode = 'GRAD')
         )
-    AND trunc(student.regdate) > '31-JAN-25' and trunc(student.regdate)<'01-MAR-25'
+    AND trunc(student.regdate) > '28-FEB-25' and trunc(student.regdate)<'01-APR-25'
 --AND trunc(student.editdate) > :regDate
       --AND trunc(regdate)<'01-NOV-23'
     order by school , trunc(REGDATE) desc ;

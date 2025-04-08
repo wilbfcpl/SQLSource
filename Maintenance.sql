@@ -1012,3 +1012,12 @@ inner join branch_v2 branch on patron.preferred_branch = branch.BRANCHNUMBER
                 note.NOTETYPE=501
               -- NOT regexp_like (upper(note.text),'WE WOULD LIKE.+BIRTHDATE.+$')
     order by note.noteid ;
+
+-- 04/07/2025 Delete Patron Notes using Perl MCE
+-- Uses NotesDelete, a local table of NoteIDs imported from an Excel file
+select notes.noteid,notes.patron,notes.timestamp,
+--       patron.name
+text.text
+from notesdelete notes , patron_v2 patron, patronnotetext_v2 text
+where notes.patron = patron.patronid and notes.noteid = text.noteid
+;
