@@ -1,7 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<TableViewProxyOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.TableViewProxyOraclev10g" name="UDFPATRON_V2" directorySegmentName="seg_0" id="CE8BB711-D036-85F6-41DA-9412F0D4EF0A">
-<createdBy>WBlake</createdBy>
-<createdTime>2025-05-12 15:36:17 UTC</createdTime>
-<ownerDesignName>testModel</ownerDesignName>
-<schemaObject>D5ACCE55-4D23-4D06-C0F4-D2311CB2E2C8</schemaObject>
-</TableViewProxyOraclev10g>

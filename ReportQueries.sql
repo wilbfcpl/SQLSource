@@ -112,19 +112,38 @@ select student.patronid, student.firstname, student.lastname, student.middlename
 --MSD Back online Feb 2024
 
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
-       street1, student.city1, student.state1, student.zip1, student.status,trunc(sactdate) selfactivity,trunc(sysdate) edittime,btycode, branchcode,
-       trunc(regdate),trunc(editdate), trunc(actdate)
+       street1, student.city1, student.state1, student.zip1, student.status,trunc(sactdate) selfactivity, trunc(actdate),trunc(sysdate) edittime,btycode, branchcode,
+       trunc(regdate),trunc(editdate)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
     where
      branchcode ='SSL' and
-      udf.fieldid='3' and
-       upper(student.street1) like '%DEAF%'
+      -- udf.fieldid='3' and
+     upper(label.label) like 'GRADE%' and
+       upper(student.street1) like '%MSD%' OR upper(student.street1) like '%DEAF%'
       -- and trunc(student.EDITDATE)>='05-MARCH-2024'
     and trunc(student.SACTDATE)>='1-FEB-2024'
     order by SACTDATE desc, LASTNAME;
+
+-- MSD Inquiry Ellicott City
+select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
+       street1, student.city1, student.state1, student.zip1, student.status, trunc(actdate) actdate,btycode, branchcode,
+       trunc(regdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where
+     branchcode ='SSL' and
+   --  upper(label.label) like 'GRADE%' and
+       --upper(student.street1) like '%MSD%' OR
+    upper(student.street1) like '%MONTGOMERY%'
+    and trunc(student.ACTDATE)>='1-FEB-2024'
+    order by ACTDATE desc, LASTNAME;
 
 -- Hoopla usage
 select bib.bid, bib.callnumber, bib.ERESOURCE, log.PATRONID, log.CHARGEHISTORYID, log.itemid, media.MEDCODE, log.isid, trunc(log.RETURNDATE) from BBIBMAP_V2 bib
@@ -817,3 +836,11 @@ group by branch.BRANCHCODE, loc.loccode, item.LOCATION
 order by loc.loccode
 
 ;
+
+-- From the "Canned Report" 3018 Shelf List
+SELECT `Rpt3018`.BID, `Rpt3018`.`ITEM NUMBER`, `Rpt3018`.AUTHOR, `Rpt3018`.TITLE,
+`Rpt3018`.`ITEM CALL NUMBER`, `Rpt3018`.BRANCH, `Rpt3018`.LOCATION, `Rpt3018`.MEDIA,
+`Rpt3018`.CIRCULATIONS AS [CIRCS], `Rpt3018`.`CUMULATIVE CIRCULATION` AS [CUM CIRCS],
+`Rpt3018`.`IN HOUSE CIRCULATION` AS [IN HOUSE CIRCS], `Rpt3018`.`ITEM CREATION DATE`,
+`Rpt3018`.`LAST CIRCULATION DATE` AS [LAST CIRC DATE]
+FROM `C:\Program Files\CarlX\Live\DSS\Data`\`Rpt3018.csv` `Rpt3018`

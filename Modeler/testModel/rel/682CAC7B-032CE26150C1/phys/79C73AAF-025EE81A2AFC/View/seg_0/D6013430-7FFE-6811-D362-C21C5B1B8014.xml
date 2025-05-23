@@ -1,7 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<TableViewProxyOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.TableViewProxyOraclev10g" name="BRANCH_V2" directorySegmentName="seg_0" id="D6013430-7FFE-6811-D362-C21C5B1B8014">
-<createdBy>WBlake</createdBy>
-<createdTime>2025-05-12 15:36:17 UTC</createdTime>
-<ownerDesignName>testModel</ownerDesignName>
-<schemaObject>D5ACCE55-4D23-4D06-C0F4-D2311CB2E2C8</schemaObject>
-</TableViewProxyOraclev10g>

@@ -1,9 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<UserOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.UserOraclev10g" name="CARLREPORTS" directorySegmentName="seg_0" id="D77EA28A-AF22-7168-C08B-53C49AE9BA2A">
-<sourceConnName>ThickTest</sourceConnName>
-<sourceObjName>CARLREPORTS</sourceObjName>
-<createdBy>WBlake</createdBy>
-<createdTime>2025-05-12 15:36:16 UTC</createdTime>
-<ownerDesignName>testModel</ownerDesignName>
-<schemaObject>D5ACCE55-4D23-4D06-C0F4-D2311CB2E2C8</schemaObject>
-</UserOraclev10g>
