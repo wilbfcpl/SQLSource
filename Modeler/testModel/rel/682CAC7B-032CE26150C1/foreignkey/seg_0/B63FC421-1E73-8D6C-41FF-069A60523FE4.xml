@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="B63FC421-1E73-8D6C-41FF-069A60523FE4" containerWithKeyObject="86832BFD-10D1-6DE4-A872-0212883159FC" localFKIndex="11743ADA-D8D8-1C64-D3A0-E37AD6D77FCB" name="BBIBMAP_V2_BBIBCONTENTS_V2_FK">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 17:24:05 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<referredTableLongName>CARLREPORTS.BBIBCONTENTS_V2</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>A4F46ABC-9F59-1E83-00CE-B6D6B7CCB8BB</referredTableID>
+<keyObject>40D9275E-6E00-B37C-D6EC-4988B6D11FAE</keyObject>
+<referredKeyID>40D9275E-6E00-B37C-D6EC-4988B6D11FAE</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>BID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+<propertyMap>
+<property name="createdByFKDiscoverer" value="true"/>
+</propertyMap>
+</FKIndexAssociation>

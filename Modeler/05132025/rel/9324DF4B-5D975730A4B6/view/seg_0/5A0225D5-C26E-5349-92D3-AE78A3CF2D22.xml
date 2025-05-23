@@ -1,0 +1,1075 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableView class="oracle.dbtools.crest.model.design.relational.TableView" directorySegmentName="seg_0" id="5A0225D5-C26E-5349-92D3-AE78A3CF2D22" schemaObject="14F36C88-6FEF-3AC9-E228-6676DDF1966C" name="BTY_V2">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<userDefined>true</userDefined>
+<userDefinedSQL><![CDATA[SELECT INSTBIT,
+           BTYNUMBER,
+           BTYCODE,
+           BTYNAME,
+           DEFAULTADDR,
+           jts.totimestamp (EXPIREDATE),
+           EXPIREDAYS,
+           REQUIREDOB,
+           MAXCLAIMRETURNLIMIT,
+           MAXLOSTLIMIT,
+           MAXOVERDUELIMIT,
+           MAXOVERDUERECALL,
+           MAXOVERDUEREQUEST,
+           MAXFINELIMIT,
+           CLAIMBLOCKTYPE,
+           EXCLUDEDFROMBLOCKS,
+           EXCLUDEDFROMFEES,
+           EXCLUDEDFROMFINES,
+           ITEMSGOLOST,
+           SUBMITTOUNIQUE,
+           CLAIMHISTORYDAYS,
+           ALLOWEDTOBORROW,
+           ALLOWRENEWAL,
+           USEEOS,
+           ENDOFSEMESTER,
+           DUEDATELIMIT,
+           FINEASSESSMENTTYPE,
+           OUTREACH,
+           RETAINCHARGEHISTORY,
+           CHARGELOANPERIOD,
+           RENEWLOANPERIOD,
+           RECALLLOANPERIOD,
+           CHARGELIMIT,
+           RENEWALLIMIT,
+           REQUESTCHARGELOANPERIOD,
+           REQUESTRECALLLOANPERIOD,
+           REQUESTRENEWLOANPERIOD,
+           HOLDSREQUESTFEE,
+           REQUESTFINERATE,
+           FINERATE,
+           RENEWALFEE,
+           CREDITFINELOSTRETURN,
+           CREDITFEELOSTRETURN,
+           LOSTBOOKCHARGE,
+           REQUESTFINELIMIT,
+           FINELIMIT,
+           REQUESTFINEGRACEPERIOD,
+           FINEGRACEPERIOD,
+           PROCESSINGFEE,
+           SPECIALFEE,
+           REMOVEONHOLD,
+           HOLDSEXPIRATIONPERIOD,
+           WISHLIST,
+           PROHIBITRECALL,
+           ALLOWHOLDS,
+           ALLOWRECALL,
+           HOLDSLIMIT,
+           MAXDEPOSIT,
+           AGELIMIT,
+           NOTICEDAYS_0,
+           NOTICEDAYS_1,
+           NOTICEDAYS_2,
+           NOTICEDAYS_3,
+           NOTICEDAYS_4,
+           NOTICEDAYS_5,
+           SENDNOTICE,
+           NOTICEFEES_0,
+           NOTICEFEES_1,
+           NOTICEFEES_2,
+           NOTICEFEES_3,
+           NOTICEFEES_4,
+           NOTICEFEES_5,
+           LOSTNOTICEDAYS_0,
+           LOSTNOTICEDAYS_1,
+           LOSTNOTICEDAYS_2,
+           SENDLOSTNOTICE,
+           LOSTNOTICEFEES_0,
+           LOSTNOTICEFEES_1,
+           LOSTNOTICEFEES_2,
+           FINESNOTICEDAYS_0,
+           FINESNOTICEDAYS_1,
+           FINESNOTICEDAYS_2,
+           SENDFINENOTICE,
+           FINESNOTICEFEES_0,
+           FINESNOTICEFEES_1,
+           FINESNOTICEFEES_2,
+           EXCLUDEFROMLASTACTIONLETTER
+      FROM CXDAT.BTY]]></userDefinedSQL>
+<parsed>true</parsed>
+<viewElements>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="INSTBIT" id="C5D975D9-570F-7815-371F-BDB5427CC88F">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>INSTBIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="BTYNUMBER" id="61349029-D8DA-28AD-2AE8-1B2F10191D24">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>BTYNUMBER</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="BTYCODE" id="14C16B3A-2246-4C66-3BE4-4C705C8DA314">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>BTYCODE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="BTYNAME" id="98EFD017-0205-22DA-0CC2-F09AB705F6EA">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>BTYNAME</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="DEFAULTADDR" id="4A12E134-7E5A-C020-5095-8691D05A2D15">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>DEFAULTADDR</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="totimestamp" id="4FFCE327-6D40-A844-BC0D-1F44569D7B33">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>totimestamp</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="totimestamp_1" id="38B32A01-EEF7-95DC-1DC3-5EA5246D119D">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:26:35 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>totimestamp_1</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="EXPIREDAYS" id="31A8698C-C3CC-4630-A4DC-56778D176A48">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>EXPIREDAYS</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="REQUIREDOB" id="8819B621-B98F-CE9F-9C35-B238C90DD1D0">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>REQUIREDOB</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="MAXCLAIMRETURNLIMIT" id="DF475267-9F73-D44E-738B-3BF42109E690">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>MAXCLAIMRETURNLIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="MAXLOSTLIMIT" id="CA5CF136-3D40-E783-674A-E56C00731105">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>MAXLOSTLIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="MAXOVERDUELIMIT" id="6D77A43D-80E1-B3BD-29C2-32734BA285BC">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>MAXOVERDUELIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="MAXOVERDUERECALL" id="54E47100-E10A-9676-337F-DE4795AD2B45">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>MAXOVERDUERECALL</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="MAXOVERDUEREQUEST" id="C385B6AF-791E-110F-36D5-7432B23A7E64">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>MAXOVERDUEREQUEST</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="MAXFINELIMIT" id="893020B7-B62D-689D-28CE-92B74AAB83F7">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>MAXFINELIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CLAIMBLOCKTYPE" id="897BBF79-6AA0-4EFC-95B3-EDFD93F59866">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>CLAIMBLOCKTYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="EXCLUDEDFROMBLOCKS" id="D2216332-D5D7-DAC1-663A-582ADB4647BD">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>EXCLUDEDFROMBLOCKS</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="EXCLUDEDFROMFEES" id="17F5BC8E-A7A6-A665-DBEA-118A7596AA27">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>EXCLUDEDFROMFEES</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="EXCLUDEDFROMFINES" id="3ECC8AC3-2F96-CEF8-533F-B3EF6986A3B9">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>EXCLUDEDFROMFINES</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ITEMSGOLOST" id="24E3E54F-0BFD-CCF7-CF5A-59D4E204F06A">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>ITEMSGOLOST</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="SUBMITTOUNIQUE" id="16371AB2-28D6-2821-611C-D3088013FEBA">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>SUBMITTOUNIQUE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CLAIMHISTORYDAYS" id="2844F448-C098-2326-6BE7-F40E18237921">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>CLAIMHISTORYDAYS</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ALLOWEDTOBORROW" id="A27E1545-1075-A94A-D924-513EE50BBE09">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>ALLOWEDTOBORROW</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ALLOWRENEWAL" id="384AC44B-D427-C84A-8F68-77CBB2B30916">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>ALLOWRENEWAL</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="USEEOS" id="AC270425-42DC-A425-9B33-B6239F241CBD">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>USEEOS</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ENDOFSEMESTER" id="C9A04E33-A131-C4BD-5CB9-A1BA6A3A28C0">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>ENDOFSEMESTER</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="DUEDATELIMIT" id="4550224D-33EA-EDC3-5FD4-69FFAB264FB7">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>DUEDATELIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FINEASSESSMENTTYPE" id="902BFBE3-9E3A-28D3-77BC-8421BA917D9D">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FINEASSESSMENTTYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="OUTREACH" id="178A1247-67B0-2E8F-4171-9DEB52CCE3E6">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>OUTREACH</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="RETAINCHARGEHISTORY" id="05A2A8AB-F0DA-A699-DAE2-916704B868C9">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>RETAINCHARGEHISTORY</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CHARGELOANPERIOD" id="CEF79D8F-9C14-9B5F-5325-1304D9A0E1CB">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>CHARGELOANPERIOD</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="RENEWLOANPERIOD" id="14E3EC65-1C6F-6620-1931-F17E8FE64A4B">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>RENEWLOANPERIOD</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="RECALLLOANPERIOD" id="A4FB9AD3-7DD6-09FF-EE84-1F90E0104C2E">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>RECALLLOANPERIOD</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CHARGELIMIT" id="2776D184-C991-21DC-ED3A-42E4A9955EDF">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>CHARGELIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="RENEWALLIMIT" id="2A2289CF-C6C9-BA13-538D-CDA7071FDBFD">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>RENEWALLIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="REQUESTCHARGELOANPERIOD" id="A3F7D9C7-5661-EE47-F9BD-EC3BD0EF8DCD">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>REQUESTCHARGELOANPERIOD</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="REQUESTRECALLLOANPERIOD" id="E77A1AD9-835E-C10D-96BA-364134F911EB">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>REQUESTRECALLLOANPERIOD</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="REQUESTRENEWLOANPERIOD" id="54A30151-457E-7555-B9DE-B2B4CFDA3A68">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>REQUESTRENEWLOANPERIOD</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="HOLDSREQUESTFEE" id="14A53B71-D6EA-8C54-4AF3-52E757DCE017">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>HOLDSREQUESTFEE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="REQUESTFINERATE" id="DEFDAAB2-DBCD-C2AC-25CE-5B5365948358">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>REQUESTFINERATE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FINERATE" id="3A370525-FB45-07C6-6701-BA092421C255">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FINERATE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="RENEWALFEE" id="B70C1B2E-F689-C5BA-F2C5-B918240C7BA2">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>RENEWALFEE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CREDITFINELOSTRETURN" id="4F4027E2-703F-AF00-2E8D-616D975191F9">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>CREDITFINELOSTRETURN</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CREDITFEELOSTRETURN" id="71EE91DB-632C-D923-FA70-0A66DED14BBB">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>CREDITFEELOSTRETURN</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="LOSTBOOKCHARGE" id="187CF399-DCC0-B555-0D73-E9F604484322">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>LOSTBOOKCHARGE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="REQUESTFINELIMIT" id="3CD5D5FB-D0A8-CD12-7FC6-1EEB7EB541B1">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>REQUESTFINELIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FINELIMIT" id="536EB438-2D34-71D9-BEB1-77323C8152AB">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FINELIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="REQUESTFINEGRACEPERIOD" id="645D9FDB-5209-2EAB-50F2-3F53831EDC32">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>REQUESTFINEGRACEPERIOD</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FINEGRACEPERIOD" id="525EA373-D444-22B0-34F2-62221D0AC70E">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FINEGRACEPERIOD</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="PROCESSINGFEE" id="8308F20B-CB6C-4080-1AD1-985FC01340EF">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>PROCESSINGFEE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="SPECIALFEE" id="9F7210CA-4C39-80BE-C0B3-06BDCF1F6895">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>SPECIALFEE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="REMOVEONHOLD" id="A4E30393-2455-AE3E-E9E1-3D6325D22BEC">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>REMOVEONHOLD</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="HOLDSEXPIRATIONPERIOD" id="1562BDC7-4303-E198-72E5-65C8C0D3F01E">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>HOLDSEXPIRATIONPERIOD</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="WISHLIST" id="A86D1241-E281-89ED-E072-9638FE7C6037">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>WISHLIST</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="PROHIBITRECALL" id="1B79BFA8-76F7-7597-EF2D-FBA3DEBEE529">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>PROHIBITRECALL</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ALLOWHOLDS" id="095DD611-5492-8FE6-62C0-3C0E0A642E02">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>ALLOWHOLDS</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ALLOWRECALL" id="85EF5232-B0AE-5D13-CE3E-33F4031C1D9B">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>ALLOWRECALL</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="HOLDSLIMIT" id="9E3F1993-FAC2-10B9-15EB-DDF979944873">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>HOLDSLIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="MAXDEPOSIT" id="26A766D4-FCF5-E671-94BF-782D307DD517">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>MAXDEPOSIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="AGELIMIT" id="F117E35C-8BDE-B85E-7EDA-113A9D1D3D76">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>AGELIMIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEDAYS_0" id="81CB11BC-5644-BE81-6A39-B73590C193FB">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEDAYS_0</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEDAYS_1" id="010C829D-830C-1F3D-740C-71E4C08D3CBE">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEDAYS_1</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEDAYS_2" id="B7FDEEF3-ED5D-9B1D-04B6-39807AE376E3">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEDAYS_2</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEDAYS_3" id="07EB8BB3-6AD4-5630-13C0-5BEC000A2636">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEDAYS_3</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEDAYS_4" id="FF0DF83A-6D07-AD93-6580-EC1BB4DAD745">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEDAYS_4</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEDAYS_5" id="02C2170D-4B34-0DFC-FEA4-E2E20007194A">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEDAYS_5</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="SENDNOTICE" id="F2E22B5C-5574-B073-3A93-B5CD7E3716BC">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>SENDNOTICE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEFEES_0" id="C70A059B-90ED-C660-4C47-77E81560AA60">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEFEES_0</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEFEES_1" id="82EFFE09-96EE-1847-BE09-56628CDAC324">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEFEES_1</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEFEES_2" id="2999ED8E-CB86-F24F-CEDC-E8ECADFEB589">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEFEES_2</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEFEES_3" id="2AE667F5-EBDF-6017-DDDE-B9A11F9C06A6">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEFEES_3</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEFEES_4" id="7AE832CB-9F4E-D382-12CE-39215BD4235B">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEFEES_4</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NOTICEFEES_5" id="1DDCC627-5868-1467-DBC8-A2D894783312">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NOTICEFEES_5</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="LOSTNOTICEDAYS_0" id="829AD4AD-BC0F-B7A3-F6C7-9BFA3E90CFEE">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>LOSTNOTICEDAYS_0</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="LOSTNOTICEDAYS_1" id="900218C6-74F5-7E60-8DA0-81CCA712C7DC">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>LOSTNOTICEDAYS_1</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="LOSTNOTICEDAYS_2" id="1542A049-A658-7C4B-B16F-F7EA71BA843E">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>LOSTNOTICEDAYS_2</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="SENDLOSTNOTICE" id="761DCDC2-D19C-2B23-00D8-1204952DB6FB">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>SENDLOSTNOTICE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="LOSTNOTICEFEES_0" id="9E1EBABC-49E7-65A4-8581-77DC0C7C3E07">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>LOSTNOTICEFEES_0</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="LOSTNOTICEFEES_1" id="D5916BE1-FE69-58C8-57FF-DDCC677B8CDD">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>LOSTNOTICEFEES_1</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="LOSTNOTICEFEES_2" id="015D8570-4037-4542-51CA-5030B75A28B3">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>LOSTNOTICEFEES_2</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FINESNOTICEDAYS_0" id="A4E068D8-E7AF-713B-A2F7-572A7C50E9F7">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FINESNOTICEDAYS_0</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FINESNOTICEDAYS_1" id="3E299F61-365C-56BC-02D0-3F44D0F87566">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FINESNOTICEDAYS_1</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FINESNOTICEDAYS_2" id="3393BF42-701F-8943-2444-13B1EDDBD4C9">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FINESNOTICEDAYS_2</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="SENDFINENOTICE" id="54A7C3B4-C84C-C902-F3BC-8403932106DF">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>SENDFINENOTICE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FINESNOTICEFEES_0" id="043451C8-3F5F-66BF-9A4D-5350C9446685">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FINESNOTICEFEES_0</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FINESNOTICEFEES_1" id="147A0CF6-D482-27C9-3639-7FC1D155DC21">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FINESNOTICEFEES_1</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FINESNOTICEFEES_2" id="4719B211-A215-769A-759E-D40247B9F439">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FINESNOTICEFEES_2</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="EXCLUDEFROMLASTACTIONLETTER" id="98C8E0D5-FF43-46FF-76B3-C9CFF67A0518">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>EXCLUDEFROMLASTACTIONLETTER</headerAlias>
+<reference>false</reference>
+</viewElement>
+</viewElements>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.ViewIndex">
+<ind_PK_UK id="78AD08B6-9CF9-A026-E8E1-6F2DDB824FCD" name="BTY_V2_PK">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:26:34 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="61349029-D8DA-28AD-2AE8-1B2F10191D24"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</TableView>

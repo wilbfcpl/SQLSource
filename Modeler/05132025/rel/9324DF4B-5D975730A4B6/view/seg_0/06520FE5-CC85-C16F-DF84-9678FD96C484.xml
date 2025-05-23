@@ -1,0 +1,335 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableView class="oracle.dbtools.crest.model.design.relational.TableView" directorySegmentName="seg_0" id="06520FE5-CC85-C16F-DF84-9678FD96C484" schemaObject="14F36C88-6FEF-3AC9-E228-6676DDF1966C" name="BBIBMAP_V2">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<userDefined>true</userDefined>
+<userDefinedSQL><![CDATA[SELECT BID,
+           INSTBIT,
+           FOLDER,
+           AUTHOR,
+           TITLE,
+           CALLNUMBER,
+           NORMALIZEDCALLNUMBER,
+           PUBLISHINGDATE,
+           LANGUAGE,
+           RECORDTYPE,
+           FORMAT,
+           TITLEINDICATORS,
+           BIBTYPE,
+           HIDDENTYPE,
+           ACQTYPE,
+           ISBN,
+           SUPPRESSDATE,
+           SUPPRESSTYPE,
+		   EXTERNALCONTROLNUMBER,
+           INTERLIBRARY_LOAN,
+           UPC,
+           BIBLATESTCHANGE,
+           ITEMSLATESTCHANGE,
+           ERESOURCE,
+           USERID,
+           TERMINAL
+      FROM CXDAT.BBIBMAP]]></userDefinedSQL>
+<parsed>true</parsed>
+<viewElements>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="BID" id="B608B373-D757-ADC5-A4E1-B175A9075F17">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>BID</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="INSTBIT" id="608BC616-82FE-AC61-D114-8614F9EFD950">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>INSTBIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FOLDER" id="161328CE-280B-924B-56BD-7F7942C95DED">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FOLDER</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="AUTHOR" id="C4DC6A1B-D1A1-31C9-26B5-40AB31005315">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>AUTHOR</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="TITLE" id="51CBEC7B-5F8E-BE38-183A-25DAAFD45AC1">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>TITLE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CALLNUMBER" id="F7DF2EA5-0C70-B723-A8A5-B470F3407170">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>CALLNUMBER</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NORMALIZEDCALLNUMBER" id="8B3AE672-A539-8576-6539-00EE661EBC74">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>NORMALIZEDCALLNUMBER</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="PUBLISHINGDATE" id="0D4B24FA-A930-4723-B76E-B1D9EE26E261">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>PUBLISHINGDATE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="LANGUAGE" id="B29E2C33-AD24-558A-7755-9438AF0E1CC9">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>LANGUAGE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="RECORDTYPE" id="F13E41AD-72EF-C401-BEA9-4C925BC72AEE">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>RECORDTYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FORMAT" id="56CF7D6C-7BDE-404C-2FF5-B94F64897BDC">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>FORMAT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="TITLEINDICATORS" id="C6DFBC2D-1B54-2B1D-C704-ED1BACED3FF7">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>TITLEINDICATORS</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="BIBTYPE" id="3A69DDF4-7F87-7A95-4FE0-E13A919E739B">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>BIBTYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="HIDDENTYPE" id="AFBEE6B9-FE6E-7CDC-1335-644199BE3374">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>HIDDENTYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ACQTYPE" id="4541BEAA-7598-487B-7AAB-C5E8496145F5">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>ACQTYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ISBN" id="FBF17E3A-2DEF-EDA9-A0EC-24CB19DC98FB">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>ISBN</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="SUPPRESSDATE" id="AAC8540C-A4B8-E72F-2F6E-5B9B95397A28">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>SUPPRESSDATE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="SUPPRESSTYPE" id="F8967DD2-B77E-801E-D9A5-1B90CD6B108B">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>SUPPRESSTYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="EXTERNALCONTROLNUMBER" id="5B8EAD87-1443-5EEF-F08F-A385907E32A4">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>EXTERNALCONTROLNUMBER</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="INTERLIBRARY_LOAN" id="64CD2BC1-267D-16E0-AD00-C9AB7177D566">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>INTERLIBRARY_LOAN</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="UPC" id="11BF3F81-9DAA-072B-C5B9-F477878C6E0D">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>UPC</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="BIBLATESTCHANGE" id="6A926EB6-5256-328E-4E2A-BDC9F772123E">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>BIBLATESTCHANGE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ITEMSLATESTCHANGE" id="CF13F98F-7003-E88C-A112-1ED936C4B4E3">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>ITEMSLATESTCHANGE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ERESOURCE" id="65534029-B30D-73EF-BA16-10C7554F61F5">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>ERESOURCE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="USERID" id="B59E57A5-4C5E-83DB-4D4B-9903CAC2FD15">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>USERID</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="TERMINAL" id="75D09105-C149-9359-4279-2068085C88BD">
+<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:22:19 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>UNKNOWN</dataType>
+<headerAlias>TERMINAL</headerAlias>
+<reference>false</reference>
+</viewElement>
+</viewElements>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.ViewIndex">
+<ind_PK_UK id="CFD3A8DD-99FE-63B7-05FB-896EE30B4BCD" name="BBIBMAP_V2_PK">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:24:48 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="B608B373-D757-ADC5-A4E1-B175A9075F17"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</TableView>

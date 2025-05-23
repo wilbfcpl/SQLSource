@@ -1,0 +1,601 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableView class="oracle.dbtools.crest.model.design.relational.TableView" directorySegmentName="seg_0" id="3E4F225B-8F5A-C874-3438-6D7A6486FFF1" schemaObject="D5ACCE55-4D23-4D06-C0F4-D2311CB2E2C8" name="ITEM_V2">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>CARLREPORTS</sourceObjSchema>
+<sourceObjName>ITEM_V2</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<userDefined>true</userDefined>
+<userDefinedSQL><![CDATA[CREATE OR REPLACE VIEW ITEM_V2
+AS 
+SELECT BID,
+       OCCUR,
+       OWNINGBRANCH,
+       OWNINGLOCATION,
+       ITEM,
+       DUEDATE,
+       STATUS,
+       STATUSDATE,
+       CIRCHISTORY,
+       HOLDSHISTORY,
+       CUMULATIVEHISTORY,
+       MEDIA,
+       PRICE,
+       EDITDATE,
+       USERID,
+       CNLABEL,
+       CN,
+       BRANCH,
+       LOCATION,
+       CNFORMATTED,
+       VOLUME,
+       PART,
+       NUMBER_,
+       SUFFIX,
+       CREATIONDATE,
+       SUPPRESS,
+       SUPPRESSTYPE,
+       INHOUSECIRC,
+       INSTBIT,
+       RESERVEBRANCH,
+       RESERVELOCATION,
+       RESERVECN,
+       RESERVETYPE,
+       CREATEDBY,
+       TYPE,
+       ISID,
+       ALTERNATESTATUS,
+       CNFULL,
+       ITEMGUID
+FROM CXDAT.ITEM]]></userDefinedSQL>
+<parsed>true</parsed>
+<viewElements>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="BID" id="FCEE841F-F292-B1F4-A379-D97FFB427FE0">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>BID</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>BID</alias>
+<dataType>NUMBER (10)</dataType>
+<headerAlias>BID</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="OCCUR" id="81B9AD38-DAF1-9D34-AC18-24E90920E250">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>OCCUR</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>OCCUR</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>OCCUR</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="OWNINGBRANCH" id="FBF6EA4F-E893-E977-88BE-9FDBBD281BA8">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>OWNINGBRANCH</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>OWNINGBRANCH</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>OWNINGBRANCH</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="OWNINGLOCATION" id="CBCC95CC-4272-B774-A688-895B86C41096">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>OWNINGLOCATION</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>OWNINGLOCATION</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>OWNINGLOCATION</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ITEM" id="9CB30732-D0EF-C35F-2BCE-260A59054608">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>ITEM</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ITEM</alias>
+<dataType>VARCHAR2 (16 BYTE)</dataType>
+<headerAlias>ITEM</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="DUEDATE" id="71FDCCA5-BF48-B3E5-06BF-9FF24DA960D9">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>DUEDATE</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>DUEDATE</alias>
+<dataType>DATE</dataType>
+<headerAlias>DUEDATE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="STATUS" id="0F733A6F-0A8C-487B-D6E6-34A320186486">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>STATUS</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>STATUS</alias>
+<dataType>VARCHAR2 (2 BYTE)</dataType>
+<headerAlias>STATUS</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="STATUSDATE" id="3ACAE72C-C77D-663B-ABED-B50F25DFFF16">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>STATUSDATE</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>STATUSDATE</alias>
+<dataType>DATE</dataType>
+<headerAlias>STATUSDATE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CIRCHISTORY" id="AE6D9024-FA33-D9B8-F11F-08B57080AE65">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>CIRCHISTORY</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CIRCHISTORY</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>CIRCHISTORY</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="HOLDSHISTORY" id="4C537904-6E7A-5304-7000-EDFEB8471CF2">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>HOLDSHISTORY</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>HOLDSHISTORY</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>HOLDSHISTORY</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CUMULATIVEHISTORY" id="CD93D24A-560E-F3D6-1223-1FC85AC71706">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>CUMULATIVEHISTORY</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CUMULATIVEHISTORY</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>CUMULATIVEHISTORY</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="MEDIA" id="E49AA13C-1EC7-E8FE-3459-1EC9FC1ED335">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>MEDIA</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>MEDIA</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>MEDIA</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="PRICE" id="27CCB521-6DC3-78F5-BA1B-6DEA30C9E4A6">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>PRICE</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>PRICE</alias>
+<dataType>VARCHAR2 (10 BYTE)</dataType>
+<headerAlias>PRICE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="EDITDATE" id="9B28FD7E-BCB5-7070-BD76-7F0014683034">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>EDITDATE</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>EDITDATE</alias>
+<dataType>DATE</dataType>
+<headerAlias>EDITDATE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="USERID" id="56E0B251-6B42-8D55-45E7-C13088EC0F78">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>USERID</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>USERID</alias>
+<dataType>VARCHAR2 (3 BYTE)</dataType>
+<headerAlias>USERID</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CNLABEL" id="9E3517A5-A135-8019-9085-85765C3693F9">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>CNLABEL</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CNLABEL</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<headerAlias>CNLABEL</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CN" id="29B39E72-EE84-F4E1-AB60-86E4A52D2DDB">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>CN</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CN</alias>
+<dataType>VARCHAR2 (36 BYTE)</dataType>
+<headerAlias>CN</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="BRANCH" id="71AC6BBD-C939-EB2F-9CB7-AF9969417EFE">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>BRANCH</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>BRANCH</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>BRANCH</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="LOCATION" id="EA373E5D-C51E-DA1B-B9AE-61FD2806C769">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>LOCATION</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>LOCATION</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>LOCATION</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CNFORMATTED" id="66E19608-6AB2-DB0C-0C80-4E1BBF243CA2">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>CNFORMATTED</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CNFORMATTED</alias>
+<dataType>VARCHAR2 (64 BYTE)</dataType>
+<headerAlias>CNFORMATTED</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="VOLUME" id="870161CD-42EF-B217-778B-767AB045F463">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>VOLUME</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>VOLUME</alias>
+<dataType>VARCHAR2 (10 BYTE)</dataType>
+<headerAlias>VOLUME</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="PART" id="101271C4-0C42-EC2E-9DC7-5CC9FF3AF812">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>PART</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>PART</alias>
+<dataType>VARCHAR2 (10 BYTE)</dataType>
+<headerAlias>PART</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="NUMBER_" id="1B76AB44-1538-2EF5-6BBA-6EB092CFF95F">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>NUMBER_</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NUMBER_</alias>
+<dataType>VARCHAR2 (10 BYTE)</dataType>
+<headerAlias>NUMBER_</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="SUFFIX" id="B8AC3214-EB4F-38C5-D23D-53CC75B50B67">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>SUFFIX</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SUFFIX</alias>
+<dataType>VARCHAR2 (10 BYTE)</dataType>
+<headerAlias>SUFFIX</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CREATIONDATE" id="F358CB05-92F2-31CF-D03A-A0F65F2A2951">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>CREATIONDATE</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CREATIONDATE</alias>
+<dataType>DATE</dataType>
+<headerAlias>CREATIONDATE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="SUPPRESS" id="825935F1-1C5B-0142-7926-83DA4D60112E">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>SUPPRESS</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SUPPRESS</alias>
+<dataType>CHAR (1 BYTE)</dataType>
+<headerAlias>SUPPRESS</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="SUPPRESSTYPE" id="10E65F81-2AA3-0A05-5884-1BD86CAC058D">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>SUPPRESSTYPE</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SUPPRESSTYPE</alias>
+<dataType>NUMBER</dataType>
+<headerAlias>SUPPRESSTYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="INHOUSECIRC" id="F080EE1E-603A-F6DA-4596-0C42B9A05E5F">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>INHOUSECIRC</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>INHOUSECIRC</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>INHOUSECIRC</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="INSTBIT" id="32A8ADE1-9FCC-E9B9-3D50-B1909D45409F">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>INSTBIT</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>INSTBIT</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>INSTBIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="RESERVEBRANCH" id="CA44FF15-544F-30C4-7606-E96DC91E0231">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>RESERVEBRANCH</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RESERVEBRANCH</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>RESERVEBRANCH</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="RESERVELOCATION" id="1B7141E0-39E1-02E7-A764-43012C9078C4">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>RESERVELOCATION</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RESERVELOCATION</alias>
+<dataType>NUMBER (5)</dataType>
+<headerAlias>RESERVELOCATION</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="RESERVECN" id="D62F5B10-A672-4B58-28E8-D6C64B7FDA1B">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>RESERVECN</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RESERVECN</alias>
+<dataType>VARCHAR2 (36 BYTE)</dataType>
+<headerAlias>RESERVECN</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="RESERVETYPE" id="C3886C96-CAD8-5F90-0B5E-7677B1AC7ED5">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>RESERVETYPE</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RESERVETYPE</alias>
+<dataType>NUMBER (3)</dataType>
+<headerAlias>RESERVETYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CREATEDBY" id="67C38E01-1CFF-9A2D-02E7-42055922C1FE">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>CREATEDBY</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CREATEDBY</alias>
+<dataType>VARCHAR2 (3 BYTE)</dataType>
+<headerAlias>CREATEDBY</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="TYPE" id="9E38393E-C167-93C6-B27C-2ADD9741C4C1">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>TYPE</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>TYPE</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<headerAlias>TYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ISID" id="C95A39BB-040F-7F43-5192-2C0EF6FDDBDA">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>ISID</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ISID</alias>
+<dataType>NUMBER (10)</dataType>
+<headerAlias>ISID</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ALTERNATESTATUS" id="1AF2A5D9-C743-3568-9F45-04435563FE92">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>ALTERNATESTATUS</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ALTERNATESTATUS</alias>
+<dataType>VARCHAR2 (100 BYTE)</dataType>
+<headerAlias>ALTERNATESTATUS</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="CNFULL" id="7A709944-9B65-56EE-0310-CB374CDF278E">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>CNFULL</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CNFULL</alias>
+<dataType>VARCHAR2 (116 BYTE)</dataType>
+<headerAlias>CNFULL</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="ITEMGUID" id="816F0870-D47B-D080-C3F8-5DBDB9669C07">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>ITEM_V2</sourceObjSchema>
+<sourceObjName>ITEMGUID</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ITEMGUID</alias>
+<dataType>NUMBER (18)</dataType>
+<headerAlias>ITEMGUID</headerAlias>
+<reference>false</reference>
+</viewElement>
+</viewElements>
+</TableView>

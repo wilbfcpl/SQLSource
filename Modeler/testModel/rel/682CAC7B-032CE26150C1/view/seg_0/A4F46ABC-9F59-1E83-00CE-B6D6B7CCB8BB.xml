@@ -1,0 +1,182 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableView class="oracle.dbtools.crest.model.design.relational.TableView" directorySegmentName="seg_0" id="A4F46ABC-9F59-1E83-00CE-B6D6B7CCB8BB" schemaObject="D5ACCE55-4D23-4D06-C0F4-D2311CB2E2C8" name="BBIBCONTENTS_V2">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>CARLREPORTS</sourceObjSchema>
+<sourceObjName>BBIBCONTENTS_V2</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<userDefined>true</userDefined>
+<userDefinedSQL><![CDATA[CREATE OR REPLACE VIEW BBIBCONTENTS_V2
+AS 
+SELECT
+    BID,
+    INSTBIT,
+    FOLDER,
+    TAGID,
+    TAGTYPE,
+    TAGNUMBER,
+    TAGINDICATORS,
+    INCIDENTALTAGID,
+    LINKEDCONTENTID
+ FROM
+    CXDAT.BBIBCONTENTS]]></userDefinedSQL>
+<parsed>true</parsed>
+<viewElements>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="BID" id="1D6A5F11-1B11-8DE8-C7ED-214EB7D8D43B">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>BBIBCONTENTS_V2</sourceObjSchema>
+<sourceObjName>BID</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<headerAlias>BID</headerAlias>
+<reference>false</reference>
+<referencedColumn>12AC2414-F507-92FA-09C8-2455816ED129</referencedColumn>
+<referencedColumnViewID>12AC2414-F507-92FA-09C8-2455816ED129</referencedColumnViewID>
+<associations>
+<colAssociation fkAssociation="1A71D87B-334D-B04D-FAC1-B5415BA6C0AE" referredColumn="12AC2414-F507-92FA-09C8-2455816ED129"/>
+</associations>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="INSTBIT" id="96778AA2-25A6-7B99-E4CE-32BCB71BF8B7">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>BBIBCONTENTS_V2</sourceObjSchema>
+<sourceObjName>INSTBIT</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>NUMBER</dataType>
+<headerAlias>INSTBIT</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="FOLDER" id="C49EADC7-93EE-3206-3FC9-8511ECF1774C">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>BBIBCONTENTS_V2</sourceObjSchema>
+<sourceObjName>FOLDER</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>NUMBER</dataType>
+<headerAlias>FOLDER</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="TAGID" id="E071A83F-BAB6-6727-8EE4-4E2D51D8F9BF">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>BBIBCONTENTS_V2</sourceObjSchema>
+<sourceObjName>TAGID</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>NUMBER</dataType>
+<headerAlias>TAGID</headerAlias>
+<reference>false</reference>
+<referencedColumn>5E2E14A9-0D6B-1A3A-60BF-6AFBF6304331</referencedColumn>
+<referencedColumnViewID>5E2E14A9-0D6B-1A3A-60BF-6AFBF6304331</referencedColumnViewID>
+<associations>
+<colAssociation fkAssociation="61794F23-CAAE-8A28-C9B2-F76020169B00" referredColumn="5E2E14A9-0D6B-1A3A-60BF-6AFBF6304331"/>
+</associations>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="TAGTYPE" id="497150CD-FB88-41BC-BE9E-6A42C9AEFB35">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>BBIBCONTENTS_V2</sourceObjSchema>
+<sourceObjName>TAGTYPE</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>NUMBER (1)</dataType>
+<headerAlias>TAGTYPE</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="TAGNUMBER" id="C81EE7A3-9AAE-B4A4-B4E6-850C4279DAB1">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>BBIBCONTENTS_V2</sourceObjSchema>
+<sourceObjName>TAGNUMBER</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>NUMBER</dataType>
+<headerAlias>TAGNUMBER</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="TAGINDICATORS" id="FAB75D42-024F-F0C4-89A9-A9051A5C4535">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>BBIBCONTENTS_V2</sourceObjSchema>
+<sourceObjName>TAGINDICATORS</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>VARCHAR2 (2 BYTE)</dataType>
+<headerAlias>TAGINDICATORS</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="INCIDENTALTAGID" id="0C838DC4-4CE6-18A5-080C-2CE4D427AB15">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>BBIBCONTENTS_V2</sourceObjSchema>
+<sourceObjName>INCIDENTALTAGID</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>NUMBER</dataType>
+<headerAlias>INCIDENTALTAGID</headerAlias>
+<reference>false</reference>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.relational.ColumnView" name="LINKEDCONTENTID" id="391BAC54-AF60-BB9B-4CD0-5A025ACDAEA3">
+<sourceConnName>ThickTest</sourceConnName>
+<sourceObjSchema>BBIBCONTENTS_V2</sourceObjSchema>
+<sourceObjName>LINKEDCONTENTID</sourceObjName>
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>NUMBER</dataType>
+<headerAlias>LINKEDCONTENTID</headerAlias>
+<reference>false</reference>
+</viewElement>
+</viewElements>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.ViewIndex">
+<ind_PK_UK id="40D9275E-6E00-B37C-D6EC-4988B6D11FAE" name="BBIBCONTENTS_V2_PK">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 16:03:29 UTC</createdTime>
+<ownerDesignName>CarlReports</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<indexColumnUsage>
+<colUsage columnID="1D6A5F11-1B11-8DE8-C7ED-214EB7D8D43B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D9BF65FB-5033-4A2B-7B4A-CF62C5A1782C" name="BBIBCONTENTS_V2_BBIBMAP_V2_FK">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 17:24:05 UTC</createdTime>
+<ownerDesignName>CarlReports</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="1D6A5F11-1B11-8DE8-C7ED-214EB7D8D43B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F31BF9EE-B2D3-AF5E-42C0-D6DA9B43040C" name="BBIBCONTENTS_V2_BTAGS_V2_FK">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 17:24:05 UTC</createdTime>
+<ownerDesignName>CarlReports</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<indexColumnUsage>
+<colUsage columnID="E071A83F-BAB6-6727-8EE4-4E2D51D8F9BF"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</TableView>

@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableViewProxyOraclev10g class="oracle.dbtools.crest.model.design.storage.oracle.v10g.TableViewProxyOraclev10g" name="BTAGS_V2" directorySegmentName="seg_0" id="438246ED-3ACB-8B3B-EF4F-94EDA7303F97">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-12 15:36:17 UTC</createdTime>
+<ownerDesignName>testModel</ownerDesignName>
+<schemaObject>D5ACCE55-4D23-4D06-C0F4-D2311CB2E2C8</schemaObject>
+</TableViewProxyOraclev10g>

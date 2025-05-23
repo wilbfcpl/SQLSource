@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="05132025" id="CDBBD942-D1A9-A4B5-DDDC-0099A8D29706" version="3.5">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 18:18:39 UTC</createdTime>
+<ownerDesignName>05132025</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>CDBBD942-D1A9-A4B5-DDDC-0099A8D29706</designId>
+</OSDM_Design>

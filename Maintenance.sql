@@ -1013,11 +1013,31 @@ inner join branch_v2 branch on patron.preferred_branch = branch.BRANCHNUMBER
               -- NOT regexp_like (upper(note.text),'WE WOULD LIKE.+BIRTHDATE.+$')
     order by note.noteid ;
 
--- 04/07/2025 Delete Patron Notes using Perl MCE
+-- 05/22/2025 Delete Patron Notes using CarlXAPI DeleteNoteMCE
+--https://github.com/wilbfcpl/CarlXAPIUtils-PerlSrc/blob/master/DeleteNoteMCE.pl
 -- Uses NotesDelete, a local table of NoteIDs imported from an Excel file
-select notes.noteid,notes.patron,notes.timestamp,
+select notes.noteid,notes.patronid,notes.notetype, notes."DateA",notes.alias
 --       patron.name
-text.text
-from notesdelete notes , patron_v2 patron, patronnotetext_v2 text
-where notes.patron = patron.patronid and notes.noteid = text.noteid
+from hnotestodelete052225 notes , patron_v2 patron, patronnotetext_v2 text
+where notes.patronid = patron.patronid and notes.noteid = text.noteid
+;
+
+--FCPS Notes 04/29/2025
+select todelete.noteid,todelete.patronid , notes.text from  sscnotestodelete043025 todelete
+inner join patron_v2 patron on todelete.patronid = patron.patronid
+--inner join patronnotetext_v2 notes on notes.refid = todelete.patronid
+inner join patronnotetext_v2 notes on notes.noteid = todelete.noteid
+
+;
+
+
+-- DigitalMaryland Import via MarcEdit
+select bid, userid, recordtype, callnumber, formattext,
+    trunc(biblatestchange ) titlechange,trunc(itemslatestchange) itemchange,
+    title from BBIBMAP_V2 bib,formatterm_v2 formatterm
+where
+--trunc(biblatestchange) like '2025-04%' and
+    formatterm.formattermid = bib.format and
+userid='wb0'
+
 ;

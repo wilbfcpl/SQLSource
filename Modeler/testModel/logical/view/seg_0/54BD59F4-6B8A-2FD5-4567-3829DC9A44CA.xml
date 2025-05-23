@@ -1,0 +1,66 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<EntityView class="oracle.dbtools.crest.model.design.logical.EntityView" directorySegmentName="seg_0" id="54BD59F4-6B8A-2FD5-4567-3829DC9A44CA" name="BTAGS V2">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>438246ED-3ACB-8B3B-EF4F-94EDA7303F97</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<userDefined>true</userDefined>
+<userDefinedSQL><![CDATA[CREATE OR REPLACE VIEW BTAGS_V2
+AS 
+SELECT
+    TAGID,
+    TAGDATA,
+    WORDDATA
+ FROM
+    CXDAT.BTAGS]]></userDefinedSQL>
+<validSQL>false</validSQL>
+<parsed>true</parsed>
+<viewType>EntityView</viewType>
+<viewElements>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="TAGID" id="C250BAB6-BF5D-AD62-86C3-4779BBC50CD3">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>5E2E14A9-0D6B-1A3A-60BF-6AFBF6304331</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>NUMBER</dataType>
+<reference>false</reference>
+<viewID>54BD59F4-6B8A-2FD5-4567-3829DC9A44CA</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="TAGDATA" id="CFBF7BE9-C34F-C873-42B2-C6334517E5CD">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>0AC92FB6-A790-1BAD-0CB6-374461A7AA66</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>VARCHAR2 (4000 BYTE)</dataType>
+<reference>false</reference>
+<viewID>54BD59F4-6B8A-2FD5-4567-3829DC9A44CA</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="WORDDATA" id="F281782F-DE41-F810-5755-2DF3FEEA7439">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>B5B522D8-E4C8-8D16-BFE7-5C042093CCFD</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<dataType>VARCHAR2 (4000 BYTE)</dataType>
+<reference>false</reference>
+<viewID>54BD59F4-6B8A-2FD5-4567-3829DC9A44CA</viewID>
+</viewElement>
+</viewElements>
+</EntityView>

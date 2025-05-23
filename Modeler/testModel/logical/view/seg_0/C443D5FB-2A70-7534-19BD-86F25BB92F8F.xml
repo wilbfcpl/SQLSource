@@ -1,0 +1,643 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<EntityView class="oracle.dbtools.crest.model.design.logical.EntityView" directorySegmentName="seg_0" id="C443D5FB-2A70-7534-19BD-86F25BB92F8F" name="ITEM V2">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>3E4F225B-8F5A-C874-3438-6D7A6486FFF1</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<userDefined>true</userDefined>
+<userDefinedSQL><![CDATA[CREATE OR REPLACE VIEW ITEM_V2
+AS 
+SELECT BID,
+       OCCUR,
+       OWNINGBRANCH,
+       OWNINGLOCATION,
+       ITEM,
+       DUEDATE,
+       STATUS,
+       STATUSDATE,
+       CIRCHISTORY,
+       HOLDSHISTORY,
+       CUMULATIVEHISTORY,
+       MEDIA,
+       PRICE,
+       EDITDATE,
+       USERID,
+       CNLABEL,
+       CN,
+       BRANCH,
+       LOCATION,
+       CNFORMATTED,
+       VOLUME,
+       PART,
+       NUMBER_,
+       SUFFIX,
+       CREATIONDATE,
+       SUPPRESS,
+       SUPPRESSTYPE,
+       INHOUSECIRC,
+       INSTBIT,
+       RESERVEBRANCH,
+       RESERVELOCATION,
+       RESERVECN,
+       RESERVETYPE,
+       CREATEDBY,
+       TYPE,
+       ISID,
+       ALTERNATESTATUS,
+       CNFULL,
+       ITEMGUID
+FROM CXDAT.ITEM]]></userDefinedSQL>
+<validSQL>false</validSQL>
+<parsed>true</parsed>
+<viewType>EntityView</viewType>
+<viewElements>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="BID" id="81A43A83-8173-E406-C932-6A7B238338B6">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>FCEE841F-F292-B1F4-A379-D97FFB427FE0</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>BID</alias>
+<dataType>NUMBER (10)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="OCCUR" id="4A99CD40-FEDE-2929-DC01-28995BA420F5">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>81B9AD38-DAF1-9D34-AC18-24E90920E250</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>OCCUR</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="OWNINGBRANCH" id="4DE0ACA8-54BA-D5CB-01A0-48644761AC25">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>FBF6EA4F-E893-E977-88BE-9FDBBD281BA8</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>OWNINGBRANCH</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="OWNINGLOCATION" id="61D213F2-0FFC-9A7F-4245-5A1F6ED614B9">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>CBCC95CC-4272-B774-A688-895B86C41096</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>OWNINGLOCATION</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="ITEM" id="78BB7D19-43CA-D02F-8E53-666F34733590">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>9CB30732-D0EF-C35F-2BCE-260A59054608</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ITEM</alias>
+<dataType>VARCHAR2 (16 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="DUEDATE" id="E8D6A103-88A5-84A5-AD7F-277F44DDA5C8">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>71FDCCA5-BF48-B3E5-06BF-9FF24DA960D9</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>DUEDATE</alias>
+<dataType>DATE</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="STATUS" id="56DF68AD-EFD8-3205-DD55-B4E6576BE624">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>0F733A6F-0A8C-487B-D6E6-34A320186486</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>STATUS</alias>
+<dataType>VARCHAR2 (2 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="STATUSDATE" id="B7E63ADD-D6C6-88B2-A5E2-430E7048981E">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>3ACAE72C-C77D-663B-ABED-B50F25DFFF16</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>STATUSDATE</alias>
+<dataType>DATE</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CIRCHISTORY" id="4400C3A3-68EF-0CD9-100C-A35BCA7FE5B5">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>AE6D9024-FA33-D9B8-F11F-08B57080AE65</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CIRCHISTORY</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="HOLDSHISTORY" id="635896C5-45DD-5E39-73A6-03A62CD21356">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>4C537904-6E7A-5304-7000-EDFEB8471CF2</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>HOLDSHISTORY</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CUMULATIVEHISTORY" id="BB3D105C-3583-F142-7280-E31B08960879">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>CD93D24A-560E-F3D6-1223-1FC85AC71706</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CUMULATIVEHISTORY</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="MEDIA" id="C91B16DC-A95D-E12B-9FD9-6B80BED80542">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>E49AA13C-1EC7-E8FE-3459-1EC9FC1ED335</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>MEDIA</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="PRICE" id="ABE6C70D-1D3E-24FB-E443-047920D66705">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>27CCB521-6DC3-78F5-BA1B-6DEA30C9E4A6</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>PRICE</alias>
+<dataType>VARCHAR2 (10 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="EDITDATE" id="420D2ED8-E73F-FFD1-361F-579CD5F72CF5">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>9B28FD7E-BCB5-7070-BD76-7F0014683034</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>EDITDATE</alias>
+<dataType>DATE</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="USERID" id="AD8E5BAB-059F-DB06-8833-F55AB458EAA4">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>56E0B251-6B42-8D55-45E7-C13088EC0F78</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>USERID</alias>
+<dataType>VARCHAR2 (3 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CNLABEL" id="1D295C19-D5D9-211B-6808-17650AB6A6DB">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>9E3517A5-A135-8019-9085-85765C3693F9</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CNLABEL</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CN" id="131600E0-95D8-1E70-5781-F4A64A3228E4">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>29B39E72-EE84-F4E1-AB60-86E4A52D2DDB</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CN</alias>
+<dataType>VARCHAR2 (36 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="BRANCH" id="79322DC8-CDA1-715F-51E5-CBF55E3449AD">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>71AC6BBD-C939-EB2F-9CB7-AF9969417EFE</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>BRANCH</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="LOCATION" id="25EBA6D5-7443-6B91-2870-7060B6571CB8">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>EA373E5D-C51E-DA1B-B9AE-61FD2806C769</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>LOCATION</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CNFORMATTED" id="B1217B65-37A4-2397-5DCA-672E38BA70D2">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>66E19608-6AB2-DB0C-0C80-4E1BBF243CA2</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CNFORMATTED</alias>
+<dataType>VARCHAR2 (64 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="VOLUME" id="6C8B4455-E553-71E1-D5F5-CE0136BA29A7">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>870161CD-42EF-B217-778B-767AB045F463</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>VOLUME</alias>
+<dataType>VARCHAR2 (10 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="PART" id="87FDDF39-C81A-A9C5-C7EE-4959C919A0F4">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>101271C4-0C42-EC2E-9DC7-5CC9FF3AF812</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>PART</alias>
+<dataType>VARCHAR2 (10 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NUMBER_" id="4E83E442-D6BE-ABD9-3280-D978A5E7082A">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>1B76AB44-1538-2EF5-6BBA-6EB092CFF95F</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NUMBER_</alias>
+<dataType>VARCHAR2 (10 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="SUFFIX" id="954225F0-24FE-B445-1C47-C1513B2531BB">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>B8AC3214-EB4F-38C5-D23D-53CC75B50B67</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SUFFIX</alias>
+<dataType>VARCHAR2 (10 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CREATIONDATE" id="B18A5EE7-A0AB-A3EA-1AF1-B4136B1EA568">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>F358CB05-92F2-31CF-D03A-A0F65F2A2951</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CREATIONDATE</alias>
+<dataType>DATE</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="SUPPRESS" id="61F210A1-BF32-CF61-C695-8620A59F070D">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>825935F1-1C5B-0142-7926-83DA4D60112E</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SUPPRESS</alias>
+<dataType>CHAR (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="SUPPRESSTYPE" id="2CC8580F-673A-B0B7-07B6-0F092BBFABCE">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>10E65F81-2AA3-0A05-5884-1BD86CAC058D</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SUPPRESSTYPE</alias>
+<dataType>NUMBER</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="INHOUSECIRC" id="1F6DC28C-229B-4AF9-010D-3A65CD4D02FF">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>F080EE1E-603A-F6DA-4596-0C42B9A05E5F</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>INHOUSECIRC</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="INSTBIT" id="EF28FEB8-FC8E-A122-3F1A-4EE3E884717E">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>32A8ADE1-9FCC-E9B9-3D50-B1909D45409F</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>INSTBIT</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RESERVEBRANCH" id="20814F6D-82C1-0CE4-78CE-A8BE1706830F">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>CA44FF15-544F-30C4-7606-E96DC91E0231</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RESERVEBRANCH</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RESERVELOCATION" id="4C1EF235-8A8C-20BC-E541-0EE724E28869">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>1B7141E0-39E1-02E7-A764-43012C9078C4</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RESERVELOCATION</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RESERVECN" id="F6EC6600-ADEC-F3AF-13EF-CDD2E07C798A">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>D62F5B10-A672-4B58-28E8-D6C64B7FDA1B</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RESERVECN</alias>
+<dataType>VARCHAR2 (36 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RESERVETYPE" id="9A3BD7FA-A055-C928-E789-B4E476B816DB">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>C3886C96-CAD8-5F90-0B5E-7677B1AC7ED5</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RESERVETYPE</alias>
+<dataType>NUMBER (3)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CREATEDBY" id="C6CEF6BF-F694-337B-8502-09736676D666">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>67C38E01-1CFF-9A2D-02E7-42055922C1FE</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CREATEDBY</alias>
+<dataType>VARCHAR2 (3 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="TYPE" id="5AA5D17F-7778-B73E-2DCB-79BECE4A7E5A">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>9E38393E-C167-93C6-B27C-2ADD9741C4C1</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>TYPE</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="ISID" id="3D4B9E37-A6DB-E2C9-0AC3-5F7882BCD094">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>C95A39BB-040F-7F43-5192-2C0EF6FDDBDA</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ISID</alias>
+<dataType>NUMBER (10)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="ALTERNATESTATUS" id="E7ED1A6A-D43B-FCE1-CF4F-2611FD2FAA10">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>1AF2A5D9-C743-3568-9F45-04435563FE92</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ALTERNATESTATUS</alias>
+<dataType>VARCHAR2 (100 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CNFULL" id="BE64F17A-403B-CD20-B798-08ED07D2C840">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>7A709944-9B65-56EE-0310-CB374CDF278E</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CNFULL</alias>
+<dataType>VARCHAR2 (116 BYTE)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="ITEMGUID" id="D62B0625-3D7D-109B-39DB-252EC46F8AE8">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<generatorID>816F0870-D47B-D080-C3F8-5DBDB9669C07</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ITEMGUID</alias>
+<dataType>NUMBER (18)</dataType>
+<reference>false</reference>
+<viewID>C443D5FB-2A70-7534-19BD-86F25BB92F8F</viewID>
+</viewElement>
+</viewElements>
+</EntityView>

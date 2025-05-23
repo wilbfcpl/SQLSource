@@ -401,7 +401,7 @@ from bbibmap_v2 bib
      inner join btags_v2 tags on tags.tagid = marc.tagid
     -- inner join btags_v2 tags2 on tags.tagid = marc.tagid
 where
-    --bib.CALLNUMBER like 'OVERDRIVE%'
+    --bib.CALLNUMBER like 'OVERD022RIVE%'
     --AND
      --bib.ERESOURCE ='Y'
     (marc.tagnumber = '856'
@@ -415,3 +415,41 @@ group by bib.BID
 --group by bib.bib ,title, marc.TAGNUMBER, tags.WORDDATA, tags.TAGDATA
 ;
 
+--Maryland Room
+select distinct bib.bid,
+       bib.CALLNUMBER,
+marc.TAGNUMBER,
+tags.tagdata,
+tags.WORDDATA
+--title
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where
+    bib.bid in
+    (
+     3458, 3905, 5768 , 7962, 9669, 9670 , 10020, 11018, 17073, 19465, 22218
+)
+    and bib.CALLNUMBER like 'M %'
+    and
+    marc.TAGNUMBER='092'
+    --and upper(tags.WORDDATA) like 'OVERDRIVE'
+    --marc.tagnumber='245' and upper(tags.WORDDATA) like '%SERIES, BOOK%'
+    order by bib.bid
+;
+
+-- Check that the "Items Only" Acorns have the right call numbers
+select mditem."ITEM ID" as itemid , item.CN from mdroomacornoriginal mditem
+
+                                left join item_v2 item on mditem."ITEM ID" = item.item
+;
+
+-- Check that the BIDS and Items Acorns have the right call number.
+select mditem."ITEM ID" as itemid , bib.callnumber, item.cn from
+                                mdroomacornitemsbids mditem, BBIBMAP_V2 bib,ITEM_V2 item
+                                where mditem.bid = bib.bid  and mditem.bid=item.bid ;
+
+
+
+;

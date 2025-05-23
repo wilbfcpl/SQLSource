@@ -159,7 +159,8 @@ inner join udfpatron_v2 udf on added.patronid=udf.patronid
 inner join deletedstudents0822 deleted on added.patronid = deleted.patronid ;
 
 -- 2021 roster vs 2022 deletions
-select deleted.patronid, lastyear.STUDENT_ID , lastyear."First_Name",lastyear."Last_Name" from DELETEDSTUDENTS0822 deleted inner join "FCPSStudents081021" lastyear on SUBSTR(deleted.PATRONID,7)=lastyear.STUDENT_ID; ;
+select deleted.patronid, lastyear.STUDENT_ID , lastyear."First_Name",lastyear."Last_Name"
+from DELETEDSTUDENTS0822 deleted inner join "FCPSStudents081021" lastyear on SUBSTR(deleted.PATRONID,7)=lastyear.STUDENT_ID;
 
 -- Some counts
 --1862
@@ -588,7 +589,7 @@ select student.patronid, trunc(student.REGDATE), trunc(student.EDITDATE), studen
                 OR
              (type.btycode = 'GRAD')
         )
-    AND trunc(student.regdate) > '28-FEB-25' and trunc(student.regdate)<'01-APR-25'
+    AND trunc(student.regdate) > '31-MAR-25' and trunc(student.regdate)<'01-MAY-25'
 --AND trunc(student.editdate) > :regDate
       --AND trunc(regdate)<'01-NOV-23'
     order by school , trunc(REGDATE) desc ;

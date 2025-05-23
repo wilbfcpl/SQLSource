@@ -1,0 +1,1366 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<EntityView class="oracle.dbtools.crest.model.design.logical.EntityView" directorySegmentName="seg_0" id="B0991961-3EC1-EBF9-7733-E08FC188DB54" name="MEDIA V2">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Defines media types for items.]]></commentInRDBMS>
+<generatorID>EAD04E40-BE59-2FAB-7209-05C72FB8606F</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<userDefined>true</userDefined>
+<userDefinedSQL><![CDATA[CREATE OR REPLACE VIEW MEDIA_V2
+AS 
+SELECT
+  INSTBIT,MEDNUMBER,MEDCODE,MEDNAME,HOLDNOTICEFEE,PROCESSINGFEE,LOSTBOOKCHARGE,
+  RENEWALSALLOWED,OVERRIDENOFINE,FINEGRACEPERIOD,FINELIMIT,FINERATE,FINEASSESSMENTTYPE,
+  REQUESTFINEGRACEPERIOD,REQUESTFINELIMIT,REQUESTFINERATE,REQUESTFINEASSESSMENTTYPE,
+  DOESNOTCIRCULATEFLAG,ALLOWHOLDS,CHARGELOANPERIOD,RENEWLOANPERIOD,RECALLLOANPERIOD,
+  REQUESTCHARGELOANPERIOD,REQUESTRENEWLOANPERIOD,REQUESTRECALLLOANPERIOD,CONTROLDISCHARGE,
+  RENTALFLAG,ALLOWRECALL,CHARGELIMIT,RENEWALLIMIT,SPECIALFEE,MAGNETICMEDIA,NOTICEDAYS_0,
+  SENDNOTICE,NOTICEFEES_0,NOTICEFEES_1,NOTICEFEES_2,NOTICEFEES_3,NOTICEFEES_4,NOTICEFEES_5,
+  LOSTNOTICEDAYS_0,LOSTNOTICEDAYS_1,LOSTNOTICEDAYS_2,SENDLOSTNOTICE,LOSTNOTICEFEES_0,
+  LOSTNOTICEFEES_1,LOSTNOTICEFEES_2,ALLOWFLOATINGCOLLECTION,RECALLNOTICEDAYS_0,
+  RECALLNOTICEDAYS_1,RECALLNOTICEDAYS_2,RECALLNOTICEDAYS_3,RECALLNOTICEDAYS_4,
+  RECALLNOTICEDAYS_5,SENDRECALLNOTICE,RECALLNOTICEFEES_0,RECALLNOTICEFEES_1,RECALLNOTICEFEES_2,
+  RECALLNOTICEFEES_3,RECALLNOTICEFEES_4,RECALLNOTICEFEES_5,FINESNOTICEDAYS_0,
+  FINESNOTICEDAYS_1,FINESNOTICEDAYS_2,SENDFINENOTICE,FINESNOTICEFEES_0,FINESNOTICEFEES_1,
+  FINESNOTICEFEES_2,NOTICEDAYS_1,NOTICEDAYS_2,NOTICEDAYS_3,NOTICEDAYS_4,NOTICEDAYS_5,
+  RETURNFEEFLAG,RETURNFEE,GRACEPERIOD,INITIALFINERATE,INITIALPERMINUTES,INITIALLIMIT,
+  SUBSEQUENTFINERATE,SUBSEQUENTPERMINUTES,MAXFINE,DISPLAY
+ FROM
+    CXDAT.MEDIA]]></userDefinedSQL>
+<validSQL>false</validSQL>
+<parsed>true</parsed>
+<viewType>EntityView</viewType>
+<viewElements>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="INSTBIT" id="5ADE0066-9095-25C4-5E03-8F3462F17D77">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Numeric institution code]]></commentInRDBMS>
+<generatorID>314238D6-4773-A0A1-DDA5-8752E2ECAEA0</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>INSTBIT</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="MEDNUMBER" id="4A546021-755C-E667-5C1F-F9D4A7F10E20">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Unique media type identification number]]></commentInRDBMS>
+<generatorID>3219C8ED-DD73-B45C-96FB-5C9FB5AC6016</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>MEDNUMBER</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="MEDCODE" id="F9167532-302B-1555-A84D-9C0CFFC371C2">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Unique media type code]]></commentInRDBMS>
+<generatorID>8F2F2B53-F96B-A54B-83AF-52831BACB5D6</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>MEDCODE</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="MEDNAME" id="1B35C054-FA60-D4A0-5F5F-86BDCF15500B">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Media type description]]></commentInRDBMS>
+<generatorID>DB97C9E2-C2B1-8710-33BB-59222648A17C</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>MEDNAME</alias>
+<dataType>VARCHAR2 (30 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="HOLDNOTICEFEE" id="C237220F-C2FD-B6E4-7165-02416B200949">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Fee for the production of a Hold Available notice]]></commentInRDBMS>
+<generatorID>BFA515D2-BC83-5F15-831A-C0DF6E85FFB9</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>HOLDNOTICEFEE</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="PROCESSINGFEE" id="28788F60-14B7-D969-616B-20E1A79C6A71">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Processing fee associated with lost items]]></commentInRDBMS>
+<generatorID>AF6FE3EE-0DB2-8BAA-AB97-B2F6324565E1</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>PROCESSINGFEE</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="LOSTBOOKCHARGE" id="38E3BDCE-F97B-D796-6F11-83358B5BB8CA">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Lost item charge by media type except where value is 9999999]]></commentInRDBMS>
+<generatorID>8D90FB30-9493-2331-FF40-F9A82C2FE88E</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>LOSTBOOKCHARGE</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RENEWALSALLOWED" id="CBD82E31-EA1C-8909-99A3-DCB47F3D5A0C">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Determines whether items with this location code are eligible for renewal]]></commentInRDBMS>
+<generatorID>F7A7AE85-9BB8-336E-6B2B-61FD22CD250F</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RENEWALSALLOWED</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="OVERRIDENOFINE" id="37816BFD-FCCC-D10D-F76D-E8A41EED12B1">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Standard override no fine]]></commentInRDBMS>
+<generatorID>2270357A-0909-8DA4-F4F2-CA521A088780</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>OVERRIDENOFINE</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="FINEGRACEPERIOD" id="D6BEA0D1-30A3-DC3D-4553-149B54F784E6">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Number of days an item can be returned overdue without generating a fine]]></commentInRDBMS>
+<generatorID>BAD27664-B591-35F6-4AF9-9105A64A93F0</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>FINEGRACEPERIOD</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="FINELIMIT" id="E258E527-0AED-A30F-B14A-FB8EF775EA17">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Maximum fine that is calculated for the return of overdue or lost items with this specific parameter value]]></commentInRDBMS>
+<generatorID>B675D948-FD6C-C400-7D4A-C6D9F48AD1A9</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>FINELIMIT</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="FINERATE" id="727FFEC6-849E-575A-77D5-EF57F230EA18">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Daily rate of fine that is calculated for the return of overdue or lost items with this specific parameter value]]></commentInRDBMS>
+<generatorID>D3279B52-25AB-E49E-CC85-54D4BC365A38</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>FINERATE</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="FINEASSESSMENTTYPE" id="9B34A39D-B136-C929-58A2-5BDD62C2D7A9">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Assessment type for fines (D for Daily)]]></commentInRDBMS>
+<generatorID>834A44E6-AB41-BEEF-7641-5444B4240D35</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>FINEASSESSMENTTYPE</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="REQUESTFINEGRACEPERIOD" id="56CA1477-9142-ABD0-6425-FE7B4F5F8917">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Number of days a recalled item can be returned overdue without generating a fine]]></commentInRDBMS>
+<generatorID>901709A4-BD8A-5F18-7D89-0E492CDF4E76</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>REQUESTFINEGRACEPERIOD</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="REQUESTFINELIMIT" id="BA05E1D0-301A-7FB8-1A33-955BE0677E98">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Maximum fine that is calculated for the return of overdue or lost and recalled items with this speciric parameter value]]></commentInRDBMS>
+<generatorID>49A72517-6EE8-8A86-81C8-1CFB7D4A6815</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>REQUESTFINELIMIT</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="REQUESTFINERATE" id="9E1D05D5-A59A-11FF-EFD6-0BC7D936119F">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Daily rate of fine that is calculated for the return of overdue or lost and recalled items with this specific parameter value]]></commentInRDBMS>
+<generatorID>CC93B520-C55E-A10F-ACC1-981ECCAE5522</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>REQUESTFINERATE</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="REQUESTFINEASSESSMENTTYPE" id="5BC26A36-5900-EEE1-3F53-FB8C9BC50FB6">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Assessment type for fines on hold or recalled (D for Daily)]]></commentInRDBMS>
+<generatorID>A3AEBA61-A67E-BC6E-E588-6114A61CA63E</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>REQUESTFINEASSESSMENTTYPE</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="DOESNOTCIRCULATEFLAG" id="C62F4AF0-A895-EA70-AB64-78BB31DFE32E">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Indicates whether items from this media type may be checked out]]></commentInRDBMS>
+<generatorID>C1CD0F78-7140-6331-FF60-6EF89D6BAFEF</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>DOESNOTCIRCULATEFLAG</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="ALLOWHOLDS" id="E01B9FAC-F815-628C-48B8-A7EC472CCF2F">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Indicates whether items with this specific parameter value may fill holds]]></commentInRDBMS>
+<generatorID>C8F29997-EB92-D3F5-DE4A-0479890230A7</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ALLOWHOLDS</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CHARGELOANPERIOD" id="A6174854-3888-0B98-2987-5F66024F47B2">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Number of days used to calculate a due date for items with this specific parameter value]]></commentInRDBMS>
+<generatorID>A10A96BD-5F26-3888-41B3-3BD35F380DB9</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CHARGELOANPERIOD</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RENEWLOANPERIOD" id="0D5E324C-224F-DDCB-8B95-E718EA107D03">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Number of days used to calculate a renewal due date for items with this specific parameter value]]></commentInRDBMS>
+<generatorID>61F36B1F-1863-0468-0AA7-7D9861713695</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RENEWLOANPERIOD</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLLOANPERIOD" id="989C89D9-8A6A-DE2A-BC11-68F247592550">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Number of days used to calculate the shortened due date for recalled items with this specific parameter value]]></commentInRDBMS>
+<generatorID>1BE85AAF-3440-D5BE-EF0F-07905BA715CD</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLLOANPERIOD</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="REQUESTCHARGELOANPERIOD" id="A8CDFF9F-F707-D0BA-C1D1-FF59DAD12C5C">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Request charge loan period]]></commentInRDBMS>
+<generatorID>B38F0526-EA8F-8711-5F03-A3E7172E6568</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>REQUESTCHARGELOANPERIOD</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="REQUESTRENEWLOANPERIOD" id="590762C6-85A2-CE7A-AC68-6F52DA9BD7D6">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Request renew loan period]]></commentInRDBMS>
+<generatorID>CAD86ED8-DFB3-76CC-71FA-73B8A40DF184</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>REQUESTRENEWLOANPERIOD</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="REQUESTRECALLLOANPERIOD" id="1B91F3E0-3763-B0F2-2C3A-5DEB5408EF83">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Request recall loan period]]></commentInRDBMS>
+<generatorID>2B4DC121-0E82-19AB-BAF7-EB29F4052935</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>REQUESTRECALLLOANPERIOD</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CONTROLDISCHARGE" id="82C08856-CCD9-E895-4019-D2319569B329">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Controls WHOHADIT note generation, and whether an item must be returned at its owning branch]]></commentInRDBMS>
+<generatorID>19C9CCAC-53B4-474C-34CA-B01D09EF1188</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CONTROLDISCHARGE</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RENTALFLAG" id="D134B092-2785-26E6-7EE7-97BB22D60F8F">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Indicates rental items, used to assess rental fees]]></commentInRDBMS>
+<generatorID>D4E385C7-2431-8C17-B4BD-3DD9F04503CF</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RENTALFLAG</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="ALLOWRECALL" id="400A2DB8-70D7-DC4D-243B-13154757F718">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Indicates whether items with this specific parameter value may be recalled]]></commentInRDBMS>
+<generatorID>C4CB8065-9758-820D-DF9F-DFBE99EC8573</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ALLOWRECALL</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="CHARGELIMIT" id="7FAAD2AB-7A3F-E90D-52B3-56B594C66C14">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Number of items with this specific parameter value that a patron may have checked out at any given time]]></commentInRDBMS>
+<generatorID>19F74B38-BD9D-1D3E-8BEA-447954524E0C</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>CHARGELIMIT</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RENEWALLIMIT" id="4ED1B721-3CCA-6CFD-6124-88ACE2998A9D">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Number of times the patron may renew items with this specific parameter value]]></commentInRDBMS>
+<generatorID>CD049365-0AD4-607D-F21D-C1402624A531</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RENEWALLIMIT</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="SPECIALFEE" id="A6326F6A-D555-7A7E-B202-3A2690EFB9D8">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Special fee assessed for an item checked out from this media]]></commentInRDBMS>
+<generatorID>16C69F83-188A-1E02-1CAA-27B811E2B490</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SPECIALFEE</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="MAGNETICMEDIA" id="E8C8D02B-2EF8-9A5D-5EDC-C9D1FBF4B90D">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Indicates that items with this specific parameter value should not be de-sensitized by the self-check machine]]></commentInRDBMS>
+<generatorID>508B486B-7D92-626A-9371-12F3855BDF95</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>MAGNETICMEDIA</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEDAYS_0" id="2DC8D7A0-1583-C827-9DE5-701A35A1CA39">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 1st Overdue Notice at X days]]></commentInRDBMS>
+<generatorID>499B126C-5B5A-1332-D7F4-1AA0A43D1A04</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEDAYS_0</alias>
+<dataType>NUMBER (6)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="SENDNOTICE" id="7288CD4D-0DA5-91EA-9F25-8C2946A3061B">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Determines whether an Overdue notice is sent and the notice format]]></commentInRDBMS>
+<generatorID>219F4134-B21C-A7A5-0DD2-9D39DF2F5390</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SENDNOTICE</alias>
+<dataType>VARCHAR2 (6 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEFEES_0" id="04BF585E-6CF7-E1B9-A03E-A4D7C421D431">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[1st Overdue Notice Fee]]></commentInRDBMS>
+<generatorID>3B5D1CA9-B748-3308-0DC8-E06C0BBB22C5</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEFEES_0</alias>
+<dataType>VARCHAR2 (6 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEFEES_1" id="7367D33E-5C88-4048-7804-FFD42BA8DF10">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[2nd Overdue Notice Fee]]></commentInRDBMS>
+<generatorID>5605A8B4-2305-4BE8-4106-6EB71F2199C2</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEFEES_1</alias>
+<dataType>VARCHAR2 (6 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEFEES_2" id="94F00209-5764-FC3C-7535-C44A31EC41D4">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[3rd Overdue Notice Fee]]></commentInRDBMS>
+<generatorID>A9B16780-219F-2732-C41E-0FA8C4F603FE</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEFEES_2</alias>
+<dataType>VARCHAR2 (6 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEFEES_3" id="999DBD78-2B0A-AD32-1C5E-ECA9D59E8A53">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[4th Overdue Notice Fee]]></commentInRDBMS>
+<generatorID>B94CA8B9-AFB1-8766-1F95-A1593816E2A2</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEFEES_3</alias>
+<dataType>VARCHAR2 (6 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEFEES_4" id="B0FB406E-D9E0-8B87-3E08-36E61BBF1ECE">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[5th Overdue Notice Fee]]></commentInRDBMS>
+<generatorID>877EB7D1-38F3-1ACC-B4F8-FA1415AB69DC</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEFEES_4</alias>
+<dataType>VARCHAR2 (6 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEFEES_5" id="35E933B8-3024-3066-A880-7BBC8183CE5B">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[6th Overdue Notice Fee]]></commentInRDBMS>
+<generatorID>CFEB68B4-E5B5-366E-02B8-F7370CE8541E</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEFEES_5</alias>
+<dataType>VARCHAR2 (6 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="LOSTNOTICEDAYS_0" id="1383E3F4-2053-1DF7-25C7-0DE08EC72AF0">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Go Lost and Produce 1st Lost Notice at X days]]></commentInRDBMS>
+<generatorID>56EA4086-9E53-CE8E-A49C-4F945D6628E7</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>LOSTNOTICEDAYS_0</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="LOSTNOTICEDAYS_1" id="178B8171-CB8D-75BA-9180-FE036D41D86B">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 2nd Lost Notice at X days]]></commentInRDBMS>
+<generatorID>47D75BFC-2F7B-90B0-23D0-3CFABD50C90D</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>LOSTNOTICEDAYS_1</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="LOSTNOTICEDAYS_2" id="016E6EFE-557B-ADAA-B49E-50F2BF557268">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 3rd Lost Notice at X days]]></commentInRDBMS>
+<generatorID>4EBE5289-2F91-82C0-824D-799BCCC43093</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>LOSTNOTICEDAYS_2</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="SENDLOSTNOTICE" id="ADC7610E-374F-DDC8-DC80-86BFDEAAD0B2">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Determines whether a Lost notice is sent and the notice format]]></commentInRDBMS>
+<generatorID>89B6CCBB-FDFE-A3FA-5FA2-9541CDAEAFE5</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SENDLOSTNOTICE</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="LOSTNOTICEFEES_0" id="64BBFBAD-3B01-15DA-9211-298DBA6E7C04">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[1st Lost Notice Fee]]></commentInRDBMS>
+<generatorID>89523020-85B3-FF65-BE2C-047C2F59C19E</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>LOSTNOTICEFEES_0</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="LOSTNOTICEFEES_1" id="1C091668-5C29-DB1E-2ADC-57DB126C0A92">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[2nd notice]]></commentInRDBMS>
+<generatorID>B6BBA410-77FA-F95B-24EC-783F35BBCB65</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>LOSTNOTICEFEES_1</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="LOSTNOTICEFEES_2" id="E544CD2E-5F50-F863-97D1-C7499D6ACE29">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[3rd notice]]></commentInRDBMS>
+<generatorID>57F741A7-94BD-6FC8-450F-BE7D53D4E6D5</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>LOSTNOTICEFEES_2</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="ALLOWFLOATINGCOLLECTION" id="1FA2D40E-92BA-C140-6B48-B69B4AF1E831">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Allow items of this media to participate in floating collection]]></commentInRDBMS>
+<generatorID>AE7C7F8B-D5B8-3C63-C386-F5833EEF99B8</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>ALLOWFLOATINGCOLLECTION</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEDAYS_0" id="A5181768-09DB-A127-0B74-6C0213DD8B06">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 1st Recall Notice at X days]]></commentInRDBMS>
+<generatorID>2378EC1F-39A3-3ED7-AB30-6885EFEDE833</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEDAYS_0</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEDAYS_1" id="89E3A916-052F-45DC-E3EB-05CF3834AC91">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 2nd Recall Notice at X days]]></commentInRDBMS>
+<generatorID>C8DC55E7-CB34-1707-4C83-74E7A4CA15DE</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEDAYS_1</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEDAYS_2" id="FA28EB77-E7CC-45E1-FE76-C8046063F614">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 3rd Recall Notice at X days]]></commentInRDBMS>
+<generatorID>A6E02185-51A0-8751-BC43-3E35B0ECF874</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEDAYS_2</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEDAYS_3" id="B91875FD-73DC-B089-202D-950EAE2D2358">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 4th Recall Notice at X days]]></commentInRDBMS>
+<generatorID>938E5E39-AFFE-B8B4-671F-79759DA64219</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEDAYS_3</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEDAYS_4" id="5B815718-87AA-9E4D-8A9A-2C46C77E3AA2">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 5th Recall Notice at X days]]></commentInRDBMS>
+<generatorID>593ED2B4-CF15-3BA3-9A00-FFFAA6A9E36D</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEDAYS_4</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEDAYS_5" id="442794D3-0405-583E-5CB1-CCEA378A6A58">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 6th Recall Notice at X days]]></commentInRDBMS>
+<generatorID>D5201A3B-65FD-CF18-60B6-D82D26FBEF0F</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEDAYS_5</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="SENDRECALLNOTICE" id="A9A265AB-4903-E6BD-E3E5-FE094AB28AA7">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Determines whether a Recall notice is sent and the notice format]]></commentInRDBMS>
+<generatorID>CABA3972-9E4E-2115-6E2A-079CAA0F39AB</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SENDRECALLNOTICE</alias>
+<dataType>VARCHAR2 (6 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEFEES_0" id="236E2B5F-AE0C-280D-5037-11887D48B6FF">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[1st Recall Notice Fee]]></commentInRDBMS>
+<generatorID>65CAD5F5-65D3-30A9-868C-B491454B2103</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEFEES_0</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEFEES_1" id="6F678A2C-7337-8AAB-CACC-404683B932B8">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[2nd Recall Notice Fee]]></commentInRDBMS>
+<generatorID>4F9E748E-C976-2D5A-CA47-404F31CC3050</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEFEES_1</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEFEES_2" id="AF8109C7-2850-75F9-0BD6-C9CB47FD5645">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[3rd Recall Notice Fee]]></commentInRDBMS>
+<generatorID>DA97F696-9EF2-5D9B-5417-A71B1F70899F</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEFEES_2</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEFEES_3" id="78B9C592-FB57-7334-59CA-8B57D29A1F19">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[4th Recall Notice Fee]]></commentInRDBMS>
+<generatorID>29D9F824-A7CB-DF79-7EED-AF28778117B7</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEFEES_3</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEFEES_4" id="BC5CD0C5-EC81-9134-23FA-093B886B0F87">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[5th Recall Notice Fee]]></commentInRDBMS>
+<generatorID>BCB957E6-5A1E-785F-D1A2-7D582705CCA3</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEFEES_4</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RECALLNOTICEFEES_5" id="20A948AA-2BE1-5BF3-39FC-675A0FB09D2B">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[6th Recall Notice Fee]]></commentInRDBMS>
+<generatorID>E7D8D894-1D5E-13D9-7CCA-1219A289ED2D</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RECALLNOTICEFEES_5</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="FINESNOTICEDAYS_0" id="AB3D837A-43D7-E694-559C-4EEC64098D0E">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 1st Fine Notice at X days]]></commentInRDBMS>
+<generatorID>7D18BF87-00F4-E1A0-D7B5-64C40B77A21B</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>FINESNOTICEDAYS_0</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="FINESNOTICEDAYS_1" id="BE130549-DAC3-19E1-E4EA-214435F569B4">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 2nd Fine Notice at X days]]></commentInRDBMS>
+<generatorID>081199DD-E028-25C1-34F0-5B6F0B4FEC0B</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>FINESNOTICEDAYS_1</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="FINESNOTICEDAYS_2" id="CEF71BBC-EAD9-4BE8-4D16-5ED97FA78B4D">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 3rd Fine Notice at X days]]></commentInRDBMS>
+<generatorID>9DCC46D7-1944-6726-3157-8924997941CD</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>FINESNOTICEDAYS_2</alias>
+<dataType>NUMBER (5)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="SENDFINENOTICE" id="7B99A99B-E7F0-786F-9D83-996E05417C75">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Determines whether a Fine notice is sent and the notice format]]></commentInRDBMS>
+<generatorID>D7084D9B-77F3-2CEF-D451-73E74390F58F</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SENDFINENOTICE</alias>
+<dataType>VARCHAR2 (3 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="FINESNOTICEFEES_0" id="AD601177-DD54-6ED3-9588-F2A71EF2F746">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[1st Fine Notice Fee]]></commentInRDBMS>
+<generatorID>E1D25A42-772D-63A4-7509-30BE6225E570</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>FINESNOTICEFEES_0</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="FINESNOTICEFEES_1" id="9B47D2D7-E925-20D9-102C-5336C3E26E4D">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[2nd Fine Notice Fee]]></commentInRDBMS>
+<generatorID>C7264208-FAA2-755E-91F7-8B09CE0EDC25</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>FINESNOTICEFEES_1</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="FINESNOTICEFEES_2" id="77B0E613-6E53-EA97-8EA2-FDC6013CB1FB">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[3rd Fine Notice Fee]]></commentInRDBMS>
+<generatorID>7FB3A327-E7DF-0E49-CC00-C2F6C04D666D</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>FINESNOTICEFEES_2</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEDAYS_1" id="BC574C96-EF13-49A7-A5FE-8E55E2C147FC">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 2nd Overdue Notice at X days]]></commentInRDBMS>
+<generatorID>33FA694A-BC67-86D7-AA2A-827A1CEBE6DC</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEDAYS_1</alias>
+<dataType>NUMBER (6)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEDAYS_2" id="60B44203-CF27-42DB-86C1-2875F1EDA516">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 3rd Overdue Notice at X days]]></commentInRDBMS>
+<generatorID>D65F48AD-4AD1-1709-30CB-AA92E082D216</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEDAYS_2</alias>
+<dataType>NUMBER (6)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEDAYS_3" id="3F76982C-8B85-3594-8F11-8A5B881E2E78">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 4th Overdue Notice at X days]]></commentInRDBMS>
+<generatorID>95E78240-48BA-3C01-58A0-67BFDF8FA198</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEDAYS_3</alias>
+<dataType>NUMBER (6)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEDAYS_4" id="F6536252-DE95-F460-B121-E687F082154F">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 5th Overdue Notice at X days]]></commentInRDBMS>
+<generatorID>77B03610-EF55-CD28-0DD0-DB88C6C7346C</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEDAYS_4</alias>
+<dataType>NUMBER (6)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="NOTICEDAYS_5" id="B6B3733C-8740-BB6C-493C-527E7C25B872">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Produce 6th Overdue Notice at X days]]></commentInRDBMS>
+<generatorID>4BD03462-E2B8-82A9-F59E-CCD486345D9E</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>NOTICEDAYS_5</alias>
+<dataType>NUMBER (6)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RETURNFEEFLAG" id="6283024F-F370-0168-D31A-6E864EDC8970">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Flag which controls return fee for this media]]></commentInRDBMS>
+<generatorID>1DF9CCAD-F1B2-D60D-EFA3-C99D7675CA05</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RETURNFEEFLAG</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="RETURNFEE" id="1BAA68B5-35B3-50C9-02EB-E331DE3D4756">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Return fee for this media]]></commentInRDBMS>
+<generatorID>0546E792-B0D1-9566-7A39-1BEEE16ACB86</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>RETURNFEE</alias>
+<dataType>VARCHAR2 (4 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="GRACEPERIOD" id="AADC8030-CA9E-0FBC-A881-9C28D3331E25">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Reserve grace period in minutes - distinct from Media grace period]]></commentInRDBMS>
+<generatorID>DBEF64E1-51F2-121E-BED4-2D7ED65F436B</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>GRACEPERIOD</alias>
+<dataType>NUMBER (10)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="INITIALFINERATE" id="DE9DDE4E-612B-1646-4ACD-4FF4323F80BB">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Reserve fine rate up to initial limit]]></commentInRDBMS>
+<generatorID>9E14C409-6EEF-4708-36A8-7A8EC8BF4C1F</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>INITIALFINERATE</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="INITIALPERMINUTES" id="9E335B59-8C87-74EF-21A2-9AEF9877152A">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Initial reserve fine rate applies per N minutes]]></commentInRDBMS>
+<generatorID>0A6A1AD6-76DD-7EA9-34B2-B704C8F38CF0</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>INITIALPERMINUTES</alias>
+<dataType>NUMBER (6)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="INITIALLIMIT" id="2E0B1508-8783-AAF0-E120-2F376B5D26F2">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Limit of initial reserve fine]]></commentInRDBMS>
+<generatorID>D56E6EF6-5957-40A3-FB03-47ED60FED8BC</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>INITIALLIMIT</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="SUBSEQUENTFINERATE" id="DE611993-0C3E-9A67-775D-DE04E1D5909D">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Reserve fine rate up to maximum limit]]></commentInRDBMS>
+<generatorID>2DD77162-BB3C-9735-BE01-94137DA5CA81</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SUBSEQUENTFINERATE</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="SUBSEQUENTPERMINUTES" id="C23DA668-0646-E7DE-157C-4040F45B9557">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Subsequent reserve fine rate applies per N minutes]]></commentInRDBMS>
+<generatorID>FECE2645-DCF8-7472-52AF-F7C70284A0FF</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>SUBSEQUENTPERMINUTES</alias>
+<dataType>NUMBER (6)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="MAXFINE" id="D7CFD913-C498-05F7-7DC6-56727D66825C">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[Reserve fine limit]]></commentInRDBMS>
+<generatorID>F65EA5E6-64F0-F715-F3BA-96C4FBE62EA9</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>MAXFINE</alias>
+<dataType>VARCHAR2 (7 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+<viewElement class="oracle.dbtools.crest.model.design.logical.AttributeView" name="DISPLAY" id="EB618D04-F3AF-59A1-1665-B8E4141DB78E">
+<createdBy>WBlake</createdBy>
+<createdTime>2025-05-13 19:28:13 UTC</createdTime>
+<commentInRDBMS><![CDATA[C - Circ media's display, R - Reserve media's display, B - Both media's display]]></commentInRDBMS>
+<generatorID>33224BFC-20E2-0E4F-C04F-6EB5E00CF881</generatorID>
+<ownerDesignName>testModel</ownerDesignName>
+<engineerTo>
+<item key="682CAC7B-02D7-429C-9D78-032CE26150C1" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<alias>DISPLAY</alias>
+<dataType>VARCHAR2 (1 BYTE)</dataType>
+<reference>false</reference>
+<viewID>B0991961-3EC1-EBF9-7733-E08FC188DB54</viewID>
+</viewElement>
+</viewElements>
+</EntityView>
