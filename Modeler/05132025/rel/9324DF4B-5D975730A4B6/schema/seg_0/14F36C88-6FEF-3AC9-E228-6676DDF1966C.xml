@@ -1,7 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<SchemaObject class="oracle.dbtools.crest.model.design.relational.SchemaObject" name="CARLREPORTS" directorySegmentName="seg_0" id="14F36C88-6FEF-3AC9-E228-6676DDF1966C">
-<sourceDDLFile>ILSBaseDDL.sql</sourceDDLFile>
-<createdBy>WBlake</createdBy>
-<createdTime>2025-05-13 18:22:19 UTC</createdTime>
-<ownerDesignName>05132025</ownerDesignName>
-</SchemaObject>
