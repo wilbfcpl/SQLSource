@@ -105,7 +105,7 @@ select student.patronid, student.firstname, student.lastname, student.middlename
     inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
     where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
       --and upper(street1)  like 'MARYLAND%'
-         and trunc(regdate) between '30-APRIL-24' and '31-MAY-24'
+         and trunc(regdate) between '31-MAY-25' and '01-JUL-25'
 
     order by student.lastname ;
 

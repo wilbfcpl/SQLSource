@@ -58,6 +58,23 @@ inner join BBIBMAP_V2 bib on item.bid = bib.BID
 where trunc(STATUSDATE) < CURRENT_DATE-30
 ;
 
+--08/19/2025
+select item, status, branch.BRANCHCODE, description, user, trunc(statusdate)
+from item_v2
+inner join BRANCH_V2 branch on branch.BRANCHNUMBER = item_v2.BRANCH
+inner join SYSTEMITEMCODES_V2 codes on item_v2.status = codes.code
+where status = 'L' and branch.BRANCHCODE = 'BKE'
+and statusdate <= sysdate - 100
+order by statusdate desc
+;
+--items not on shelf from a week ago
+select item, status, branch.BRANCHCODE, description, trunc(statusdate)
+from item_v2
+inner join BRANCH_V2 branch on branch.BRANCHNUMBER = item_v2.BRANCH
+inner join SYSTEMITEMCODES_V2 codes on item_v2.status = codes.code
+where status = 'SX'
+and statusdate <= sysdate - 28
+;
 -- Item Status queries from CarlX Ad-Hoc Basecamp
 --items not on shelf from a week ago
 select item, status, branch.BRANCHCODE, description, trunc(statusdate)
@@ -330,6 +347,7 @@ where
     or trunc(p.editdate) >= trunc(sysdate-1096)
     or trunc(p.sactdate) >= trunc(sysdate-1096))
 ;
+
 
 
 -- Determine Oracle Client Version
@@ -1041,3 +1059,334 @@ where
 userid='wb0'
 
 ;
+-- 06/16/2025 Global Database Name lookup for Oracle Autonomous Database loading/linking
+select name from V$database;
+ select * from global_name;
+
+-- 06/16/2025 SendHoldAvailableMsg
+
+-- List ATT tower users who have opted in to receive SMS messages about holds available for pickup
+
+SELECT
+  PATRON_V2.PATRONID,
+  PATRON_V2.NAME,
+  BRANCH_V2.BRANCHCODE,
+  PATRON_V2.SENDHOLDAVAILABLEMSG,
+  PATRON_V2.EMAILNOTICES,
+  PHONETYPE_V2.address,
+  PHONETYPE_V2.phonetypeid,
+  PHONETYPE_V2.description
+
+FROM  ATTUSERS073125 att inner join PATRON_V2 on PATRON_V2.PATRONID = att.patronid
+INNER JOIN PHONETYPE_V2
+ON  PATRON_V2.PHONETYPEID1 = PHONETYPE_V2.PHONETYPEID
+INNER JOIN BRANCH_V2 ON PATRON_V2.DEFAULTBRANCH = BRANCH_V2.BRANCHNUMBER
+
+WHERE
+--PHONETYPE_V2.phonetypeid   in ('9','19','20','50','62')
+(
+    -- ( (PHONETYPE_V2.address LIKE '%att%') OR (PHONETYPE_V2.address LIKE '%cricket%')) AND
+     (PATRON_V2.SENDHOLDAVAILABLEMSG = 'Y')
+    )
+ORDER BY PATRON_V2.NAME, BRANCH_V2.BRANCHCODE ;
+
+-- Test SendHoldAvailableMsg . Test Server will have PHONETYPEID value 0
+
+SELECT
+  PATRON_V2.PATRONID,
+  PATRON_V2.NAME,
+  BRANCH_V2.BRANCHCODE,
+  PHONETYPE_V2.phonetypeid,
+  PHONETYPE_V2.address,
+  PATRON_V2.SENDHOLDAVAILABLEMSG,
+  PATRON_V2.EMAILNOTICES
+
+FROM  PATRON_V2 join AT_T_USERS_250616_HEADER att on PATRON_V2.PATRONID = att.patronid
+JOIN PHONETYPE_V2
+ON  PATRON_V2.PHONETYPEID1 = PHONETYPE_V2.PHONETYPEID
+LEFT JOIN BRANCH_V2
+ON PATRON_V2.DEFAULTBRANCH = BRANCH_V2.BRANCHNUMBER
+
+/*WHERE
+--PHONETYPE_V2.phonetypeid   in ('9','19','20','50','62')
+(
+     ( (PHONETYPE_V2.address LIKE '%att%') OR (PHONETYPE_V2.address LIKE '%cricket%'))
+    AND (PATRON_V2.SENDHOLDAVAILABLEMSG = 'N')
+    )*/
+ORDER BY PHONETYPE_V2.phonetypeid, BRANCH_V2.BRANCHCODE, PATRON_V2.NAME;
+
+-- Test SendHoldAvailableMsg . Test Server will have PHONETYPEID value 0
+
+SELECT
+  PATRON_V2.PATRONID,
+  PATRON_V2.NAME,
+  BRANCH_V2.BRANCHCODE,
+  PHONETYPE_V2.phonetypeid,
+  PHONETYPE_V2.address,
+  PATRON_V2.SENDHOLDAVAILABLEMSG,
+  PATRON_V2.EMAILNOTICES
+
+FROM  PATRON_V2
+JOIN PHONETYPE_V2
+ON  PATRON_V2.PHONETYPEID1 = PHONETYPE_V2.PHONETYPEID
+LEFT JOIN BRANCH_V2
+ON PATRON_V2.DEFAULTBRANCH = BRANCH_V2.BRANCHNUMBER
+
+WHERE
+--PHONETYPE_V2.phonetypeid   in ('9','19','20','50','62')
+
+      (PHONETYPE_V2.address LIKE '%att%')
+--AND (PATRON_V2.SENDHOLDAVAILABLEMSG = 'N')
+
+ORDER BY PHONETYPE_V2.phonetypeid, BRANCH_V2.BRANCHCODE, PATRON_V2.NAME;
+
+
+
+-- Aftan's test accounts
+SELECT
+  PATRON_V2.PATRONID,
+  PATRON_V2.NAME,
+  BRANCH_V2.BRANCHCODE,
+  PHONETYPE_V2.phonetypeid,
+  PATRON_V2.SENDHOLDAVAILABLEMSG
+,  PATRON_V2.EMAILNOTICES
+
+FROM  PATRON_V2
+JOIN PHONETYPE_V2
+ON  PATRON_V2.PHONETYPEID1 = PHONETYPE_V2.PHONETYPEID
+LEFT JOIN BRANCH_V2
+ON PATRON_V2.DEFAULTBRANCH = BRANCH_V2.BRANCHNUMBER
+WHERE
+
+PATRONID in ('511729','11982022263822','11982022322016','11982011126329')
+
+ORDER BY PHONETYPE_V2.phonetypeid, BRANCH_V2.BRANCHCODE, PATRON_V2.NAME;
+
+
+
+
+-- 09/05/2025 after the test server changes
+select patron.patronid,patron.status,
+       case patron.emailnotices when 0 then 'No Email Notices'
+                         when 1 then 'Email Notices'
+                         when 2 then 'bounced email'
+                         when 3 then 'opt out'
+                         else 'Unknown' end as emailnotices,
+    note.text notetext,
+       patron.email,
+       bty.btycode, patron.name from bounceaccounts bounce
+           inner join patron_v2 patron on patron.patronid = bounce.patronid
+       inner join bty_v2 bty on (patron.bty = bty.btynumber)
+       inner join PATRONNOTETEXT_V2 note on patron.PATRONID=note.REFID
+
+     where
+               note.NOTETYPE=900
+;
+
+
+select distinct patron.patronid, upper(patron.email),
+       case emailnotices when 0 then 'No Email Notices'
+                         when 1 then 'Email Notices'
+                         when 2 then 'bounced email'
+                         when 3 then 'opt out'
+                         else 'Unknown' end as emailnotices,
+       bty.btycode, birthdate, name from patron_v2 patron
+     inner join bty_v2 bty on (patron.bty = bty.btynumber)
+     where substr(upper(patron.email),1, 10) in (select  substr(upper(bounce.email),1,10) from ppbounced bounce) ;
+
+
+-- Multibyte Characters in Patron Names
+select p.patronid,substrb(p.name,1), b.btycode, p.patronguid,p.status,trunc(p.birthdate),
+  trunc(p.regdate) AS Register,   trunc(p.actdate) AS Active,
+  trunc(p.sactdate) AS SelfServe,   trunc(p.editdate) AS Edit
+from patron_v2 p
+inner join bty_v2 b on p.bty =b.btynumber
+where
+       length(p.name)<lengthb(p.name)
+-- exclude ILL (3) and LIBUSE (6)
+  -- and p.bty not in (3,6)
+ -- and (trunc(p.regdate) >= trunc(sysdate-1096)
+ --   or trunc(p.actdate) >= trunc(sysdate-1096)
+ --   or trunc(p.editdate) >= trunc(sysdate-1096)
+ --   or trunc(p.sactdate) >= trunc(sysdate-1096))
+;
+
+-- PP email bounces exact match on PatronID
+select distinct patron.patronid, upper(patron.email),upper(bounce.email) as bounceemail,
+       case emailnotices when 0 then 'No Email Notices'
+                         when 1 then 'Email Notices'
+                         when 2 then 'bounced email'
+                         when 3 then 'opt out'
+                         else 'Unknown' end as emailnotices,
+       bty.btycode, name from patron_v2 patron
+inner join bty_v2 bty on (patron.bty = bty.btynumber)
+inner join ppbcomm bounce
+    on patron.patronid = bounce."Patron ID (Barcode)"  ;
+
+select * from patron_v2 pat where pat.email is not null;
+
+-- PP email bounces
+select patronid, upper(email),
+       case emailnotices when 0 then 'No Email Notices'
+                         when 1 then 'Email Notices'
+                         when 2 then 'bounced email'
+                         when 3 then 'opt out'
+                         else 'Unknown' end as emailnotices,
+       bty.btycode, name from patron_v2 patron
+inner join bty_v2 bty on (patron.bty = bty.btynumber)
+where email is not null ;
+
+
+
+-- Bounced , also PatronID not in FCPL CarlX
+
+select distinct patron.patronid, bounce."Patron ID (Barcode)" bounceid, bounce."DNC Comment",upper(patron.email),upper(bounce.email) as bounceemail,
+       case emailnotices when 0 then 'No Email Notices'
+                         when 1 then 'Email Notices'
+                         when 2 then 'bounced email'
+                         when 3 then 'opt out'
+                         else 'Unknown' end as emailnotices,
+       bty.btycode, name from patron_v2 patron
+inner join bty_v2 bty on (patron.bty = bty.btynumber)
+
+right outer join ppbcomm bounce
+on   upper(patron.email) = upper(bounce.email)
+
+where patron.emailnotices=1 or patron.patronid is null order by patron.patronid;
+
+-- UTL_MATCH.EDIT_DISTANCE_SIMILARITY
+
+select distinct patron.patronid, bounce."Patron ID (Barcode)" bounceid, bounce."DNC Comment",upper(patron.email),upper(bounce.email) as bounceemail,
+       case emailnotices when 0 then 'No Email Notices'
+                         when 1 then 'Email Notices'
+                         when 2 then 'bounced email'
+                         when 3 then 'opt out'
+                         else 'Unknown' end as emailnotices,
+       bty.btycode, name from ppbcomm bounce
+
+left outer join patron_v2 patron
+inner join bty_v2 bty on (patron.bty = bty.btynumber)
+on   utl_match.edit_distance_similarity(upper(patron.email), upper(bounce.email)) > 80
+
+where patron.emailnotices=1 or patron.patronid is null order by patron.patronid;
+
+
+
+select distinct patron.patronid,bounce."Patron ID (Barcode)" bouncepatron, bounce."DNC Comment",upper(patron.email),upper(bounce.email) as bounceemail,
+       case emailnotices when 0 then 'No Email Notices'
+                         when 1 then 'Email Notices'
+                         when 2 then 'bounced email'
+                         when 3 then 'opt out'
+                         else 'Unknown' end as emailnotices,
+       bty.btycode, name from patron_v2 patron
+inner join bty_v2 bty on (patron.bty = bty.btynumber)
+
+right outer join ppbcomm bounce
+--    on substr(upper(patron.email),1, 10) = substr(upper(bounce.email),1,10)
+ on (
+     (instr(upper(patron.email), upper(bounce.email)) != 0)
+     OR
+     (instr(upper(bounce.email), upper(patron.email)) != 0)
+     )
+
+    where ( ( patron.emailnotices=1)  OR patron.patronid is null) ;
+     ;
+
+-- No exact email or patronid match. Common Table Expression (CTE) Version runs faster to find similar emails
+with patron as (
+    select distinct patron.patronid, patron.email , patron.name,  status.description, bty.btycode
+    from patron_v2 patron
+        inner join bty_v2 bty on (patron.bty = bty.btynumber)
+        inner join bst_v2 status on patron.status = status.bst
+    where patron.emailnotices=1 and patron.actdate >=CURRENT_DATE-120 and (patron.status!='M' and patron.status!='X')
+)
+select patron.patronid, nested.bouncepatron, upper(patron.email), upper(nested.email) as bounceemail,
+       patron.btycode, patron.name, upper(nested.bouncename) from patron,
+                              ( select distinct bounce.email , bounce."Patron ID (Barcode)" bouncepatron,
+                               bounce."Last Name" || ' ' || bounce."First Name" bouncename from ppbcomm bounce where bounce."DNC Comment" like '%user unknown') nested
+ where (
+           (nested.bouncepatron != patron.patronid) and (nested.email != patron.email) and
+           (utl_match.edit_distance_similarity(upper(nested.email), upper(patron.email)) > 95)
+           )
+   order by patron.patronid ;
+
+
+order by patron.patronid ;
+
+-- subquery version instead of join
+    select distinct patron.patronid, nested.bouncepatron, upper(patron.email), upper(nested.email) as bounceemail, nested."DNC Comment",
+       case emailnotices when 0 then 'No Email Notices'
+                         when 1 then 'Email Notices'
+                         when 2 then 'bounced email'
+                         when 3 then 'opt out'
+                         else 'Unknown' end as emailnotices,
+       bty.btycode, name from patron_v2 patron, bty_v2 bty,
+                              (select bounce.email , bounce."Patron ID (Barcode)" bouncepatron, bounce."DNC Comment",
+                                      bounce."First Name" || bounce."Last Name" bouncename from ppbcomm bounce) nested
+
+ where (
+        ((patron.bty = bty.btynumber) and  (patron.email=nested.email)  and (patron.emailnotices=1 ))
+        OR
+        ( (patron.bty = bty.btynumber) and  (patron.patronid is null) )
+       )
+  order by patron.patronid ;
+
+--  subquery Typical case emails or patronids match
+ select distinct patron.patronid, nested.bouncepatron, upper(patron.email), upper(nested.email) as bounceemail, nested.reason,
+
+       bty.btycode, name, upper(nested.bouncename) from patron_v2 patron, bty_v2 bty,
+                              (select bounce.email , bounce."Patron ID (Barcode)" bouncepatron, bounce."DNC Comment" reason,
+                               bounce."Last Name" || ' ' || bounce."First Name" bouncename from ppbcomm bounce) nested
+ where (
+           (patron.bty = bty.btynumber) and (patron.emailnotices = 1) and
+           (
+               (nested.bouncepatron = patron.patronid)
+                   OR (nested.email = patron.email)
+               )
+           )
+  order by patron.patronid ;
+
+-- Separate the slower case when the email and patronid don't exactly match
+ select distinct patron.patronid, nested.bouncepatron, upper(patron.email), upper(nested.email) as bounceemail, nested.reason,
+
+       bty.btycode, name, upper(nested.bouncename) from patron_v2 patron, bty_v2 bty,
+                              (select bounce.email , bounce."Patron ID (Barcode)" bouncepatron, bounce."DNC Comment" reason,
+                               bounce."Last Name" || ' ' || bounce."First Name" bouncename from ppbcomm bounce) nested
+ where (
+           (patron.bty = bty.btynumber) and (patron.emailnotices = 1) and
+           (
+                    (nested.bouncepatron != patron.patronid) and (nested.email != patron.email) and
+                    (utl_match.edit_distance_similarity(upper(nested.email), upper(patron.email)) > 95)
+               )
+           )
+   order by patron.patronid ;
+
+
+-- No email address match hinted by Null PatronID.
+select distinct bounce."Patron ID (Barcode)" bounceid, bounce."DNC Comment",
+                upper(bounce.email) as bounceemail,
+      bounce."Last Name" || ' ' || bounce."First Name" bouncename from patron_v2 patron
+
+right outer join ppbcomm bounce
+on   (
+       upper(patron.email) = upper(bounce.email) or
+       patron.patronid=bounce."Patron ID (Barcode)"
+     )
+
+where patron.patronid is null order by bounceid;
+
+-- CTE version No email address match hinted by Null PatronID
+with patron as (
+    select patron.patronid, patron.email , patron.name
+    from patron_v2 patron
+    where patron.emailnotices=1 and patron.sactdate >=CURRENT_DATE-365
+)
+select distinct bounce.email,bounce."Patron ID (Barcode)" bouncepatron, bounce."DNC Comment" reason,
+                               bounce."Last Name" || ' ' || bounce."First Name" bouncename
+from ppbcomm bounce
+left outer join patron on (bounce."Patron ID (Barcode)" = patron.patronid) OR (bounce.email = patron.email)
+where patron.patronid is null
+order by bouncepatron ;
+
+
+

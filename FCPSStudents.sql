@@ -193,7 +193,8 @@ select patron.patronid, patron.name, patron.street1, patron.regdate from patron_
 select * from patron_v2 patron where patronid='11982021783390' ;
 
 --MSD
-select patron.patronid,patron.name, bty, street1,regdate, actdate, editdate,patron.status , regbranch from patron_v2 patron  where upper(street1) like '%CLARKE%' order by actdate desc ;
+select patron.patronid,patron.name, bty, street1,regdate, actdate, editdate,patron.status , regbranch from patron_v2 patron
+                                                            where upper(street1) like '%CLARKE%' order by actdate desc ;
 
 -- Graduated Students 10/20/2022
 select student.patronid , student.name, bstatus.description status, BTYCODE, branch.BRANCHCODE , jts.todate(regDATE) regdate_trunc  from patron_v2 student inner join bty_v2 profile on student.bty=profile.BTYNUMBER inner join BRANCH_V2 branch on defaultbranch=BRANCHNUMBER  inner join bst_v2 bstatus on student.status = bstatus.bst where btycode='GRAD' order by regdate_trunc desc ;
@@ -202,6 +203,17 @@ select student.patronid , student.name, bstatus.description status, BTYCODE, bra
 select deleted.patronid , deleted.name , deleted.activedate from FCPS_GRADUATED_070522 grads inner join DELETEDSTUDENTS0822 deleted on grads.patronid = deleted.PATRONID   ;
 
 select name, patronid, status, bty, patron_v2.street1 from PATRON_V2 where name like 'Kirk%' and bty='10' ;
+
+-- Graduated Students 07/09/2025
+select student.patronid , student.name, bstatus.description status, BTYCODE,
+       jts.todate(regDATE) regdate,trunc(editDATE) editDate,note.text
+from patron_v2 student
+    inner join bty_v2 profile on student.bty=profile.BTYNUMBER
+    inner join BRANCH_V2 branch on defaultbranch=BRANCHNUMBER
+    inner join bst_v2 bstatus on student.status = bstatus.bst
+inner join patronnotetext_v2 note on student.patronid=note.refid
+where  btycode ='GRAD' and jts.todate(regdate)='09-JUL-2025' and note.text is not null ;
+
 
 -- Student Success Card Patron Accounts with DOB or Email my.fcps.org
 select student.patronid, student.name, REGBRANCH , BRANCHCODE, student.BIRTHDATE,
@@ -462,23 +474,44 @@ inner join "MissingStudents073123" missing on missing.PATRONID = patron.PATRONID
 
 
 
+-- MSD SSC self activity null and registration before 2024 return
+
+    select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
+       street1,  student.status,
+       trunc(editdate), userid, trunc(regdate), trunc(actdate), trunc(sactdate) selfactivity
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+
+    where
+     branchcode ='SSL' and
+      label.label='Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+    and (trunc(student.SACTDATE)<='1-June-2022' or trunc(student.SACTDATE) is null)
+    and trunc(student.regdate) <= '01-FEB-2024'
+    order by SACTDATE ,regdate, LASTNAME;
 
 --MSD Back online Feb 2024
 
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
-       street1, student.city1, student.state1, student.zip1, student.status,trunc(sactdate) selfactivity,trunc(sysdate) edittime,btycode, branchcode,
+       street1, student.city1, student.state1, student.zip1, student.status,
+       trunc(sactdate) selfactivity,trunc(sysdate) edittime,btycode, branchcode,
        trunc(regdate),trunc(editdate), trunc(actdate)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
     where
      branchcode ='SSL' and
-      udf.fieldid='3' and
-       upper(student.street1) like '%DEAF%'
-      -- and trunc(student.EDITDATE)>='05-MARCH-2024'
-    and trunc(student.SACTDATE)>='1-FEB-2024'
-    order by SACTDATE desc, LASTNAME;
+      label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+      and trunc(student.EDITDATE)>='01-FEB-2024'
+   -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
+    -- and trunc(student.regdate) <= '01-FEB-2024'
+    order by ACTDATE , LASTNAME;
 
 -- Feb 18, 2024 Street1 30 Character limit results in different addresses for MSD students
 select student.patronid, student.firstname, student.MIDDLENAME,student.lastname,
@@ -524,14 +557,14 @@ select patron.Patronid,patron.REGBRANCH, patron.PREFERRED_BRANCH, patron.ACTBRAN
     inner join bty_v2 btype on patron.bty=btype.BTYNUMBER
      where patron.bty=12 ;
 
--- Edit date of 05-DEC-22
+-- Edit date of 09-SEP-25
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,
        trunc(regdate),trunc(editdate), trunc(actdate)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
-    where branchcode ='SSL' and udf.fieldid='3' and student.street1 like '%Deaf%' and trunc(editdate) like '05-DEC-22' order by lastname;
+    where branchcode ='SSL' and udf.fieldid='3' and upper(student.street1) like '%DEAF%' and trunc(editdate) = '10-SEP-25' order by lastname;
 
 -- Sort by most recent activity date, edit date, reg date
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,

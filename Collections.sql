@@ -328,6 +328,8 @@ where
 SELECT
     item_v2.item,
     --item_v2.status,
+    item_v2.bid,
+    bbibmap_v2.title,
     systemitemcodes_v2.description,
     item_v2.statusdate,
     LOCATION_V2.LOCCODE,
@@ -339,6 +341,7 @@ SELECT
    -- ITEMNOTETEXT_V2.TEXT AS ITEMNOTE
 
 FROM item_v2
+    join bbibmap_v2 ON item_v2.bid = bbibmap_v2.bid
 LEFT JOIN TRANSITEM_V2 ON ITEM_V2.ITEM = TRANSITEM_V2.ITEM
 JOIN LOCATION_V2 ON ITEM_V2.LOCATION = LOCATION_V2.LOCNUMBER
 JOIN BRANCH_V2 ON ITEM_V2.BRANCH = BRANCH_V2.BRANCHNUMBER
@@ -451,5 +454,143 @@ select mditem."ITEM ID" as itemid , bib.callnumber, item.cn from
                                 where mditem.bid = bib.bid  and mditem.bid=item.bid ;
 
 
-
 ;
+
+-- Juneteenth
+select distinct bib.bid,
+       bib.CALLNUMBER,
+       marc.tagid,
+marc.TAGNUMBER,
+tags.tagdata,
+tags.WORDDATA
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where (marc.TAGNUMBER = '245'
+           and upper(tags.WORDDATA) like '%JUNETEENTH%'
+    OR
+       marc.tagnumber = '520' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+          );
+
+
+-- Juneteenth in 245 or 520 but not 650 tag
+with JuneteenthBids as ( select distinct bib.bid,
+       bib.CALLNUMBER,
+       bib.title
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where (
+           marc.TAGNUMBER = '245' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+           OR
+           marc.tagnumber = '520' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+
+          )
+)
+
+select  bid,
+        CALLNUMBER,
+        title
+from JuneteenthBids
+where  bid not in
+
+( select bid2.bid
+
+   from JuneteenthBids bid2
+   inner join bbibcontents_v2 marc on bid2.bid = marc.bid
+   inner join btags_v2 tags on tags.tagid = marc.tagid
+    where marc.tagnumber = '650' and upper(tags.worddata) like '%JUNETEENTH%'
+
+    )
+;
+-- Juneteenth in 245 or 520 but not 650 tag Prototype for RIGHT JOIN
+with JuneteenthBids as ( select distinct bib.bid,
+       bib.CALLNUMBER,
+       bib.title
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where ( marc.TAGNUMBER = '245' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+        OR
+        marc.tagnumber = '520' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+    )
+)
+with SixFiftys as (select jtbids.bid
+                   from JuneteenthBids jtbids
+                            inner join bbibcontents_v2 marc on jtbids.bid = marc.bid
+                            inner join btags_v2 tags on tags.tagid = marc.tagid
+                   where marc.tagnumber = '650'
+                     and upper(tags.worddata) like '%JUNETEENTH%')
+
+select jtbids.bid,jtbids.CALLNUMBER,jtbids.title from JuneteenthBids jtbids
+left join SixFiftys sf on jtbids.bid = sf.bid
+where sf.bid is null
+;
+
+with JuneteenthBids as ( select bib.bid,
+       bib.CALLNUMBER,
+       bib.title
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where ( marc.TAGNUMBER = '245' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+        OR
+        marc.tagnumber = '520' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+        OR
+         marc.tagnumber = '650' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+    )
+)
+select jtbids.bid,count(jtbids.bid), jtbids.CALLNUMBER,jtbids.title
+from JuneteenthBids jtbids
+group by jtbids.bid,jtbids.CALLNUMBER,jtbids.title
+having count(jtbids.bid) < 3
+order by count(jtbids.bid), jtbids.bid
+;
+
+
+
+select bib.bid, count(bib.bid),
+       bib.CALLNUMBER,
+       bib.title
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where ( marc.TAGNUMBER = '245' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+        OR
+        marc.tagnumber = '520' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+        OR
+         marc.tagnumber = '650' and upper(tags.WORDDATA) like '%JUNETEENTH%'
+    )
+group by bib.bid, bib.CALLNUMBER, bib.title
+having count(bib.bid) < 3;
+
+select bib.bid,
+       bib.recordtype,
+       bib.format,
+       --bib.CALLNUMBER,
+      -- bib.title,
+     --  marc.TAGNUMBER,
+       tags.WORDDATA
+
+   --    tags.tagdata
+from bbibmap_v2 bib
+--     inner join bbibcontents_v2 marc on ((bib.ERESOURCE = 'Y') and (bib.bid = marc.bid ))
+    inner join bbibcontents_v2 marc on (bib.bid = marc.bid ) and (bib.recordtype like 'o%')
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where (
+     -- bib.bid='556631' and
+
+     -- marc.tagnumber = '520' and regexp_like(tags.WORDDATA, '^.+[\x{1F300}\x{1F5FF}]' )
+        marc.tagnumber = '520' and regexp_like(tags.WORDDATA, '[:Extended_Pictographic:]' )
+       --marc.tagnumber = '520'
+    --   or
+    --   marc.tagnumber = '520' and regexp_like(tags.TAGDATA, '\p{Emoji}' )
+
+    );
