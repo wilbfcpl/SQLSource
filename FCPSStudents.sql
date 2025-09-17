@@ -557,10 +557,10 @@ select patron.Patronid,patron.REGBRANCH, patron.PREFERRED_BRANCH, patron.ACTBRAN
     inner join bty_v2 btype on patron.bty=btype.BTYNUMBER
      where patron.bty=12 ;
 
--- Edit date of 09-SEP-25
+-- Edit date of 10-SEP-25 Start of School Year Import
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,
-       trunc(regdate),trunc(editdate), trunc(actdate)
+       trunc(regdate),trunc(editdate), trunc(actdate),trunc(sactdate)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid

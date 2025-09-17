@@ -322,7 +322,6 @@ select case TRANSACTIONTYPE
     order by trunc(trans.SYSTEMTIMESTAMP)  ;
 
 
-
 --
 with trans as (
     select
@@ -838,9 +837,130 @@ order by loc.loccode
 ;
 
 -- From the "Canned Report" 3018 Shelf List
+/*
 SELECT `Rpt3018`.BID, `Rpt3018`.`ITEM NUMBER`, `Rpt3018`.AUTHOR, `Rpt3018`.TITLE,
 `Rpt3018`.`ITEM CALL NUMBER`, `Rpt3018`.BRANCH, `Rpt3018`.LOCATION, `Rpt3018`.MEDIA,
 `Rpt3018`.CIRCULATIONS AS [CIRCS], `Rpt3018`.`CUMULATIVE CIRCULATION` AS [CUM CIRCS],
 `Rpt3018`.`IN HOUSE CIRCULATION` AS [IN HOUSE CIRCS], `Rpt3018`.`ITEM CREATION DATE`,
 `Rpt3018`.`LAST CIRCULATION DATE` AS [LAST CIRC DATE]
-FROM `C:\Program Files\CarlX\Live\DSS\Data`\`Rpt3018.csv` `Rpt3018`
+FROM `C:\Program Files\CarlX\Live\DSS\Data`\`Rpt3018.csv` `Rpt3018`;
+*/
+
+-- Search TXLOG for Bike outreach in Summer
+-- 09/12/2025
+
+with trans as (
+    select log.TRANSACTIONTYPE, log.PATRONID, log.SYSTEMTIMESTAMP, log.ENVBRANCH  from txlog_v2 log
+    --where trunc(systemtimestamp) = '07-SEP-2025'
+     where  TO_CHAR(log.SYSTEMTIMESTAMP,'DD-MM-YY') = :OUTREACHDATE )
+select
+       case TRANSACTIONTYPE
+       when 'PR' then 'PATRON REG'
+       when 'CH' then 'CHARGE'
+       when 'DC' then 'RETURN'
+    else 'UNKNOWN'
+    end TRANSTYPE,
+       count (trans.TRANSACTIONTYPE) TXCount, trunc(trans.SYSTEMTIMESTAMP) timestamp
+    from trans
+        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    where
+      upper(branch.BRANCHCODE)=:BRANCHCODE and
+     -- upper(branch.BRANCHCODE)='BKB' and
+
+        (
+           --  trunc(trans.SYSTEMTIMESTAMP) = '07-SEP-25'
+            TO_CHAR(trans.SYSTEMTIMESTAMP, 'DD-MM-YY') = :OUTREACHDATE
+--           OR trunc(trans.SYSTEMTIMESTAMP) = '31-AUG-25'
+--           OR trunc(trans.SYSTEMTIMESTAMP) = '01-NOV-24'
+--           OR trunc(trans.SYSTEMTIMESTAMP) = '15-NOV-24'
+--           OR trunc(trans.SYSTEMTIMESTAMP) = '20-DEC-24'
+
+            ) and
+      TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '09:00:00' AND '13:00:00'
+    group by TRANSACTIONTYPE , trunc(SYSTEMTIMESTAMP)
+  --  order by trunc(trans.SYSTEMTIMESTAMP)
+        ;
+
+-- Outreach transactions for a branch on a specific date
+-- 09/12/2025
+with trans as (
+    select log.TRANSACTIONTYPE, log.PATRONID, log.SYSTEMTIMESTAMP, log.ENVBRANCH  from txlog_v2 log
+     where  TO_CHAR(log.SYSTEMTIMESTAMP,'DD-MM-YY') = :OUTREACHDATE )
+select
+       case TRANSACTIONTYPE
+       when 'PR' then 'PATRON REG'
+       when 'CH' then 'CHARGE'
+       when 'DC' then 'RETURN'
+    else 'UNKNOWN'
+    end TRANSTYPE,
+       count (trans.TRANSACTIONTYPE) TXCount, trunc(trans.SYSTEMTIMESTAMP) timestamp
+    from trans
+        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    where
+      upper(branch.BRANCHCODE)=:BRANCHCODE and
+      TO_CHAR(trans.SYSTEMTIMESTAMP, 'DD-MM-YY') = :OUTREACHDATE
+    --  and TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '09:00:00' AND '13:00:00'
+    group by TRANSACTIONTYPE , trunc(SYSTEMTIMESTAMP)
+        ;
+
+-- In the Streets 09/13/2025  Inconsistencies with the BRANCH of registration. Also two terminals.
+with trans as (
+    select log.patronid patron,log.TRANSACTIONTYPE, log.PATRONID, log.SYSTEMTIMESTAMP, log.txtransdate, log.termnumber, log.usernumber, log.ENVBRANCH ,
+           log.Patronbranchofregistration regbranch from txlog_v2 log
+     where  TO_CHAR(log.SYSTEMTIMESTAMP,'DD-MM-YY') = '13-09-25'  and TRANSACTIONTYPE='PR' )
+select
+
+       trans.patronid patron, newreg.regby regisby,trans.termnumber,trans.SYSTEMTIMESTAMP timestamp, trans.usernumber,
+       branch.branchcode,regbranch.branchcode regisbranch
+    from trans
+        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    inner join branch_v2 regbranch on trans.regbranch = regbranch.BRANCHNUMBER
+    where
+      -- upper(branch.BRANCHCODE)=:BRANCHCODE and
+      TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '10:30:00' AND '17:00:00'
+    --group by TRANSACTIONTYPE , trunc(SYSTEMTIMESTAMP)
+        ;
+
+with trans as (
+    select log.patronid patron,log.TRANSACTIONTYPE, log.PATRONID, log.SYSTEMTIMESTAMP, log.txtransdate, log.termnumber, log.ENVBRANCH ,
+           log.Patronbranchofregistration regbranch from txlog_v2 log
+     where  TO_CHAR(log.SYSTEMTIMESTAMP,'DD-MM-YY') = '13-09-25'
+       --and TRANSACTIONTYPE='PR'
+           and log.patronid = '1198290009513')
+
+select
+       trans.patronid patron, trans.transactiontype, newreg.regby regisby,trans.termnumber,trans.SYSTEMTIMESTAMP timestamp,
+       branch.branchcode,regbranch.branchcode regisbranch
+    from trans
+        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    inner join branch_v2 regbranch on trans.regbranch = regbranch.BRANCHNUMBER
+    where
+      -- upper(branch.BRANCHCODE)=:BRANCHCODE and
+      TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '10:30:00' AND '17:00:00'
+    --group by TRANSACTIONTYPE , trunc(SYSTEMTIMESTAMP)
+        ;
+
+select patron.patronid,patron.name,bty.btycode, (patron.editdate), patron.userid, branch.branchcode defbranch, branch2.branchcode editbranch
+from patron_v2 patron,branch_v2 branch,bty_v2 bty,branch_v2 branch2
+where (patron.defaultbranch=branch.branchnumber) and (patron.editbranch=branch2.branchnumber) and (patron.bty = bty.btynumber)
+and (patron.patronid like '119829%' ) and trunc(patron.editdate)='13-SEP-25'
+;
+
+--List "inactive" GRAD based on  Self Serve dates
+--more than 3 years (1096 days, 36 Months) ago
+SELECT p.patronguid, p.patronid, trunc(p.regdate) AS regdate, trunc(p.actdate) AS actdate,
+trunc(p.sactdate) AS sactdate, trunc(p.editdate) AS editdate, p.USERID
+FROM patron_v2 p , bty_v2 b, branch_v2 br
+WHERE p.bty = b.btynumber and p.defaultbranch = br.branchnumber
+--2=GRAD, 5=JUV, 7=PUBLIC, 10=STUDNT, 11=TEMP, 12=WEBREG, 13=JVOPTO, 14=OPTOUT
+--Update date on each run to 3 yrs ago
+--WHERE p.bty =10
+--  and upper(b.btycode) in ('STUDNT','GRAD')
+   and upper(b.btycode) = 'GRAD'
+
+AND (p.sactdate IS NULL OR p.sactdate<add_months(CURRENT_DATE, -36))
+ORDER BY p.patronguid;
