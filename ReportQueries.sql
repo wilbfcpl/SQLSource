@@ -975,3 +975,79 @@ select
       TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '10:30:00' AND '17:00:00'
     --group by TRANSACTIONTYPE , trunc(SYSTEMTIMESTAMP)
         ;
+
+-- September/October 2025
+-- Last Month:  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+
+-- Patron Registrations using txlog. Won't find PatronLoader imported student using txlog, instead use PATRON_V2.
+  select  log.patronid patron, bty.BTYCODE patrontype,
+           patron.zip1 zipcode,
+            --patron.name patronname,
+           trunc(log.SYSTEMTIMESTAMP) regdate,
+             -- branch.branchcode defaultbranch,
+              branch2.branchcode regbranch
+            from txlog_v2 log
+                        inner join patron_v2 patron on log.PATRONID=patron.PATRONID
+                        inner join bty_v2 bty on patron.BTY=bty.BTYNUMBER
+               --         inner join branch_v2 branch on patron.defaultbranch =branch.BRANCHNUMBER
+                        inner join branch_v2 branch2 on patron.regbranch =branch2.BRANCHNUMBER
+     where
+         trunc(log.systemtimestamp)  between (trunc(sysdate,'MM')  )  and sysdate
+       and TRANSACTIONTYPE='PR' ;
+
+-- Patron Reg alternative does not select students
+select count(patron.patronid) patroncount,
+          bty.BTYCODE patrontype,
+            trunc(patron.regdate) regdate,
+            branch.branchcode defaultbranch
+            from patron_v2 patron
+                inner join bty_v2 bty on patron.BTY=bty.BTYNUMBER
+                inner join branch_v2 branch on patron.defaultbranch =branch.BRANCHNUMBER
+    where
+     bty.btycode NOT IN ('GRAD','ILL','INST','LIBUSE','STFBRW','STUDNT','TEMP') and
+     trunc(regdate)  between (trunc(sysdate,'MM')  )  and trunc(sysdate)
+    -- trunc(regdate)  between ('01-SEP-25'  )  and trunc(sysdate)
+
+group by   bty.BTYCODE, trunc(patron.regdate), branch.branchcode
+order by regdate desc, branch.branchcode asc
+        ;
+
+select count(patron.patronid) patroncount,sum(count(patron.patronid)) over (order by trunc(patron.regdate)) runningtotal,
+            trunc(patron.regdate) regdate
+            from patron_v2 patron
+                inner join bty_v2 bty on patron.BTY=bty.BTYNUMBER
+                inner join branch_v2 branch on patron.defaultbranch =branch.BRANCHNUMBER
+    where
+    bty.btycode NOT IN ( 'GRAD','ILL','INST','LIBUSE','STFBRW','STUDNT','TEMP'  )  and
+   trunc(regdate)  between (trunc(sysdate,'MM')  )  and trunc(sysdate)
+
+group by  trunc(patron.regdate)
+order by regdate desc
+;
+-- Last Month New Cards excluding students
+select count(patron.patronid) patroncount,sum(count(patron.patronid)) over (order by trunc(patron.regdate)) runningtotal,
+            trunc(patron.regdate) regdate
+            from patron_v2 patron
+                inner join bty_v2 bty on patron.BTY=bty.BTYNUMBER
+                inner join branch_v2 branch on patron.defaultbranch =branch.BRANCHNUMBER
+    where
+    bty.btycode NOT IN ( 'GRAD','ILL','INST','LIBUSE','STFBRW','STUDNT','TEMP'  )  and
+   trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+
+group by  trunc(patron.regdate)
+order by regdate desc
+;
+-- Last Month New Cards excluding students
+select count(patron.patronid) patroncount,sum(count(patron.patronid)) over (order by trunc(patron.regdate)) runningtotal,
+            trunc(patron.regdate) regdate
+            from patron_v2 patron
+                inner join bty_v2 bty on patron.BTY=bty.BTYNUMBER
+                inner join branch_v2 branch on patron.defaultbranch =branch.BRANCHNUMBER
+    where
+    bty.btycode NOT IN ( 'GRAD','ILL','INST','LIBUSE','STFBRW','STUDNT')  and
+   trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+
+group by  trunc(patron.regdate)
+order by regdate desc
+;
+

@@ -1180,3 +1180,21 @@ select student.patronid, student.firstname, student.lastname, student.middlename
     --and trunc(regdate) between '31-AUG-25' and '01-OCT-25'
  and trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
     order by student.lastname ;
+
+-- Sept/Oct 2025
+-- Last Month: trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+    
+-- Last Month New Student Cards from FCPS, e.g. trunc(regdate)='30-NOV-22'
+select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
+       street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,
+       trunc(regdate),trunc(editdate), trunc(actdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+
+    order by student.lastname ;
