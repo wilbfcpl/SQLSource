@@ -609,20 +609,20 @@ select student.patronid, student.FIRSTNAME, student.MIDDLENAME, student.lastname
 -- REGDATE / Count newly registered Student Success Cards For Most Recent Month
 -- 02/29/24
 
-select student.patronid, trunc(student.REGDATE), trunc(student.EDITDATE), student.street1 school
+select student.patronid, branch.branchcode,trunc(student.REGDATE), trunc(student.EDITDATE), student.street1 school
     , udfpatron.VALUENAME grade
     from patron_v2 student
     inner join UDFPATRON_V2 udfpatron on ((udfpatron.PATRONID = student.PATRONID) and
                                           (udfpatron.fieldid=3) )
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
-
+   --inner join branch_v2 branch2 on student.DEFAULTBRANCH = branch2.BRANCHNUMBER
     where (
              (type.btycode = 'STUDNT' and branch.branchcode = 'SSL')
                 OR
              (type.btycode = 'GRAD')
         )
-    AND trunc(student.regdate) > '31-MAR-25' and trunc(student.regdate)<'01-MAY-25'
+    AND trunc(student.regdate) > '31-AUG-25' and trunc(student.regdate)<'01-OCT-25'
 --AND trunc(student.editdate) > :regDate
       --AND trunc(regdate)<'01-NOV-23'
     order by school , trunc(REGDATE) desc ;
@@ -1151,3 +1151,32 @@ where
 ORDER by to_date(f.CREATIONDATE) DESC
     ;
 
+--List "inactive" GRAD based on  Self Serve dates
+--more than 3 years (1096 days, 36 Months) ago
+SELECT p.patronguid, p.patronid, trunc(p.regdate) AS regdate, trunc(p.actdate) AS actdate,
+trunc(p.sactdate) AS sactdate, trunc(p.editdate) AS editdate, p.USERID
+FROM patron_v2 p , bty_v2 b, branch_v2 br
+WHERE p.bty = b.btynumber and p.defaultbranch = br.branchnumber
+--2=GRAD, 5=JUV, 7=PUBLIC, 10=STUDNT, 11=TEMP, 12=WEBREG, 13=JVOPTO, 14=OPTOUT
+--Update date on each run to 3 yrs ago
+--WHERE p.bty =10
+--  and upper(b.btycode) in ('STUDNT','GRAD')
+   and upper(b.btycode) = 'GRAD'
+
+AND (p.sactdate IS NULL OR p.sactdate<add_months(CURRENT_DATE, -36))
+ORDER BY p.patronguid;
+
+-- Last Month New Student Cards from FCPS, e.g. trunc(regdate)='30-NOV-22'
+select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
+       street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,
+       trunc(regdate),trunc(editdate), trunc(actdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+    --and trunc(regdate) between '31-AUG-25' and '01-OCT-25'
+ and trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+    order by student.lastname ;
