@@ -41,8 +41,12 @@ select patronid , bty, ph1, firstname first, name, defaultbranch , status, useri
 select patronid , bty, ph1, firstname first, name, defaultbranch , status, userid, regby, regdate, editdate,defaultbranch from patron_v2 patron where patronid in (select patronid from STUDENTS060722 ) order by patronid ;
 select patronid , bty, ph1, firstname first, name, defaultbranch , status, userid, regby, regdate, editdate,defaultbranch from patron_v2 patron where patronid = '&patronid' order by patronid ;
 
-#Date of Birth has data 
-select patronid,name,street1,regdate, editdate,status  from patron_v2 where bty=10 and birthdate is not null order by patronid ;
+#Date of Birth not null as expected for STUDNT
+select patronid,name,street1,birthdate, regdate, editdate,status  from patron_v2 where bty=10 and birthdate is not null order by patronid ;
+
+select patronid,name,street1,birthdate, regdate, editdate,status  from patron_v2 inner join bty_v2 on patron_v2.bty=bty_v2.btynumber
+where btycode='STUDNT' and birthdate is not null order by patronid ;
+
 # Name has nonascii
 select patronid,firstname, name,street1,regdate, editdate,status  from patron_v2 where (bty=10 and regexp_like(name,'[[::]]')) ;
 select patronid,firstname, name,asciistr(name) converted_name, street1,regdate, editdate,status  from patron_v2 where length(asciistr(name)) != length(name);
@@ -1183,7 +1187,7 @@ select student.patronid, student.firstname, student.lastname, student.middlename
 
 -- Sept/Oct 2025
 -- Last Month: trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
-    
+
 -- Last Month New Student Cards from FCPS, e.g. trunc(regdate)='30-NOV-22'
 select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,

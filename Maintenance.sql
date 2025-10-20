@@ -369,9 +369,7 @@ FROM
 WHERE
   s.sid = SYS_CONTEXT('USERENV', 'SID');
 
--- Language Params
-SELECT * FROM V$NLS_PARAMETERS;
-SELECT * FROM NLS_DATABASE_PARAMETERS;
+
 
 -- dup name and email. First is not a webreg
 select student.patronid, patron.PATRONID, student.email, student.name , student.BIRTHDATE,patron.BIRTHDATE,student.status, type.btycode, branchcode,
@@ -1389,4 +1387,58 @@ where patron.patronid is null
 order by bouncepatron ;
 
 
+-- multibyte name search for webreg.
+select p.patronid, p.patronguid,p.status, substrb(p.name,1), trunc(p.birthdate), p.patronid, b.btycode,
+  trunc(p.regdate) AS Register,   trunc(p.actdate) AS Active,
+  trunc(p.sactdate) AS SelfServe,   trunc(p.editdate) AS Edit
+from patron_v2 p, bty_v2 b
+where
+       length(p.name)<lengthb(p.name) AND
+p.bty=b.btynumber and upper(b.btycode) ='WEBREG'
 
+;
+--Database configuration info
+    -- Misc Utilities
+SHOW DATABASES;
+--SHOW TABLES IN database;
+--SHOW COLUMNS IN table;
+DESCRIBE table;
+
+-- Language Params
+SELECT * FROM V$NLS_PARAMETERS;
+SELECT * FROM NLS_DATABASE_PARAMETERS;
+SELECT VALUE AS DATABASE_CHARACTER_SET
+FROM NLS_DATABASE_PARAMETERS
+WHERE PARAMETER = 'NLS_CHARACTERSET';
+
+SELECT VALUE AS LENGTH_SEMANTICS
+FROM NLS_DATABASE_PARAMETERS
+WHERE PARAMETER = 'NLS_LENGTH_SEMANTICS';
+
+-- In Oracle, the VARCHAR2 data type is used to store variable-length character strings. When dealing with multibyte characters in VARCHAR2, there are a few key points to understand:
+--
+-- Key Concepts:
+--
+-- Multibyte Characters:
+--
+-- Oracle supports multibyte character sets (e.g., UTF-8, AL32UTF8) that allow storage of characters requiring more than one byte (e.g., Chinese, Japanese, Korean, emojis).
+-- A single character may occupy 1 to 4 bytes depending on the character set.
+
+--
+-- VARCHAR2 Size Declaration:
+--
+-- When defining a VARCHAR2 column, you can specify its size in bytes or characters:
+--
+-- VARCHAR2(n BYTE): Limits the column to n bytes.
+-- VARCHAR2(n CHAR): Limits the column to n characters, regardless of how many bytes each character requires.
+--
+-- The default behavior depends on the NLS_LENGTH_SEMANTICS parameter:
+--
+-- BYTE: Default if not explicitly set.
+-- CHAR: Must be explicitly enabled for character semantics.
+
+-- Storage Implications:
+--
+-- If you use BYTE semantics, multibyte characters may reduce the number of characters that can be stored in the column.
+-- If you use CHAR semantics, the column will store the specified number of characters, regardless of their byte size.
+--
