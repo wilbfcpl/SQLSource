@@ -1120,3 +1120,24 @@ select trunc(patron.regdate) regdate, branch.branchcode,
 group by trunc(patron.regdate) , patron.defaultbranch,branch.branchcode,btycode
 order by regdate desc, branch.branchcode asc
 ;
+
+-- Month to Date using the SQL Windowing functions and Date related LAST_DAY and ADD_MONTHS functions
+select trunc(patron.regdate) regdate, branch.branchcode,
+        sum(count(patron.patronid)) over ( partition by patron.defaultbranch) indivbranchdailytotal,
+        sum(count(patron.patronid)) over ( order by trunc(patron.regdate) range between 1 preceding and current row) allbrdailytotal,
+        btycode,
+         sum(count(patron.patronid)) over ( partition by btycode  order by trunc(patron.regdate)
+            range between 1 preceding and current row) allbtydailytotal,
+        sum(count(patron.patronid)) over ( partition by branchcode, btycode  order by trunc(patron.regdate)
+            range between 1 preceding and current row) brbtydailytotal,
+        sum(count(patron.patronid)) over ( order by trunc(patron.regdate)) runningtotal
+        from patron_v2 patron
+                inner join bty_v2 bty on patron.BTY=bty.BTYNUMBER
+                inner join branch_v2 branch on patron.defaultbranch =branch.BRANCHNUMBER
+    where
+    bty.btycode NOT IN ( 'GRAD','ILL','INST','LIBUSE','STFBRW','STUDNT') and
+   trunc(regdate) between LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 )) and last_day(trunc(sysdate))
+
+group by trunc(patron.regdate) , patron.defaultbranch,branch.branchcode,btycode
+order by regdate desc, branch.branchcode asc
+;
