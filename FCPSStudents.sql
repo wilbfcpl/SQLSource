@@ -516,6 +516,25 @@ select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade
    -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
     -- and trunc(student.regdate) <= '01-FEB-2024'
     order by ACTDATE , LASTNAME;
+-- 119829 MSD Snafu
+select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
+       street1, student.city1, student.state1, student.zip1, student.status,
+       trunc(sactdate) selfactivity,trunc(sysdate) edittime,btycode, branchcode,
+       trunc(regdate),trunc(editdate), trunc(actdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and
+      label.label = 'Grade' and
+     -- ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+      ( upper(student.city1) like '%ELLICOTT%' )
+      and student.patronid like '119829%'
+   -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
+    -- and trunc(student.regdate) <= '01-FEB-2024'
+    order by ACTDATE , LASTNAME;
 
 -- Feb 18, 2024 Street1 30 Character limit results in different addresses for MSD students
 select student.patronid, student.firstname, student.MIDDLENAME,student.lastname,

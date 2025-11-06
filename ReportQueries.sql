@@ -105,10 +105,18 @@ select student.patronid, student.firstname, student.lastname, student.middlename
     inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
     where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
       --and upper(street1)  like 'MARYLAND%'
-         and trunc(regdate) between '31-AUG-25' and '01-OCT-25'
+         and trunc(regdate) between '30-SEP-25' and '01-NOV-25'
 
     order by student.lastname ;
 
+select count (student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    where branchcode ='SSL' and btycode='STUDNT'
+         and trunc(regdate) between '30-SEP-25' and '01-NOV-25'
+    group by branchcode
+   ;
 --MSD Back online Feb 2024
 
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
