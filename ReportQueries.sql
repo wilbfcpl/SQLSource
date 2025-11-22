@@ -989,7 +989,7 @@ select
 
 -- Patron Registrations using txlog. Won't find PatronLoader imported student using txlog, instead use PATRON_V2.
   select  log.patronid patron, bty.BTYCODE patrontype,
-           patron.zip1 zipcode,
+           patron.zip1 zipcode, patron.phonetypeid1,patron.phone
             --patron.name patronname,
            trunc(log.SYSTEMTIMESTAMP) regdate,
              -- branch.branchcode defaultbranch,

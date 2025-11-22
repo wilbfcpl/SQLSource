@@ -170,7 +170,6 @@ where
 ;
 
 -- Find 856u jacket image in Kanopy, save BIB and prepare to move to 029a
--- Find 856u jacket image in Kanopy, save BIB and prepare to move to 029a
 select  bib.bid,
        bib.CALLNUMBER,
 title,
@@ -187,7 +186,9 @@ where
      --bib.ERESOURCE ='Y'
     (marc.tagnumber = '029' and upper(tags.WORDDATA) like '%WWW.KANOPYSTREAMING%')
  ;
-select  count(bib.bid),
+-- Find 856u jacket image in Kanopy 11/21/2025
+select
+       bib.bid,
        bib.CALLNUMBER,
 title,
 marc.TAGNUMBER,
@@ -200,14 +201,30 @@ from bbibmap_v2 bib
     -- inner join btags_v2 tags2 on tags.tagid = marc.tagid
 where
     --bib.CALLNUMBER like 'OVERDRIVE%'
-    --AND
+    upper(bib.CALLNUMBER) like 'KANOPY%'
+    AND
      --bib.ERESOURCE ='Y'
     (marc.tagnumber = '856' and
      regexp_like(upper(tags.WORDDATA),'^COVER IMAGE.+HTTPS://WWW.KANOPYSTREAMING.COM/NODE'))
-group by bib.CALLNUMBER, title, marc.TAGNUMBER, tags.WORDDATA
+;
+-- Count of Kanopy with Cover Images in 856
+
+select  count(bib.bid)
+
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+    -- inner join btags_v2 tags2 on tags.tagid = marc.tagid
+where
+    upper(bib.CALLNUMBER) like 'KANOPY%'
+    AND
+     --bib.ERESOURCE ='Y'
+    (marc.tagnumber = '856' and
+     regexp_like(upper(tags.WORDDATA),'^COVER IMAGE.+HTTPS://WWW.KANOPYSTREAMING.COM/NODE'))
 ;
 
---OverDrive Cover Images
+-- 11/21/2025 OverDrive Cover Image Thumbnails
 select   bib.bid,
  bib.CALLNUMBER,
 title,
@@ -225,7 +242,21 @@ where
      regexp_like(upper(tags.WORDDATA),'^THUMBNAIL HTTPS://IMG1.OD-CDN\.COM/IMAGETYPE'))
 
 ;
--- OverDrive
+-- Count of OverDrive titles with Cover images in 856. Excludes large images.
+    select  count(  bib.bid)
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where
+     bib.CALLNUMBER like 'OVERDRIVE%' and
+    (marc.tagnumber = '856' and
+     regexp_like(upper(tags.WORDDATA),'^THUMBNAIL HTTPS://IMG1.OD-CDN\.COM/IMAGETYPE'))
+
+;
+/*
+-- OverDrive Cover images finds the large cover and the thumbnail
 select  bib.bid,
        bib.CALLNUMBER,
 title,
@@ -242,6 +273,22 @@ where
     (marc.tagnumber = '856' and
      regexp_like(upper(tags.WORDDATA),'^.*HTTPS://IMG1.OD-CDN\.COM/IMAGETYPE'))
 ;
+-- Combined OverDrive Count
+select
+    count(bib.bid) title_count
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+    -- inner join btags_v2 tags2 on tags.tagid = marc.tagid
+where
+
+    (marc.tagnumber = '856' and
+     regexp_like(upper(tags.WORDDATA),'^.*HTTPS://IMG1.OD-CDN\.COM/IMAGETYPE'))
+;
+*/
+
+-- Kanopy titles with Cover Images
 
 select  bib.bid,
  --      bib.CALLNUMBER,
