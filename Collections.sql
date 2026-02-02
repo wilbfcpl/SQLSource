@@ -186,6 +186,31 @@ where
      --bib.ERESOURCE ='Y'
     (marc.tagnumber = '029' and upper(tags.WORDDATA) like '%WWW.KANOPYSTREAMING%')
  ;
+-- Checking for 856u jacket image in Kanopy 12/02/2025
+
+select
+
+       kanopy.bid,
+      -- kanopy.title,
+ marc.TAGNUMBER,
+ upper(tags.WORDDATA),
+ upper(tags.TAGDATA)
+
+from kanopyrecords856 kanopy
+     --inner join bbibmap_v2 bib on kanopy.bid=bib.bid
+     inner join bbibcontents_v2 marc on kanopy.bid = marc.bid
+      inner join btags_v2 tags on tags.tagid = marc.tagid
+    -- inner join btags_v2 tags2 on tags.tagid = marc.tagid
+where
+    --bib.CALLNUMBER like 'OVERDRIVE%'
+   --  upper(bib.CALLNUMBER) like 'KANOPY%'
+ -- AND
+--     bib.ERESOURCE ='Y' and
+
+(marc.tagnumber = '856' )
+and regexp_like(upper(tags.WORDDATA),'^HTTPS://WWW.KANOPY.COM/NODE/[0-9]+/EXTERNAL-IMAGE COVER IMAGE')
+  --and regexp_like(upper(tags.WORDDATA),'^COVER IMAGE.+HTTPS://WWW.KANOPYSTREAMING.COM/NODE'))
+;
 -- Find 856u jacket image in Kanopy 11/21/2025
 select
        bib.bid,
@@ -207,6 +232,7 @@ where
     (marc.tagnumber = '856' and
      regexp_like(upper(tags.WORDDATA),'^COVER IMAGE.+HTTPS://WWW.KANOPYSTREAMING.COM/NODE'))
 ;
+
 -- Count of Kanopy with Cover Images in 856
 
 select  count(bib.bid)
@@ -641,3 +667,48 @@ where (
     --   marc.tagnumber = '520' and regexp_like(tags.TAGDATA, '\p{Emoji}' )
 
     );
+
+-- ISBN
+select
+      bib.bid,
+      books.isbn,
+      bib.CALLNUMBER,
+      bib.title
+
+from
+     SCIENCE_TECH_BOOKS_2025 books
+     inner join bbibmap_v2 bib  on (bib.isbn = books.isbn)
+;
+select
+      bib.bid,
+      books.isbn,
+      bib.CALLNUMBER,
+      bib.title
+--      marc.TAGNUMBER,
+--    tags.WORDDATA
+
+from
+     SCIENCE_TECH_BOOKS_2025 books
+     inner join bbibmap_v2 bib  on (bib.isbn = books.isbn)
+--      inner join btags_v2 tags on (substr(tags.WORDDATA,1,13)=books.ISBN)
+--      inner join bbibcontents_v2 marc on  (tags.tagid = marc.tagid ) and ( marc.tagnumber='020')
+--      inner join bbibcontents_v2 marc on  (tags.tagid = marc.tagid )
+
+;
+select
+      bib.bid,
+      books.isbn,
+      bib.CALLNUMBER,
+      bib.title,
+      marc.TAGNUMBER,
+      tags.WORDDATA
+
+from
+     bbibmap_v2 bib, SCIENCE_TECH_BOOKS_2025 books, bbibcontents_v2 marc ,btags_v2 tags
+     where (bib.bid = marc.bid) and ( marc.tagnumber='020')
+     and marc.tagid=tags.tagid
+     and (substr(tags.WORDDATA,1,13)=books.ISBN)
+
+;
+
+

@@ -94,7 +94,7 @@ group by cloc.LOCNAME, codes.CODEDESCRIPTION
 order by cloc.LOCNAME
 ;
 
--- Last Month New Student Cards from FCPS, e.g. trunc(regdate)='30-NOV-22'
+-- 12-01-2025 Last Month New Student Cards from FCPS, e.g. trunc(regdate)='30-NOV-22'
 select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,
        trunc(regdate),trunc(editdate), trunc(actdate)
@@ -105,7 +105,7 @@ select student.patronid, student.firstname, student.lastname, student.middlename
     inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
     where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
       --and upper(street1)  like 'MARYLAND%'
-         and trunc(regdate) between '30-SEP-25' and '01-NOV-25'
+         and trunc(regdate) between '31-OCT-25' and '01-DEC-25'
 
     order by student.lastname ;
 
@@ -1148,4 +1148,15 @@ select trunc(patron.regdate) regdate, branch.branchcode,
 
 group by trunc(patron.regdate) , patron.defaultbranch,branch.branchcode,btycode
 order by regdate desc, branch.branchcode asc
+;
+-- 01/05/2026 Mount St. Mary Students
+select patronid,name, trunc(actdate),trunc(regdate),status, street1 from patron_v2
+where    street1 like '%16300%' or regexp_like (upper(street1), '.+S(AIN)*T MARY')
+and trunc(sactdate) > ADD_MONTHS(trunc(sysdate,'MM') ,-12 )
+;
+
+-- 01/05/2026 Hood Students
+select patronid,name, trunc(actdate),trunc(regdate),status, street1 from patron_v2
+where    (upper(street1) like '%401 ROSEMONT%' ) or (upper(street1) like '%HOOD COLLEGE%')
+-- and trunc(sactdate) > ADD_MONTHS(trunc(sysdate,'MM') ,-12 )
 ;

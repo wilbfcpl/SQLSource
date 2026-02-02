@@ -725,20 +725,6 @@ from "DeletePatrons" Deleted inner join CARLREPORTS."DeletePatrons-101023_Status
 on Deleted."Patron ID"=Status."Patron ID"
 where Status."Status"='I' and Deleted."Patron ID" Like '119829%';
 
--- Last Month New Student Cards from FCPS, e.g. trunc(regdate)='30-NOV-22'
-select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
-       street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,
-       trunc(regdate),trunc(editdate), trunc(actdate)
-    from patron_v2 student
-    inner join bty_v2 type on student.bty = type.BTYNUMBER
-        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
-    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
-    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
-    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
-      --and upper(street1)  like 'MARYLAND%'
-         and trunc(regdate) between '31-MAR-24' and '01-MAY-24'
-
-    order by student.lastname
 
 -- Student Account Inactive for Andrew Thompson
 select count(refid) CNV_NOTE from CARLREPORTS.PATRONNOTETEXT_V2 note
@@ -1189,27 +1175,15 @@ WHERE p.bty = b.btynumber and p.defaultbranch = br.branchnumber
 AND (p.sactdate IS NULL OR p.sactdate<add_months(CURRENT_DATE, -36))
 ORDER BY p.patronguid;
 
--- Last Month New Student Cards from FCPS, e.g. trunc(regdate)='30-NOV-22'
-select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
-       street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,
-       trunc(regdate),trunc(editdate), trunc(actdate)
-    from patron_v2 student
-    inner join bty_v2 type on student.bty = type.BTYNUMBER
-        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
-    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
-    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
-    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
-      --and upper(street1)  like 'MARYLAND%'
-    --and trunc(regdate) between '31-AUG-25' and '01-OCT-25'
- and trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
-    order by student.lastname ;
 
--- Sept/Oct 2025
+
+
+-- 01/01/2026 Last Month New Student Cards from FCPS, e.g. trunc(regdate)='31-DEC-25'
+-- Calculates last day of previous month.
 -- Last Month: trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
 
--- Last Month New Student Cards from FCPS, e.g. trunc(regdate)='30-NOV-22'
 select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
-       street1, student.city1, student.state1, student.zip1, student.status,trunc(sysdate) edittime,btycode, branchcode,
+       street1, student.city1, student.state1, student.zip1, student.status,btycode, branchcode,
        trunc(regdate),trunc(editdate), trunc(actdate)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
@@ -1219,5 +1193,44 @@ select student.patronid, student.firstname, student.lastname, student.middlename
     where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
       --and upper(street1)  like 'MARYLAND%'
  and  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+
+    order by student.lastname ;
+
+select count(student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+
+    order by student.lastname ;
+
+-- Updates
+select count(student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(editdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+
+    order by student.lastname ;
+
+select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
+       street1, student.city1, student.state1, student.zip1, student.status,btycode, branchcode,
+       trunc(regdate),trunc(editdate), trunc(actdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(editdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
 
     order by student.lastname ;
