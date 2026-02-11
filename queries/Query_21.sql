@@ -39,3 +39,69 @@ and trunc(tx.systemtimestamp) >= '01-SEPTEMBER-2023'
 and trunc(tx.systemtimestamp) <= '01-SEPTEMBER-2025'
 and tx.itemlocation in (127,130,72,73,74,140,75,76,77,78,128,129,80,82,83,84,85,86,134,87,88,89,90,131,132,133,79,91,92,93,141,94,95,96)
 order by tx.itemlocation, cloc.loccode
+
+-- Coming Due. 02/09/2026. "Cached" With/Select Common Table Expression(CTE) with select of transactions since beginning of prior month.
+
+with trans as (
+    select
+        *
+    from transitem_v2
+    -- Beginning of last month
+    where trunc(TRANSDATE) >= ADD_MONTHS(SYSDATE,-1)
+)
+
+select
+    trunc(trans.DUEDATE) due,
+    patron.patronid,
+    trans.item,
+    trans.renew,
+    media.renewallimit,
+    patron.ph1,
+    ptype.description,
+    ptype.address,
+    patron.sendcomingduemsg,
+    patron.sendholdavailablemsg,
+    patron.emailreceipts,
+    case TRANSCODE
+       when 'PR' then 'PATRON REG'
+       when 'C' then 'CHARGE'
+       when 'DC' then 'RETURN'
+        when 'H' then 'HOLD'
+        when 'IH' then 'InXitHold'
+        when 'L' then 'LOST'
+        when 'I' then 'INTRANSIT'
+        when 'O' then 'OVERDUE'
+    else TRANSCODE
+    end TRANSCODE,
+    --transcode,
+    trunc(trans.transdate)
+   -- branch.branchcode thebranch
+
+    from trans
+        inner join patron_v2 patron on  trans.patronid=patron.PATRONID
+        inner join item_v2 item on trans.item=item.item
+        inner join media_v2 media on item.media=media.mednumber
+        inner join branch_v2 branch on trans.branch = branch.BRANCHNUMBER
+     inner join phonetype_v2 ptype on patron.phonetypeid1 = ptype.phonetypeid
+       -- inner join branch_v2 xbranch on trans.branch =xbranch.BRANCHNUMBER
+     inner join noticehistory_v2 noticehist on noticehist.item=trans.item
+ --   where transcode in ('C','H','I','IH','L','O','R#','R*')
+    where
+        item.status='C' and
+        patron.sendcomingduemsg = 'Y' and
+        patron.emailreceipts = 'Y' and
+        ptype.phonetypeid != 47 and
+        trunc(trans.duedate) between sysdate and sysdate + 7
+;
+    --order by trunc(trans.TRANSDATE)  ;
+
+
+   select TRANSACTIONTYPE, count (trans.TRANSACTIONTYPE), trunc(trans.SYSTEMTIMESTAMP)
+
+    from txlog_v2 trans
+        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    where
+
+    group by TRANSACTIONTYPE,trunc(SYSTEMTIMESTAMP)
+    order by trunc(trans.SYSTEMTIMESTAMP)  ;

@@ -131,9 +131,12 @@ select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade
      branchcode ='SSL' and
       -- udf.fieldid='3' and
      upper(label.label) like 'GRADE%' and
-       upper(student.street1) like '%MSD%' OR upper(student.street1) like '%DEAF%'
+      ( upper(student.street1) like '%MSD%' OR upper(student.street1) like '%DEAF%')
       -- and trunc(student.EDITDATE)>='05-MARCH-2024'
-    and trunc(student.SACTDATE)>='1-FEB-2024'
+    and(
+         (trunc(student.SACTDATE)>='1-FEB-2023' and
+          trunc(student.SACTDATE) IS NOT NULL)
+        )
     order by SACTDATE desc, LASTNAME;
 
 -- MSD Inquiry Ellicott City
@@ -1149,14 +1152,48 @@ select trunc(patron.regdate) regdate, branch.branchcode,
 group by trunc(patron.regdate) , patron.defaultbranch,branch.branchcode,btycode
 order by regdate desc, branch.branchcode asc
 ;
--- 01/05/2026 Mount St. Mary Students
-select patronid,name, trunc(actdate),trunc(regdate),status, street1 from patron_v2
+-- 01/05/2026 Mount St. Mary Students active the past year
+select patronid,name, trunc(sactdate),trunc(regdate),status, street1 from patron_v2
 where    street1 like '%16300%' or regexp_like (upper(street1), '.+S(AIN)*T MARY')
 and trunc(sactdate) > ADD_MONTHS(trunc(sysdate,'MM') ,-12 )
 ;
 
--- 01/05/2026 Hood Students
-select patronid,name, trunc(actdate),trunc(regdate),status, street1 from patron_v2
+-- 01/05/2026 Hood Students active the past year
+select patronid,name, trunc(sactdate),trunc(regdate),status, street1 from patron_v2
 where    (upper(street1) like '%401 ROSEMONT%' ) or (upper(street1) like '%HOOD COLLEGE%')
 -- and trunc(sactdate) > ADD_MONTHS(trunc(sysdate,'MM') ,-12 )
 ;
+
+select patronid,name, trunc(sactdate),trunc(regdate),status, street1 from patron_v2
+where    (upper(street1) like '%401 ROSEMONT%' ) or (upper(street1) like '%HOOD COLLEGE%')
+and trunc(sactdate) > ADD_MONTHS(trunc(sysdate,'MM') ,-12 )
+;
+
+-- FCPS Sactive the past year
+
+select count (student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    where branchcode ='SSL' and btycode='STUDNT'
+         and trunc(sactdate) >  ADD_MONTHS(trunc(sysdate,'MM') ,-12 )
+    group by branchcode
+   ;
+-- MSD Students since 01-FEB-2024
+select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
+       street1, student.city1, student.state1, student.zip1, student.status,
+       trunc(sactdate) selfactivity,trunc(sysdate) edittime,btycode, branchcode,
+       trunc(regdate),trunc(editdate), trunc(actdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and
+      label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+      and trunc(student.sactdate)>='01-Feb-2025'
+   -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
+    -- and trunc(student.regdate) <= '01-FEB-2024'
+    order by ACTDATE , LASTNAME;
