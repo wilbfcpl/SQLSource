@@ -1175,11 +1175,23 @@ select count (student.patronid)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
-    where branchcode ='SSL' and btycode='STUDNT'
+    where branchcode ='SSL' and btycode='STUDNT' and
+            ( upper(student.street1) not like '%DEAF%' and  upper(student.street1) not like '%MSD%')
          and trunc(sactdate) >  ADD_MONTHS(trunc(sysdate,'MM') ,-12 )
     group by branchcode
    ;
--- MSD Students since 01-FEB-2024
+-- Since 15-AUG-2025
+select count (student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    where branchcode ='SSL' and btycode='STUDNT' and
+            ( upper(student.street1) not like '%DEAF%' and  upper(student.street1) not like '%MSD%')
+         and trunc(sactdate) >  '15-AUG-2025'
+    group by branchcode
+   ;
+
+-- MSD Students since 01-FEB-2025
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,
        trunc(sactdate) selfactivity,trunc(sysdate) edittime,btycode, branchcode,

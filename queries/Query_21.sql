@@ -105,3 +105,52 @@ select
 
     group by TRANSACTIONTYPE,trunc(SYSTEMTIMESTAMP)
     order by trunc(trans.SYSTEMTIMESTAMP)  ;
+
+SELECT ITEM, CN
+FROM ITEM_V2
+WHERE REGEXP_LIKE(CN, '[^ -~]')
+ORDER by CN;
+
+SELECT ITEM, CN
+FROM ITEM_V2
+WHERE REGEXP_LIKE( CN,
+ -- '[\u00C0-\u017F]'
+--'[\u0300-\u036F]|[^\x00-\x7F]'
+    --'[\u0300-\u036F]'
+     --'[À-ÖØ-öø-ÿ]'
+--  '[\u00C0-\u024F\u1E00-\u1EFF]'
+-- '[:punct:]'
+      --'\p{L}*\p{M}'
+      );
+
+   --          '[\u00C0-\u00FF\u0100-\u017F\u0180-\u024F]'
+     -- '[^\x00-\x7F]'
+  -- '[^A-Za-z]'
+--  '[[:alpha:]]\p{M}'
+ -- '[\u00C0-\u017F]'  -- Latin-1 Supplement + Latin Extended-A
+     --   '[\u0300-\u036F]' -- Combining Diacritic Marks Block
+--, 'u'
+    -- '\p{M}+'
+
+-- Example: Detect and list diacritic characters in a column
+SELECT
+    ITEM,
+    CN,
+    REGEXP_SUBSTR(
+        CN,
+        '[\u00C0-\u017F\u0300-\u036F]+'
+    ) AS first_diacritic,
+    REGEXP_REPLACE(
+        CN,
+        '([^\u00C0-\u017F\u0300-\u036F])',
+        ''
+    ) AS all_diacritics
+FROM ITEM_V2
+WHERE REGEXP_LIKE(
+    CN,
+    '[\u00C0-\u017F\u0300-\u036F]', 'i'
+);
+SELECT ITEM, CN
+FROM ITEM_V2
+WHERE length(CN) < lengthb(CN)
+ORDER by CN;

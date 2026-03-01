@@ -1196,6 +1196,7 @@ select student.patronid, student.firstname, student.lastname, student.middlename
 
     order by student.lastname ;
 
+
 select count(student.patronid)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
@@ -1208,6 +1209,18 @@ select count(student.patronid)
 
     order by student.lastname ;
 
+-- If run on the last day of the month
+    select count(student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,0 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,0 ))
+
+    order by student.lastname ;
 -- Updates
 select count(student.patronid)
     from patron_v2 student
@@ -1221,6 +1234,18 @@ select count(student.patronid)
 
     order by student.lastname ;
 
+-- If run on the last day of the month
+select count(student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(editdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,0 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,0 ))
+
+    order by student.lastname ;
 select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,btycode, branchcode,
        trunc(regdate),trunc(editdate), trunc(actdate)
