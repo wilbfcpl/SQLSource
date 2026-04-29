@@ -1,4 +1,4 @@
--- Report 16 Aggregate work alike
+-- Report 16 Circulation by Media Aggregate work alike
 select
 
 cloc.LOCNAME,
@@ -50,7 +50,7 @@ order by TO_DATE(tx.TXTRANSDATE)
 
 
 
--- Report 15 Work alike
+-- Report 15 Circulation By Location Work alike
 select
 
 cloc.LOCNAME,
@@ -1205,7 +1205,56 @@ select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade
      branchcode ='SSL' and
       label.label = 'Grade' and
       ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
-      and trunc(student.sactdate)>='01-Feb-2025'
+      and trunc(student.sactdate)>='01-MAR-2025'
    -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
     -- and trunc(student.regdate) <= '01-FEB-2024'
     order by ACTDATE , LASTNAME;
+
+--Last Month New Student Cards from FCPS,
+select count(student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+
+    order by student.lastname ;
+
+-- Updated FCPS Cards Last Month
+select count(student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(editdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+
+    order by student.lastname ;
+
+-- Based on Report 12 Circulation by Time Period
+-- Charged during specific timeframe
+with logstuff as (select  TO_CHAR(Tx.SYSTEMTIMESTAMP, 'YYYY/MM/DD') TX_DATE, tx.patronid patron, tx.itembid, tx.item,
+                          tx.itemcn, BTY.BTYNAME BORROWER_TYPE,
+         L.LOCNAME,B2.BRANCHNAME BRANCH_HELD,
+         TX.PATRONID, V.CODEDESCRIPTION,
+         bib.title
+                  from txlog_v2 tx LEFT OUTER JOIN BRANCH_V2 B1
+      ON B1.BRANCHNUMBER = TX.ENVBRANCH
+       LEFT OUTER JOIN BTY_V2 BTY ON BTY.BTYNUMBER=TX.PATRONBTY
+       LEFT OUTER JOIN BBIBMAP_V2 BIB on BIB.BID=TX.ITEMBID
+       LEFT OUTER JOIN LOCATION_V2 L ON TX.ITEMLOCATION = L.LOCNUMBER
+       LEFT OUTER JOIN BRANCH_V2 B2 ON TX.ITEMBRANCH = B2.BRANCHNUMBER
+       LEFT OUTER JOIN SYSTEMCODEVALUES_V2 V ON V.CODETYPE = 5
+           AND V.CODEVALUE = TX.TRANSACTIONTYPE
+                where  Tx.SYSTEMTIMESTAMP between '01-FEB-2026' and '30-APR-2026'
+                and tx.transactiontype = 'CH')
+
+select logstuff.TX_DATE, logstuff.branch_held, logstuff.patron, logstuff.borrower_type, logstuff.itembid, logstuff.item, title from logstuff
+    group by logstuff.TX_DATE,branch_held, logstuff.patron, borrower_type,logstuff.itembid,logstuff.item, title
+    order by logstuff.TX_DATE desc
+;
