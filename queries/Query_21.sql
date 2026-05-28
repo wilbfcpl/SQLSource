@@ -363,3 +363,37 @@ select logstuff.TX_DATE, logstuff.branch_held, logstuff.patron, logstuff.borrowe
     group by logstuff.TX_DATE,branch_held, logstuff.patron, borrower_type,logstuff.itembid,logstuff.item, title
     order by logstuff.TX_DATE desc
 ;
+
+-- PatronAllow Email
+--Aftan query to select the accounts
+SELECT
+    distinct(p.patronid),
+p.name, bty.btycode, p.email, p.emailnotices,
+ p.regdate, p.regbranch, b.branchcode, p.regby,
+tx.termnumber, tx.pwd,
+p.sendholdavailablemsg as sendholds,
+p.sendcomingduemsg as senddue,
+ p.editdate, p.editbranch, p.actdate, p.actbranch, p.sactdate
+
+
+
+FROM patron_v2 p
+join bty_v2 bty on p.bty=bty.btynumber
+left join txlog_v2 tx on p.patronid=tx.patronid
+join branch_v2 b on p.regbranch=b.branchnumber
+
+
+
+WHERE p.emailnotices = '0'
+and p.email is not null
+and bty.btycode in ('CHILD','PUBLIC')
+and not p.regby = 'CNV'
+and tx.pwd = 'OPD'
+and p.sendholdavailablemsg = 'N'
+and tx.termnumber = '$ZT0.#EC'
+--and b.branchcode = 'BRU'
+and p.regdate > '28-FEB-25'
+
+
+
+ORDER BY p.regdate desc, p.name

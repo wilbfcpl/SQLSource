@@ -1191,7 +1191,7 @@ select count (student.patronid)
     group by branchcode
    ;
 
--- MSD Students since 01-FEB-2025
+-- MSD Students since 01-APR-2025
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,
        trunc(sactdate) selfactivity,trunc(sysdate) edittime,btycode, branchcode,
@@ -1205,7 +1205,7 @@ select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade
      branchcode ='SSL' and
       label.label = 'Grade' and
       ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
-      and trunc(student.sactdate)>='01-MAR-2025'
+      and trunc(student.sactdate)>='01-APR-2025'
    -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
     -- and trunc(student.regdate) <= '01-FEB-2024'
     order by ACTDATE , LASTNAME;

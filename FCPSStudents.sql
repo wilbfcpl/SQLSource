@@ -516,6 +516,25 @@ select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade
    -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
     -- and trunc(student.regdate) <= '01-FEB-2024'
     order by ACTDATE , LASTNAME;
+
+select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
+       street1, student.city1, student.state1, student.zip1, student.status,
+       trunc(sactdate) selfactivity,trunc(sysdate) edittime,btycode, branchcode,
+       trunc(regdate),trunc(editdate), trunc(actdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and
+      label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+      and trunc(student.EDITDATE)>='01-FEB-2024' and student.patronid like '3%'
+   -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
+    -- and trunc(student.regdate) <= '01-FEB-2024'
+    order by patronid desc, ACTDATE , LASTNAME;
+
 -- 119829 MSD Snafu
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,
@@ -1006,7 +1025,8 @@ order by actdATE desc
 
 --Another take on finding the unpaid. Is the *assumption* valid that the PATRONFISCAL_V2.TRANSCODE equal to 'FS' shows insertion of the Fee?
 -- Students with Hard Block and Lost Item Fees still on the books-not Waived,Paid, Cancelled
--- Feed sscSettleFinesAndFees
+--ItemID like #177XXXXX after the item goes lost
+-- fees for settleFinesAndFees
 select  student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,
          TO_DATE(f.CREATIONDATE) finedate,
           --f.PAYMENTMETHOD,
@@ -1022,7 +1042,7 @@ select  student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,
     where
     BTYCODE = 'STUDNT' and
     branch.BRANCHCODE='SSL' and
-    student.status='X' and
+   -- student.status='X' and
     F.TRANSCODE = 'FS'
   and  F.PAYMENTCODE is NULL
  AND  F2.ITEMID IS NULL
@@ -1045,7 +1065,7 @@ select  student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,
     BTYCODE = 'STUDNT' and
     --branch.BRANCHCODE='SSL' and
     --UPPER(student.lastname) like 'C%' AND
-    to_date(f.CREATIONDATE)>'10-DEC-2024' and
+    to_date(f.CREATIONDATE)>'27-MAY-2026' and
     upper(f.alias)='WB0' and
     F.PAYMENTCODE in ('C','P','W') and
     F.TRANSCODE = 'FS'
@@ -1196,7 +1216,7 @@ select student.patronid, student.firstname, student.lastname, student.middlename
 
     order by student.lastname ;
 
-
+--Last Month New Student Cards from FCPS,
 select count(student.patronid)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
@@ -1221,7 +1241,8 @@ select count(student.patronid)
  and  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,0 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,0 ))
 
     order by student.lastname ;
--- Updates
+
+-- Updated FCPS Cards Last Month
 select count(student.patronid)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
@@ -1235,6 +1256,7 @@ select count(student.patronid)
     order by student.lastname ;
 
 -- If run on the last day of the month
+-- Newly added students run on the last day of the month
 select count(student.patronid)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
@@ -1246,6 +1268,19 @@ select count(student.patronid)
  and  trunc(editdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,0 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,0 ))
 
     order by student.lastname ;
+
+-- Updated Students run on the last day of the month
+select count(student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(editdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,0 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,0 ))
+  order by student.lastname ;
+
 select student.patronid, student.firstname, student.lastname, student.middlename,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,btycode, branchcode,
        trunc(regdate),trunc(editdate), trunc(actdate)
@@ -1259,3 +1294,21 @@ select student.patronid, student.firstname, student.lastname, student.middlename
  and  trunc(editdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
 
     order by student.lastname ;
+
+-- Students with a DOB
+select patronid,name,street1,birthdate, actdate, regdate, editdate,status from patron_v2 inner join bty_v2 on patron_v2.bty=bty_v2.btynumber
+where btycode='STUDNT' and birthdate is not null order by patronid ;
+
+--StudentsDOB has the accounts from the above SQL
+select student.patronid,student.name,student.street1,student.birthdate, student.regdate, student.editdate,student.status
+from patron_v2 student inner join "StudentsDOB" dob on student.patronid=dob.patronid ;
+
+-- Patron accounts without a DOB
+select count(patronid) from patron_v2 patron
+where birthdate is null and trunc(editdate)> ADD_MONTHS(trunc(sysdate,'MM') ,-1 ) order by patronid ;
+
+select count(patronid) from patron_v2 patron
+where birthdate is not null order by patronid ;
+
+select patronid,name,street1,birthdate, actdate, regdate, editdate,status from patron_v2 inner join bty_v2 on patron_v2.bty=bty_v2.btynumber
+where btycode='STUDNT' and birthdate is null and trunc(editdate)>  ADD_MONTHS(trunc(sysdate,'MM') ,-1 ) order by patronid , editdate desc;
