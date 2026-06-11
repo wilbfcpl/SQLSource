@@ -1229,18 +1229,6 @@ select count(student.patronid)
 
     order by student.lastname ;
 
--- If run on the last day of the month
-    select count(student.patronid)
-    from patron_v2 student
-    inner join bty_v2 type on student.bty = type.BTYNUMBER
-        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
-    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
-    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
-    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
-      --and upper(street1)  like 'MARYLAND%'
- and  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,0 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,0 ))
-
-    order by student.lastname ;
 
 -- Updated FCPS Cards Last Month
 select count(student.patronid)
@@ -1265,7 +1253,7 @@ select count(student.patronid)
     inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
     where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
       --and upper(street1)  like 'MARYLAND%'
- and  trunc(editdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,0 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,0 ))
+ and  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,0 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,0 ))
 
     order by student.lastname ;
 
@@ -1312,3 +1300,96 @@ where birthdate is not null order by patronid ;
 
 select patronid,name,street1,birthdate, actdate, regdate, editdate,status from patron_v2 inner join bty_v2 on patron_v2.bty=bty_v2.btynumber
 where btycode='STUDNT' and birthdate is null and trunc(editdate)>  ADD_MONTHS(trunc(sysdate,'MM') ,-1 ) order by patronid , editdate desc;
+
+-- MSD Students before 05-Feb-2026
+select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
+       street1, student.city1, student.state1, student.zip1, student.status,
+       trunc(sactdate) selfactivity,btycode, branchcode,
+       trunc(regdate),trunc(editdate), trunc(actdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and
+      label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+     -- and trunc(student.sactdate)>='01-APR-2025'
+   -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
+    -- and ( trunc(student.editdate) < '01-SEP-2025')
+    -- and ( trunc(student.regdate) <'01-SEP-2025')
+        and ( trunc(student.editdate) < '05-FEB-2026')
+    and ( trunc(student.regdate) <'05-FEB-2026')
+
+    order by editdate desc, LASTNAME;
+--
+-- MSD Students not in the 05-Feb-2026 Update temporary table MSDSTUDENTS020526
+select
+       --student.patronid, msdstudents.student_number,
+    case substr(student.patronid,1,1)
+        when '1' then  substr(student.patronid,10)
+        when '3' then substr(student.patronid,2)
+        end MSD_ID,
+       student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
+       street1, student.status,
+       trunc(sactdate) selfactivity,btycode, branchcode,
+       trunc(regdate),trunc(editdate), student.userid
+    from patron_v2 student
+    left outer join MSDSTUDENTS020526 msdstudents ON (  (instr(student.patronid,msdstudents.student_number,10) !=0 )
+                                                            OR (instr(student.patronid,msdstudents.student_number,2) !=0))
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and   label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+    and
+         (  msdstudents.student_number is null  and trunc(student.editdate)<'05-FEB-2026'))
+
+    order by editdate desc, LASTNAME;
+
+-- MSD Students not in the 05-Feb-2026 Update temporary table MSDSTUDENTS020526
+with uncertain_ids as (select
+                           --student.patronid, msdstudents.student_number,
+                           case substr(student.patronid, 1, 1)
+                               when '1' then substr(student.patronid, 10)
+                               when '3' then substr(student.patronid, 2)
+                               end         MSD_ID,
+                           student.patronid,
+                           student.firstname,
+                           student.lastname,
+                           udf.VALUENAME   grade,
+                           street1,
+                           student.status,
+                           trunc(sactdate) selfactivity,
+                           btycode,
+                           branchcode,
+                           trunc(regdate),
+                           trunc(editdate),
+                           student.userid
+                       from patron_v2 student
+                                left outer join MSDSTUDENTS020526 msdstudents
+                                                ON ((instr(student.patronid, msdstudents.student_number, 10) != 0)
+                                                    OR (instr(student.patronid, msdstudents.student_number, 2) != 0))
+                                inner join bty_v2 type on student.bty = type.BTYNUMBER
+                                inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+                                inner join UDFPATRON_V2 udf on student.patronid = udf.patronid
+                                inner join udflabel_v2 label on udf.fieldid = label.fieldid
+                       where branchcode = 'SSL'
+                         and label.label = 'Grade'
+                         and (upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+                         and (msdstudents.student_number is null and trunc(student.editdate) < '05-FEB-2026')
+                       )
+select patronid suspect_patronid,MSD_ID suspect_msdid, msdstudents.student_number feb0526_msdid,'119829219' || msdstudents.student_number actualpatronid, firstname, lastname from uncertain_ids
+inner join MSDSTUDENTS020526 msdstudents on
+    (utl_match.jaro_winkler(msdstudents.first_name, uncertain_ids.firstname) > 0.85
+        and
+     utl_match.jaro_winkler(msdstudents.last_name, uncertain_ids.lastname) > 0.85
+        )
+
+;
+
+
+    --order by editdate desc, LASTNAME

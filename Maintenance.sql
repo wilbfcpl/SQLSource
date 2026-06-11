@@ -1442,3 +1442,53 @@ WHERE PARAMETER = 'NLS_LENGTH_SEMANTICS';
 -- If you use BYTE semantics, multibyte characters may reduce the number of characters that can be stored in the column.
 -- If you use CHAR semantics, the column will store the specified number of characters, regardless of their byte size.
 --
+
+-- Patrons No EMail address
+Select * from Patron_v2 patrons
+where emailnotices=1 and (email is null or email like '' or regexp_like(email,'^\s+'));
+--Bounced Email 08/26/2025
+select patron.patronid from Patron_V2 patron
+-- inner join ppbounced bounce on
+where substr(upper(patron.email),1, 10) in (select  substr(upper(bounce.email),1,10) from ppbounced bounce) ;
+
+-- where upper(patron.email) in (select upper(email) from ppbounced bounce) ;
+
+select substr(upper(email),1,32) from ppbounced bounce ;
+
+select substr(upper(email),1,32) from patron_v2 patron where email is not null ;
+
+select patronid, upper(email), emailnotices, bty.btycode, name from patron_v2 patron
+inner join bty_v2 bty on (patron.bty = bty.btynumber)
+where email is not null ;
+
+-- PatronAllow Email
+--Aftan query to select the accounts
+SELECT
+    distinct(p.patronid),
+p.name, bty.btycode, p.email, p.emailnotices,
+ p.regdate, p.regbranch, b.branchcode, p.regby,
+tx.termnumber, tx.pwd,
+p.sendholdavailablemsg as sendholds,
+p.sendcomingduemsg as senddue,
+ p.editdate, p.editbranch, p.actdate, p.actbranch, p.sactdate
+
+FROM patron_v2 p
+join bty_v2 bty on p.bty=bty.btynumber
+left join txlog_v2 tx on p.patronid=tx.patronid
+join branch_v2 b on p.regbranch=b.branchnumber
+
+
+
+WHERE p.emailnotices = '0'
+and p.email is not null
+and bty.btycode in ('CHILD','PUBLIC')
+and not p.regby = 'CNV'
+and tx.pwd = 'OPD'
+and p.sendholdavailablemsg = 'N'
+and tx.termnumber = '$ZT0.#EC'
+--and b.branchcode = 'BRU'
+and p.regdate > '28-FEB-25'
+
+
+
+ORDER BY p.regdate desc, p.name

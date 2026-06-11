@@ -1210,6 +1210,28 @@ select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade
     -- and trunc(student.regdate) <= '01-FEB-2024'
     order by ACTDATE , LASTNAME;
 
+-- MSD Students before 05-Feb-2026
+select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
+       street1, student.city1, student.state1, student.zip1, student.status,
+       trunc(sactdate) selfactivity,btycode, branchcode,
+       trunc(regdate),trunc(editdate), trunc(actdate)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and
+      label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+     -- and trunc(student.sactdate)>='01-APR-2025'
+   -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
+    -- and ( trunc(student.editdate) < '01-SEP-2025')
+    -- and ( trunc(student.regdate) <'01-SEP-2025')
+        and ( trunc(student.editdate) < '05-FEB-2026')
+    and ( trunc(student.regdate) <'05-FEB-2026')
+
+    order by editdate desc, LASTNAME;
 --Last Month New Student Cards from FCPS,
 select count(student.patronid)
     from patron_v2 student
