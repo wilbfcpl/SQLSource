@@ -1280,3 +1280,29 @@ select logstuff.TX_DATE, logstuff.branch_held, logstuff.patron, logstuff.borrowe
     group by logstuff.TX_DATE,branch_held, logstuff.patron, borrower_type,logstuff.itembid,logstuff.item, title
     order by logstuff.TX_DATE desc
 ;
+
+-- If run on the last day of the month
+-- Newly added students run on the last day of the month
+select count(student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,0 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,0 ))
+
+    order by student.lastname ;
+
+-- Updated Students run on the last day of the month
+select count(student.patronid)
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+        inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+    where branchcode ='SSL' and btycode='STUDNT' and upper(label.label)='GRADE'
+      --and upper(street1)  like 'MARYLAND%'
+ and  trunc(editdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,0 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,0 ))
+  order by student.lastname ;
