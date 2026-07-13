@@ -1324,6 +1324,7 @@ select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade
 
     order by editdate desc, LASTNAME;
 --
+
 -- MSD Students not in the 05-Feb-2026 Update temporary table MSDSTUDENTS020526
 select
        --student.patronid, msdstudents.student_number,
