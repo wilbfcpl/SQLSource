@@ -1,0 +1,343 @@
+create or replace view CARLREPORTS.ITEM_V2 as
+SELECT BID,
+       OCCUR,
+       OWNINGBRANCH,
+       OWNINGLOCATION,
+       ITEM,
+       DUEDATE,
+       STATUS,
+       STATUSDATE,
+       CIRCHISTORY,
+       HOLDSHISTORY,
+       CUMULATIVEHISTORY,
+       MEDIA,
+       PRICE,
+       EDITDATE,
+       USERID,
+       CNLABEL,
+       CN,
+       BRANCH,
+       LOCATION,
+       CNFORMATTED,
+       VOLUME,
+       PART,
+       NUMBER_,
+       SUFFIX,
+       CREATIONDATE,
+       SUPPRESS,
+       SUPPRESSTYPE,
+       INHOUSECIRC,
+       INSTBIT,
+       RESERVEBRANCH,
+       RESERVELOCATION,
+       RESERVECN,
+       RESERVETYPE,
+       CREATEDBY,
+       TYPE,
+       ISID,
+       ALTERNATESTATUS,
+       CNFULL,
+       ITEMGUID
+FROM CXDAT.ITEM
+/
+
+create or replace view CARLREPORTS.PATRON_V2 as
+SELECT PATRONID,
+           INSTBIT,
+           BTY,
+           STATUS,
+           ADDR,
+           NAME,
+           STREET1,
+           CITY1,
+           ZIP1,
+           STREET2,
+           CITY2,
+           ZIP2,
+           REGDATE,
+           EXPDATE,
+           ACTDATE,
+           EDITDATE,
+           USERID,
+           NOTES,
+           PH1,
+           PH2,
+           EMAIL,
+           LANGUAGE,
+           EMAILNOTICES,
+           BIRTHDATE,
+           ALTERNATEID,
+           DEFAULTBRANCH,
+           COLLECTIONSTATUS,
+           DEPOSITBALANCE,
+           INFO,
+           KEEPCARDHISTORY,
+           PREFERRED_BRANCH,
+           SPONSOR,
+           FIRSTNAME,
+           MIDDLENAME,
+           LASTNAME,
+           SUFFIXNAME,
+           STATE1,
+           STATE2,
+           REGBRANCH,
+           REGBY,
+           EDITBRANCH,
+           ACTBRANCH,
+           SACTDATE,
+           SACTBRANCH,
+           PHONETYPEID1,
+           PATRONGUID,
+           LASTACTIONLETTERSTATUS,
+           EMAILRECEIPTS,
+           SENDHOLDAVAILABLEMSG,
+           SENDCOMINGDUEMSG,
+           LOANHISTORYOPTIN,
+           LEGALNAME,
+           EMAIL2
+      FROM CXDAT.PATRON
+/
+
+create or replace view CARLREPORTS.UDFLABEL_V2 as
+SELECT INSTBIT, TYPE, FIELDID, LABEL, LIST
+  FROM CXDAT.UDFLABEL
+/
+
+comment on table CARLREPORTS.UDFLABEL_V2 is 'User Defined Field Labels (equivalent to PLABELS for UDF)'
+/
+
+comment on column CARLREPORTS.UDFLABEL_V2.INSTBIT is 'Numeric institution code'
+/
+
+comment on column CARLREPORTS.UDFLABEL_V2.TYPE is 'Type number, 0 = patron statistics'
+/
+
+comment on column CARLREPORTS.UDFLABEL_V2.FIELDID is 'Field ID number'
+/
+
+comment on column CARLREPORTS.UDFLABEL_V2.LABEL is 'Field ID label'
+/
+
+comment on column CARLREPORTS.UDFLABEL_V2.LIST is 'Y=validated N=unvalidated'
+/
+
+create or replace view CARLREPORTS.UDFVALUE_V2 as
+SELECT INSTBIT, TYPE, FIELDID, NUMCODE, VALUEINDEX, VALUENAME, STATUS
+  FROM CXDAT.UDFVALUE
+/
+
+comment on table CARLREPORTS.UDFVALUE_V2 is 'User Defined Field Values for validated fields.'
+/
+
+comment on column CARLREPORTS.UDFVALUE_V2.INSTBIT is 'Numeric institution code'
+/
+
+comment on column CARLREPORTS.UDFVALUE_V2.TYPE is 'Type number, 0=patron statistics'
+/
+
+comment on column CARLREPORTS.UDFVALUE_V2.FIELDID is 'Field ID number'
+/
+
+comment on column CARLREPORTS.UDFVALUE_V2.NUMCODE is 'Code number'
+/
+
+comment on column CARLREPORTS.UDFVALUE_V2.VALUEINDEX is 'Value index - used to sort within Field ID'
+/
+
+comment on column CARLREPORTS.UDFVALUE_V2.VALUENAME is 'Value name'
+/
+
+comment on column CARLREPORTS.UDFVALUE_V2.STATUS is 'Value status (C for active, R for archived)'
+/
+
+create or replace view CARLREPORTS.BBIBMAP_V2 as
+SELECT BID,
+           INSTBIT,
+           FOLDER,
+           AUTHOR,
+           TITLE,
+           CALLNUMBER,
+           NORMALIZEDCALLNUMBER,
+           PUBLISHINGDATE,
+           LANGUAGE,
+           RECORDTYPE,
+           FORMAT,
+           TITLEINDICATORS,
+           BIBTYPE,
+           HIDDENTYPE,
+           ACQTYPE,
+           ISBN,
+           SUPPRESSDATE,
+           SUPPRESSTYPE,
+		   EXTERNALCONTROLNUMBER,
+           INTERLIBRARY_LOAN,
+           UPC,
+           BIBLATESTCHANGE,
+           ITEMSLATESTCHANGE,
+           ERESOURCE,
+           USERID,
+           TERMINAL
+      FROM CXDAT.BBIBMAP
+/
+
+create or replace view CARLREPORTS.BTY_V2
+            (INSTBIT, BTYNUMBER, BTYCODE, BTYNAME, DEFAULTADDR, EXPIREDATE, EXPIREDAYS, REQUIREDOB, MAXCLAIMRETURNLIMIT,
+             MAXLOSTLIMIT, MAXOVERDUELIMIT, MAXOVERDUERECALL, MAXOVERDUEREQUEST, MAXFINELIMIT, CLAIMBLOCKTYPE,
+             EXCLUDEDFROMBLOCKS, EXCLUDEDFROMFEES, EXCLUDEDFROMFINES, ITEMSGOLOST, SUBMITTOUNIQUE, CLAIMHISTORYDAYS,
+             ALLOWEDTOBORROW, ALLOWRENEWAL, USEEOS, ENDOFSEMESTER, DUEDATELIMIT, FINEASSESSMENTTYPE, OUTREACH,
+             RETAINCHARGEHISTORY, CHARGELOANPERIOD, RENEWLOANPERIOD, RECALLLOANPERIOD, CHARGELIMIT, RENEWALLIMIT,
+             REQUESTCHARGELOANPERIOD, REQUESTRECALLLOANPERIOD, REQUESTRENEWLOANPERIOD, HOLDSREQUESTFEE, REQUESTFINERATE,
+             FINERATE, RENEWALFEE, CREDITFINELOSTRETURN, CREDITFEELOSTRETURN, LOSTBOOKCHARGE, REQUESTFINELIMIT,
+             FINELIMIT, REQUESTFINEGRACEPERIOD, FINEGRACEPERIOD, PROCESSINGFEE, SPECIALFEE, REMOVEONHOLD,
+             HOLDSEXPIRATIONPERIOD, WISHLIST, PROHIBITRECALL, ALLOWHOLDS, ALLOWRECALL, HOLDSLIMIT, MAXDEPOSIT, AGELIMIT,
+             NOTICEDAYS_0, NOTICEDAYS_1, NOTICEDAYS_2, NOTICEDAYS_3, NOTICEDAYS_4, NOTICEDAYS_5, SENDNOTICE,
+             NOTICEFEES_0, NOTICEFEES_1, NOTICEFEES_2, NOTICEFEES_3, NOTICEFEES_4, NOTICEFEES_5, LOSTNOTICEDAYS_0,
+             LOSTNOTICEDAYS_1, LOSTNOTICEDAYS_2, SENDLOSTNOTICE, LOSTNOTICEFEES_0, LOSTNOTICEFEES_1, LOSTNOTICEFEES_2,
+             FINESNOTICEDAYS_0, FINESNOTICEDAYS_1, FINESNOTICEDAYS_2, SENDFINENOTICE, FINESNOTICEFEES_0,
+             FINESNOTICEFEES_1, FINESNOTICEFEES_2, EXCLUDEFROMBALANCEDUENOTICE)
+as
+SELECT INSTBIT,
+           BTYNUMBER,
+           BTYCODE,
+           BTYNAME,
+           DEFAULTADDR,
+           jts.totimestamp (EXPIREDATE),
+           EXPIREDAYS,
+           REQUIREDOB,
+           MAXCLAIMRETURNLIMIT,
+           MAXLOSTLIMIT,
+           MAXOVERDUELIMIT,
+           MAXOVERDUERECALL,
+           MAXOVERDUEREQUEST,
+           MAXFINELIMIT,
+           CLAIMBLOCKTYPE,
+           EXCLUDEDFROMBLOCKS,
+           EXCLUDEDFROMFEES,
+           EXCLUDEDFROMFINES,
+           ITEMSGOLOST,
+           SUBMITTOUNIQUE,
+           CLAIMHISTORYDAYS,
+           ALLOWEDTOBORROW,
+           ALLOWRENEWAL,
+           USEEOS,
+           ENDOFSEMESTER,
+           DUEDATELIMIT,
+           FINEASSESSMENTTYPE,
+           OUTREACH,
+           RETAINCHARGEHISTORY,
+           CHARGELOANPERIOD,
+           RENEWLOANPERIOD,
+           RECALLLOANPERIOD,
+           CHARGELIMIT,
+           RENEWALLIMIT,
+           REQUESTCHARGELOANPERIOD,
+           REQUESTRECALLLOANPERIOD,
+           REQUESTRENEWLOANPERIOD,
+           HOLDSREQUESTFEE,
+           REQUESTFINERATE,
+           FINERATE,
+           RENEWALFEE,
+           CREDITFINELOSTRETURN,
+           CREDITFEELOSTRETURN,
+           LOSTBOOKCHARGE,
+           REQUESTFINELIMIT,
+           FINELIMIT,
+           REQUESTFINEGRACEPERIOD,
+           FINEGRACEPERIOD,
+           PROCESSINGFEE,
+           SPECIALFEE,
+           REMOVEONHOLD,
+           HOLDSEXPIRATIONPERIOD,
+           WISHLIST,
+           PROHIBITRECALL,
+           ALLOWHOLDS,
+           ALLOWRECALL,
+           HOLDSLIMIT,
+           MAXDEPOSIT,
+           AGELIMIT,
+           NOTICEDAYS_0,
+           NOTICEDAYS_1,
+           NOTICEDAYS_2,
+           NOTICEDAYS_3,
+           NOTICEDAYS_4,
+           NOTICEDAYS_5,
+           SENDNOTICE,
+           NOTICEFEES_0,
+           NOTICEFEES_1,
+           NOTICEFEES_2,
+           NOTICEFEES_3,
+           NOTICEFEES_4,
+           NOTICEFEES_5,
+           LOSTNOTICEDAYS_0,
+           LOSTNOTICEDAYS_1,
+           LOSTNOTICEDAYS_2,
+           SENDLOSTNOTICE,
+           LOSTNOTICEFEES_0,
+           LOSTNOTICEFEES_1,
+           LOSTNOTICEFEES_2,
+           FINESNOTICEDAYS_0,
+           FINESNOTICEDAYS_1,
+           FINESNOTICEDAYS_2,
+           SENDFINENOTICE,
+           FINESNOTICEFEES_0,
+           FINESNOTICEFEES_1,
+           FINESNOTICEFEES_2,
+           EXCLUDEFROMLASTACTIONLETTER
+      FROM CXDAT.BTY
+/
+
+create or replace view CARLREPORTS.BTAGS_V2 as
+SELECT
+    TAGID,
+    TAGDATA,
+    WORDDATA
+ FROM
+    CXDAT.BTAGS
+/
+
+create or replace view CARLREPORTS.BBIBCONTENTS_V2 as
+SELECT
+    BID,
+    INSTBIT,
+    FOLDER,
+    TAGID,
+    TAGTYPE,
+    TAGNUMBER,
+    TAGINDICATORS,
+    INCIDENTALTAGID,
+    LINKEDCONTENTID
+ FROM
+    CXDAT.BBIBCONTENTS
+/
+
+create or replace view CARLREPORTS.UDFPATRON_V2 as
+SELECT INSTBIT,
+           PATRONID,
+           TYPE,
+           FIELDID,
+           NUMCODE,
+           VALUENAME
+      FROM CXDAT.UDFPATRON
+/
+
+comment on table CARLREPORTS.UDFPATRON_V2 is 'User Defined Field Patron information; stores UDF data for individual patrons'
+/
+
+comment on column CARLREPORTS.UDFPATRON_V2.INSTBIT is 'Numeric institution code'
+/
+
+comment on column CARLREPORTS.UDFPATRON_V2.PATRONID is 'Patron number (barcode)'
+/
+
+comment on column CARLREPORTS.UDFPATRON_V2.TYPE is 'Type number, 0=patron statistics'
+/
+
+comment on column CARLREPORTS.UDFPATRON_V2.FIELDID is 'Field ID number'
+/
+
+comment on column CARLREPORTS.UDFPATRON_V2.NUMCODE is 'Statistical code number (validated)'
+/
+
+comment on column CARLREPORTS.UDFPATRON_V2.VALUENAME is 'Code name (unvalidated)'
+/
+
