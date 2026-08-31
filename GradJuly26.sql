@@ -50,6 +50,7 @@ select GRADE from Grad;
 
 
 --Before PatronLoader run
+
 --GRAD table PATRON_V2 info before PatronLoader .
 
 select student.patronid , student.name, udf.valuename grade,student.street1,
@@ -68,14 +69,65 @@ from patron_v2 student
 ;
 
 -- Graduated Students with REGDATE/EDITDATE 07/08/2026
+select student.patronid , student.name, branch.branchcode,bstatus.description status, BTYCODE,
+       jts.todate(student.regDATE) regdate,trunc(editDate)
+from patron_v2 student
+    inner join bty_v2 profile on student.bty=profile.BTYNUMBER
+    inner join BRANCH_V2 branch on defaultbranch=BRANCHNUMBER
+    inner join bst_v2 bstatus on student.status = bstatus.bst
+where  btycode ='GRAD' and jts.todate(regdate)='08-JUL-2026'
+;
+
+select count(*) from GRAD ;
+
+-- Based on activity, accounts that should remain after the annual deletion
+select count(*) from GRAD
+inner join patron_v2 patron  on grad.patronid=patron.patronid
+--inner join txlog_v2 log on log.patronid=grad.patronid
+where jts.todate(sactdate)>'10-JUL-2023' or jts.todate(actdate)>'10-JUL-2023'
+ --  or jts.todate(log.systemtimestamp)>'10-JUL-2023'
+;
+-- Based on inactivity, accounts that the annual deletion should eliminate.
+-- :DateAs:'DD-AUG-YYYY'
+select patronid,name,btycode, branchcode,trunc(sactdate),trunc(actdate),trunc(regdate) from patron_v2 patron
+inner join BTY_V2 BTYPE on patron.bty=BTYPE.BTYNUMBER
+inner join BRANCH_V2 branch on patron.regbranch=branch.branchnumber
+where
+          (BTYPE.BTYCODE = 'GRAD') and (
+    (sactdate is null or actdate is null) or
+    (jts.todate(sactdate) < :ACTIVITY_DATE AND jts.todate(actdate) < :ACTIVITY_DATE)
+    )
+
+;
+
+select count(patronid) from patron_v2 patron
+inner join BTY_V2 BTYPE on patron.bty=BTYPE.BTYNUMBER
+where
+          (BTYPE.BTYCODE = 'GRAD') and (
+    (sactdate is null or actdate is null) or
+    (jts.todate(sactdate) < :ACTIVITY_DATE AND jts.todate(actdate) < :ACTIVITY_DATE)
+    )
+
+;
+-- Temporary GRAD table from import of FCPS Graduate students
+select count(*) from GRAD
+inner join patron_v2 patron  on grad.patronid=patron.patronid
+--inner join txlog_v2 log on log.patronid=grad.patronid
+where  ( sactdate is null or actdate is null ) or    (jts.todate(sactdate)<'10-JUL-2023' AND jts.todate(actdate)<'10-JUL-2023' )
+ --  or jts.todate(log.systemtimestamp)>'10-JUL-2023'
+;
+
+
+-- Graduated Students with REGDATE/EDITDATE 07/08/2026
 select student.patronid , student.name, bstatus.description status, BTYCODE,
-       jts.todate(student.regDATE) regdate,editDate,note.text
+       jts.todate(student.regDATE) regdate,trunc(editDate),note.text
 from patron_v2 student
     inner join bty_v2 profile on student.bty=profile.BTYNUMBER
     inner join BRANCH_V2 branch on defaultbranch=BRANCHNUMBER
     inner join bst_v2 bstatus on student.status = bstatus.bst
 inner join patronnotetext_v2 note on student.patronid=note.refid
-where  btycode ='GRAD' and jts.todate(regdate)='08-JUL-2026' and note.text is null ;
+where  btycode ='GRAD' and jts.todate(regdate)='08-JUL-2026'
+--and note.text is not null ;
 
 
 --Graduated with note added

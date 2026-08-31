@@ -711,4 +711,16 @@ from
 
 ;
 
+-- 245 has ELECTRONIC RESOURCE in data
+select distinct bib.bid, SUBSTR(tags.TAGDATA,INSTR(tags.TAGDATA,'h[')+1,30) as Medium ,
+                title
 
+
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on tags.tagid = marc.tagid
+
+where
+    ERESOURCE='Y' and
+    marc.tagnumber='245' and upper(tags.TAGDATA) like '%H[%ELECTRONIC RESOURCE]%'
+;

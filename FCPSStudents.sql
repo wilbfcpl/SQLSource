@@ -1284,9 +1284,11 @@ select student.patronid, student.firstname, student.lastname, student.middlename
     order by student.lastname ;
 
 -- Students with a DOB
-select patronid,name,street1,birthdate, actdate, regdate, editdate,status from patron_v2 inner join bty_v2 on patron_v2.bty=bty_v2.btynumber
-where btycode='STUDNT' and birthdate is not null order by patronid ;
-
+select patronid,name,street1,birthdate, btycode, branchcode,actdate, regdate, editdate,status from patron_v2
+inner join bty_v2 on patron_v2.bty=bty_v2.btynumber
+inner join branch_v2 branch on branch.branchnumber=patron_v2.regbranch
+--where (btycode='STUDNT' OR branchcode='SSL') and birthdate is not null order by patronid ;
+where PATRONID like '119829%' and birthdate is not null order by patronid ;
 --StudentsDOB has the accounts from the above SQL
 select student.patronid,student.name,student.street1,student.birthdate, student.regdate, student.editdate,student.status
 from patron_v2 student inner join "StudentsDOB" dob on student.patronid=dob.patronid ;

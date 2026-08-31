@@ -1491,4 +1491,43 @@ and p.regdate > '28-FEB-25'
 
 
 
-ORDER BY p.regdate desc, p.name
+ORDER BY p.regdate desc, p.name ;
+
+-- Patrons with email turned off due to bounce in table EMAILERROR
+select errors.PATRONID, ils.emailnotices, errors.NAME from EMAILERROR errors
+    inner join patron_v2 ils on errors.PATRONID=ils.PATRONID;
+
+select count(*) from EMAILERROR errors
+    -- errors.PATRONID, ils.emailnotices, errors.NAME from EMAILERROR errors
+    inner join patron_v2 ils on errors.PATRONID=ils.PATRONID
+    where ils.EMAILNOTICES='1'
+;
+
+-- Patrons with sendemail disabled
+-- From Aftan's excel
+SELECT
+distinct(p.patronid),  p.name,  bty.btycode , p.email,  p.emailnotices,p.regdate,
+p.regbranch, b.branchcode,  p.regby,tx.termnumber, tx.pwd,p.sendholdavailablemsg as sendholds,
+p.sendcomingduemsg as senddue, p.editdate, p.editbranch, p.actdate, p.actbranch, p.sactdate
+FROM  patron_v2 p join bty_v2 bty on p.bty=bty.btynumber
+left join txlog_v2 tx on p.patronid=tx.patronid
+join branch_v2 b on p.regbranch=b.branchnumber
+WHERE p.emailnotices = '0' and p.email is not null and bty.btycode in ('CHILD','PUBLIC')
+and not p.regby = 'CNV' and tx.pwd = 'OPD' and p.sendholdavailablemsg = 'N'
+and tx.termnumber = '$ZT0.#EC'
+--and b.branchcode = 'BRU' and p.regdate > '01-MAY-26'  ORDER BY p.regdate desc, p.name", HierarchicalNavigation = true])
+
+ with logstuff as ( select patron.PATRONID, patron.NAME, bty.BTYCODE,patron.EMAILNOTICES,
+                           patron.email,patron.SENDHOLDAVAILABLEMSG,patron.SENDCOMINGDUEMSG
+                    from txlog_v2 tx
+     join PATRON_V2 patron on tx.PATRONID = patron.PATRONID
+     join BTY_V2 bty on patron.BTY=bty.BTYNUMBER
+     join branch_v2 branch on patron.REGBRANCH=branch.BRANCHNUMBER
+     where patron.EMAILNOTICES='0' and patron.EMAIL is not null
+     and bty.BTYCODE in ('CHILD','PUBLIC')
+     and not patron.REGBY='CNV' and tx.PWD='OPD'
+     and patron.SENDHOLDAVAILABLEMSG='N'
+     and tx.termnumber='$ZT0.#EC'
+    ) select PATRONID, NAME, EMAILNOTICES, EMAIL from logstuff;
+
+
