@@ -820,7 +820,7 @@ from "STUDENTS082724" students
 where patrons.PATRONID is null
 ;
 
--- Fines search
+-- Fines/Fees search
 SELECT distinct
 
   P.PATRONID,
@@ -848,13 +848,12 @@ and ( F2.PAYMENTCODE  not in ('P','W','C'))
 ORDER by PATRONID
 ;
 -- Students with Hard Block and Fines still on the books-not Waived,Paid, Cancelled
-select  student.patronid, student.NAME,
-           f.ITEMID,
-          TO_DATE(f.CREATIONDATE),
-           (f.AMOUNT / 100)
+select distinct student.patronid,  f.ITEMID, (f.AMOUNT / 100) FeeAmt,TO_DATE(f.CREATIONDATE) FeeDate,
+                student.NAME
 
-    from PATRON_V2 student
-
+--     from PATRON_V2 student
+from "SSCFees091426" fees
+    inner join PATRON_V2 student on student.PATRONID= to_char(fees.PATRONID)
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
     JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
@@ -866,8 +865,9 @@ select  student.patronid, student.NAME,
     F.TRANSCODE = 'FS' and
     F.PAYMENTCODE is NULL
  AND  F2.ITEMID IS NULL
-;
 
+order by PATRONID
+;
 
 select  student.patronid, student.NAME, student.status,
         -- BTYCODE, branch.BRANCHCODE,
@@ -1046,7 +1046,7 @@ select  student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,
     F.TRANSCODE = 'FS'
   and  F.PAYMENTCODE is NULL
  AND  F2.ITEMID IS NULL
-order by finedate desc , student.name asc
+order by Barcode, finedate desc , student.name asc
 ;
 -- Find the api settled fees
 select  student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,

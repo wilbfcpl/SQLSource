@@ -1,38 +1,10 @@
 
--- Misc Utilities
--- SHOW DATABASES;
--- SHOW TABLES IN database;
--- SHOW COLUMNS IN table;
--- DESCRIBE table;
-
-
 select distinct bib.bid, bib.BIBTYPE, bib.HIDDENTYPE ,  bib.ERESOURCE,bib.CALLNUMBER,
        bib.TITLE
 
 from CARLREPORTS.BBIBMAP_V2 bib
 inner join "ItemlessBids-06132023" list on bib.bid = list.BIDS
--- inner join BIBLOG_V2 log on bib.bid = log.bid
-
 ;
--- select * from "ItemlessBids-06132023";
---
--- --select distinct bib.bid, bib.BIBTYPE, bib.HIDDENTYPE ,  bib.ERESOURCE,bib.CALLNUMBER, bib.TITLE
--- select list.BIDS
---        --, bib.BIBTYPE, bib.CALLNUMBER,bib.ERESOURCE,bib.HIDDENTYPE,
---        -- bib.ACQTYPE,bib.SUPPRESSDATE,bib.SUPPRESSTYPE, bib.title
---
--- from "ItemlessBids-06132023" list
--- -- inner join  BBIBMAP_V2 bib on bib.bid = list.BIDS
--- --left outer join GMU_BIDS_06132023 gmu on list.BIDS=gmu.BID
---  -- join GMU_BIDS_06132023 gmu on gmu.bid = list.BIDS
--- where
---     BIDS not in (select bid from ILL_06132023 ILL)
--- and
--- BIDS not in (select bid from GMU_BIDS_06132023 gmu )
--- ;
--- Need some view of the Logs after Delete Bibs runs.
-
--- Look for the Delete Bibs Remove String
 
 select bc.bid, bib.CALLNUMBER, bt.WORDDATA removestring
 
@@ -90,8 +62,6 @@ join systemitemcodes_v2 b
 on a.status = b.code
 where a.status = 'SW' or (a.status = 'SM' and a.statusdate <= sysdate-182.5) or (a.status = 'SX' and a.statusdate <= sysdate-30)
 ;
-
-
 
 
 
@@ -189,8 +159,6 @@ AND (TOTCIRC_SYS.TCNT  = TOTCIRC_BRA.BCNT)
     )
 ORDER BY BID;
 
-
-;
 select count(txi.patronid)
 from transitem_v2 txi
 left join branch_v2 br on txi.pickupbranch=br.branchnumber
@@ -255,7 +223,6 @@ inner join btags_v2 tags2 on (tags2.tagdata = tags.tagDATA)
 
 where marc.tagnumber=590 and marc.bid=31598
 group by  marc.bid, tags.tagid, tags2.tagid, tags.worddata,tags2.worddata,tags.TAGDATA,tags2.TAGDATA
-
 ;
 
 
@@ -348,8 +315,6 @@ where
     or trunc(p.sactdate) >= trunc(sysdate-1096))
 ;
 
-
-
 -- Determine Oracle Client Version
 SELECT
   DISTINCT
@@ -368,7 +333,6 @@ FROM
   v$session_connect_info s
 WHERE
   s.sid = SYS_CONTEXT('USERENV', 'SID');
-
 
 
 -- dup name and email. First is not a webreg
@@ -459,6 +423,7 @@ WHERE (
         ("ITEM_V2"."STATUS" NOT IN ('L', 'N', 'O', 'R', 'RF', 'SG', 'SM', 'SW', 'SX'))
         --AND (SYSDATE > TO_DATE('2024-02-24 23:00:56', 'YYYY-MM-DD HH24:MI:SS'))
     ) ;
+
 -- All Item Info
 select  distinct ITEM_V2.BID, ITEM_V2.ITEM,ITEM_V2.CN,LOCATION_V2.LOCCODE,BRANCH_V2.BRANCHCODE, SYSTEMITEMCODES_V2.CODE,BBIBCONTENTS_V2.TAGID, BTAGS_V2.WORDDATA,TAGINDICATORS,TITLE
 from item_v2
@@ -508,7 +473,6 @@ WHERE (
 
 ORDER BY BID;
 
-
 -- Oracle KEEPs the genre
 SELECT
     bib.bid,
@@ -538,7 +502,6 @@ SELECT
     MAX(bib.BID) KEEP ( DENSE_RANK LAST ORDER BY tag.TAGID ) bib,
 count(bib.BID),
     MAX(WORDDATA) KEEP ( DENSE_RANK LAST ORDER BY tag.TAGID ) genre,
-
 
    -- contents.TAGINDICATORS,
     MAX(TITLE) KEEP ( DENSE_RANK LAST ORDER BY tag.TAGID) title
@@ -574,7 +537,6 @@ t.itemmedia IN (6,8,9,12,20,21,25,26,28,40,42,50,52) -- this is currently just p
 GROUP BY t.itembid, b.title, b.author
 ORDER BY COUNT(t.item) DESC
 FETCH FIRST 25 ROWS ONLY;
-
 
 -- ILL Titles have INTERLIBRARY_LOAN ==Y in BBIBMAP_V2, ITEM MEDIA / MEDIA_V2 MEDCODE value of 19 or 23
 
@@ -615,13 +577,11 @@ select patron.PATRONID, EMAILNOTICES, status.DESCRIPTION,patron.PHONETYPEID1
 from PATRON_V2 patron
 inner join bst_v2 status on status.bst = patron.STATUS
 where EMAILNOTICES=1 and PHONETYPEID1 > 1 and PHONETYPEID1 !=47
-
 ;
 select count(patron.PATRONID)
 from PATRON_V2 patron
 inner join bst_v2 status on status.bst = patron.STATUS
 where EMAILNOTICES=1 and PHONETYPEID1 > 1 and PHONETYPEID1 !=47
-
 ;
 -- Staff Borrower Patrons setup to receive SMS Text Messages
 select patron.PATRONID, patron.name,EMAILNOTICES, status.DESCRIPTION,patron.PHONETYPEID1
@@ -629,7 +589,6 @@ from PATRON_V2 patron
 inner join bst_v2 status on status.bst = patron.STATUS
 inner join BTY_V2 type on type.BTYNUMBER = patron.BTY
 where EMAILNOTICES=1 and PHONETYPEID1 > 1 and PHONETYPEID1 !=47 and type.BTYCODE='STFBRW'
-
 ;
 
 -- BIDs that do not have a 655. Use CTE
@@ -719,7 +678,6 @@ select distinct bib.bid, bib.TITLE from BBIBMAP_V2 bib, BBIBCONTENTS_V2 contents
 
 
 -- Media type and code don't match
-
 SELECT i.ITEM, med.medname,tags.WORDDATA
 FROM item_v2 i
 join MEDIA_V2 med on med.MEDNUMBER =i.MEDIA
@@ -731,9 +689,8 @@ WHERE
 AND LOWER(tags.worddata) not LIKE '%large print%' ) OR
 ( med.medcode != 'BKLP' and cont.TAGNUMBER=340
 AND LOWER(tags.worddata)  LIKE '%large print%' )
-
-
 ;
+
 SELECT i.ITEM, med.medname,tags.WORDDATA
 FROM item_v2 i
 join MEDIA_V2 med on med.MEDNUMBER =i.MEDIA
@@ -743,6 +700,7 @@ join btags_v2 tags on tags.TAGID = cont.TAGID
 WHERE med.medcode != 'BKLP' and cont.TAGNUMBER=340
 AND LOWER(tags.worddata)  LIKE '%large print%'
 ;
+
 SELECT i.ITEM, med.medname,tags.WORDDATA
 FROM item_v2 i
 join MEDIA_V2 med on med.MEDNUMBER =i.MEDIA
@@ -752,6 +710,7 @@ join btags_v2 tags on tags.TAGID = cont.TAGID
 WHERE med.medcode != 'BKLP' and cont.TAGNUMBER=340
 AND LOWER(tags.worddata)  LIKE '%large print%'
 ;
+
 SELECT i.ITEM, med.medname,tags.WORDDATA,tags.TAGDATA
 FROM item_v2 i
 join MEDIA_V2 med on med.MEDNUMBER =i.MEDIA
@@ -797,7 +756,6 @@ select patron.patronid, patron.FIRSTNAME, patron.MIDDLENAME, patron.LASTNAME, 'P
 
 
      order by patron.editdate desc
-
 
 -- CarlX Ad-Hoc Query group
 select CLAIMEDNEVERHADATBRANCH from CXDAT.TRANSITEM ;
@@ -873,7 +831,6 @@ where address is not null and obsolete != '1' ;
 create table phonetype_backup as (select * from phonetype_v2) ;
 
 --03/14/2025 Fines and Fees WLB
-
 -- Students blocked with Fine
     select  student.patronid Barcode, student.NAME,
            f.ITEMID ITEM,
@@ -895,7 +852,6 @@ create table phonetype_backup as (select * from phonetype_v2) ;
     F.TRANSCODE = 'FS'
    -- and F.PAYMENTCODE is NULL
     --and to_date(f.CREATIONDATE) = '20-NOV-2024'
-
 ORDER by to_date(f.CREATIONDATE) DESC
     ;
 
@@ -971,7 +927,6 @@ join location_v2 L on F.location=l.locnumber
 where
    upper(f.notes) like 'WAIVED%';
 
-
 -- 03/27/2025 for Newbery Honors AI Prompt Pub Date 2024
 select   bib.bid,bib.publishingdate, bib.isbn, bib.author,
                  bib.TITLE,bib.CALLNUMBER, format.formattext
@@ -996,7 +951,6 @@ and bib.eresource != 'Y'
   and acqtype = 0
 
      and  ( upper(formattext) like '%BOOK%' or upper(formattext) like '%PRINT%')
-
 ;
 -- Streamlined version
 select   bid,publishingdate, isbn, author,
@@ -1046,7 +1000,6 @@ inner join patronnotetext_v2 notes on notes.noteid = todelete.noteid
 
 ;
 
-
 -- DigitalMaryland Import via MarcEdit
 select bid, userid, recordtype, callnumber, formattext,
     trunc(biblatestchange ) titlechange,trunc(itemslatestchange) itemchange,
@@ -1055,7 +1008,6 @@ where
 --trunc(biblatestchange) like '2025-04%' and
     formatterm.formattermid = bib.format and
 userid='wb0'
-
 ;
 -- 06/16/2025 Global Database Name lookup for Oracle Autonomous Database loading/linking
 select name from V$database;
@@ -1089,7 +1041,6 @@ WHERE
 ORDER BY PATRON_V2.NAME, BRANCH_V2.BRANCHCODE ;
 
 -- Test SendHoldAvailableMsg . Test Server will have PHONETYPEID value 0
-
 SELECT
   PATRON_V2.PATRONID,
   PATRON_V2.NAME,
@@ -1138,8 +1089,6 @@ WHERE
 
 ORDER BY PHONETYPE_V2.phonetypeid, BRANCH_V2.BRANCHCODE, PATRON_V2.NAME;
 
-
-
 -- Aftan's test accounts
 SELECT
   PATRON_V2.PATRONID,
@@ -1161,8 +1110,6 @@ PATRONID in ('511729','11982022263822','11982022322016','11982011126329')
 ORDER BY PHONETYPE_V2.phonetypeid, BRANCH_V2.BRANCHCODE, PATRON_V2.NAME;
 
 
-
-
 -- 09/05/2025 after the test server changes
 select patron.patronid,patron.status,
        case patron.emailnotices when 0 then 'No Email Notices'
@@ -1181,7 +1128,6 @@ select patron.patronid,patron.status,
                note.NOTETYPE=900
 ;
 
-
 select distinct patron.patronid, upper(patron.email),
        case emailnotices when 0 then 'No Email Notices'
                          when 1 then 'Email Notices'
@@ -1191,7 +1137,6 @@ select distinct patron.patronid, upper(patron.email),
        bty.btycode, birthdate, name from patron_v2 patron
      inner join bty_v2 bty on (patron.bty = bty.btynumber)
      where substr(upper(patron.email),1, 10) in (select  substr(upper(bounce.email),1,10) from ppbounced bounce) ;
-
 
 -- Multibyte Characters in Patron Names
 select p.patronid,substrb(p.name,1), b.btycode, p.patronguid,p.status,trunc(p.birthdate),
@@ -1235,9 +1180,7 @@ inner join bty_v2 bty on (patron.bty = bty.btynumber)
 where email is not null ;
 
 
-
 -- Bounced , also PatronID not in FCPL CarlX
-
 select distinct patron.patronid, bounce."Patron ID (Barcode)" bounceid, bounce."DNC Comment",upper(patron.email),upper(bounce.email) as bounceemail,
        case emailnotices when 0 then 'No Email Notices'
                          when 1 then 'Email Notices'
@@ -1253,7 +1196,6 @@ on   upper(patron.email) = upper(bounce.email)
 where patron.emailnotices=1 or patron.patronid is null order by patron.patronid;
 
 -- UTL_MATCH.EDIT_DISTANCE_SIMILARITY
-
 select distinct patron.patronid, bounce."Patron ID (Barcode)" bounceid, bounce."DNC Comment",upper(patron.email),upper(bounce.email) as bounceemail,
        case emailnotices when 0 then 'No Email Notices'
                          when 1 then 'Email Notices'
@@ -1267,8 +1209,6 @@ inner join bty_v2 bty on (patron.bty = bty.btynumber)
 on   utl_match.edit_distance_similarity(upper(patron.email), upper(bounce.email)) > 80
 
 where patron.emailnotices=1 or patron.patronid is null order by patron.patronid;
-
-
 
 select distinct patron.patronid,bounce."Patron ID (Barcode)" bouncepatron, bounce."DNC Comment",upper(patron.email),upper(bounce.email) as bounceemail,
        case emailnotices when 0 then 'No Email Notices'
@@ -1310,7 +1250,6 @@ select patron.patronid, nested.bouncepatron, upper(patron.email), upper(nested.e
 
 
 order by patron.patronid ;
-
 -- subquery version instead of join
     select distinct patron.patronid, nested.bouncepatron, upper(patron.email), upper(nested.email) as bounceemail, nested."DNC Comment",
        case emailnotices when 0 then 'No Email Notices'
@@ -1385,7 +1324,6 @@ from ppbcomm bounce
 left outer join patron on (bounce."Patron ID (Barcode)" = patron.patronid) OR (bounce.email = patron.email)
 where patron.patronid is null
 order by bouncepatron ;
-
 
 -- multibyte name search for webreg.
 select p.patronid, p.patronguid,p.status, substrb(p.name,1), trunc(p.birthdate), p.patronid, b.btycode,
@@ -1477,8 +1415,6 @@ join bty_v2 bty on p.bty=bty.btynumber
 left join txlog_v2 tx on p.patronid=tx.patronid
 join branch_v2 b on p.regbranch=b.branchnumber
 
-
-
 WHERE p.emailnotices = '0'
 and p.email is not null
 and bty.btycode in ('CHILD','PUBLIC')
@@ -1488,8 +1424,6 @@ and p.sendholdavailablemsg = 'N'
 and tx.termnumber = '$ZT0.#EC'
 --and b.branchcode = 'BRU'
 and p.regdate > '28-FEB-25'
-
-
 
 ORDER BY p.regdate desc, p.name ;
 

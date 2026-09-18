@@ -141,7 +141,7 @@ select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade
 
 -- MSD Inquiry Ellicott City
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
-       street1, student.city1, student.state1, student.zip1, student.status, trunc(actdate) actdate,btycode, branchcode,
+       street1, student.city1, student.state1, student.zip1, student.status, trunc(sactdate) actdate,btycode, branchcode,
        trunc(regdate)
     from patron_v2 student
     inner join bty_v2 type on student.bty = type.BTYNUMBER
@@ -150,10 +150,10 @@ select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade
     inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
     where
      branchcode ='SSL' and
-   --  upper(label.label) like 'GRADE%' and
-       --upper(student.street1) like '%MSD%' OR
-    upper(student.street1) like '%MONTGOMERY%'
-    and trunc(student.ACTDATE)>='1-FEB-2024'
+    upper(label.label) like 'GRADE%' and
+    ( upper(student.street1) like '%CLARKE%'
+    OR upper(student.street1) like '%MONTGOMERY%')
+    and trunc(student.SACTDATE)>='1-FEB-2025'
     order by ACTDATE desc, LASTNAME;
 
 -- Hoopla usage
@@ -257,7 +257,7 @@ select patron.patronid , type.BTYNAME ,email from PATRON_V2 patron
 ;
 --  Outreach new registrations
 
-select distinct newreg.patronid, newreg.name , branch.BRANCHCODE ,newreg.USERID,TERMNUMBER,REGDATE
+select newreg.patronid, newreg.name , branch.BRANCHCODE ,newreg.USERID,TERMNUMBER,REGDATE
 
     from patron_v2 newreg
     --inner join UDFVALUE_V2 udfvalue on (udfvalue.numcode = udfpatron.numcode) and (udfvalue.fieldid = udfpatron.fieldid)
@@ -268,13 +268,13 @@ select distinct newreg.patronid, newreg.name , branch.BRANCHCODE ,newreg.USERID,
     where
        -- newreg.USERID='cc0' and
         upper(trans.TRANSACTIONTYPE)= 'PR' and
-         -- newreg.REGBRANCH = 18 and
-       -- branch.BRANCHCODE='VAN' and
+        --newreg.REGBRANCH = 18 and
+        -- branch.BRANCHCODE='VAN' and
        --trans.termnumber='$ZT0.#EC' and
-        trunc(regdate) ='20-DEC-24' and
-        TO_CHAR(newreg.regdate, 'HH24:MI:SS') BETWEEN '15:30:00' AND '16:30:00'
-
-    order by REGDATE desc ;
+        trunc(regdate) ='12-SEP-26' and
+        TO_CHAR(newreg.regdate, 'HH24:MI:SS') BETWEEN '09:00:00' AND '16:50:00'
+    order by REGDATE desc
+;
 
 select patronid,name from PATRON_V2 where name like ('%PROGRAM%');
 
@@ -299,7 +299,65 @@ select distinct newreg.patronid, /*newreg.name,*/ branch.BRANCHCODE transbranch,
     order by newreg.REGDATE desc ;
 
 -- Search TXLOG for VAN outreach in late 2024: Oct 4, Oct 18, Nov 1, Nov 15, Dec 20
--- 01/17/2025
+-- 09/12/2026 In the Streets
+with trans as (
+    select
+        *
+    from txlog_v2 xlog
+    where trunc(systemtimestamp) = '12-SEP-2026'
+)
+select case TRANSACTIONTYPE
+       when 'PR' then 'PATRON REG'
+       when 'PC' then 'PATRON CHG'
+    else 'UNKNOWN'
+    end,
+       trans.TRANSACTIONTYPE, trans.patronid,newreg.NAME,TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS')
+
+    from trans
+        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    where
+
+      -- upper(branch.BRANCHCODE)='VAN' and
+        (
+          trunc(trans.SYSTEMTIMESTAMP) = '12-SEP-26'
+
+            )
+      and TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '09:00:00' and '17:00:00'
+
+  --  group by TRANSACTIONTYPE,trunc(SYSTEMTIMESTAMP)
+    order by trans.SYSTEMTIMESTAMP   ;
+
+
+with trans as (
+    select
+        *
+    from txlog_v2
+    where trunc(systemtimestamp) = '12-SEP-2026'
+)
+select case TRANSACTIONTYPE
+       when 'PR' then 'PATRON REG'
+       when 'CH' then 'CHARGE'
+       when 'DC' then 'RETURN'
+    else 'UNKNOWN'
+    end,
+       count (trans.TRANSACTIONTYPE), trunc(trans.SYSTEMTIMESTAMP)
+
+    from trans
+        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    where
+
+      upper(branch.BRANCHCODE)='VAN' and
+        (
+          trunc(trans.SYSTEMTIMESTAMP) = '12-SEP-26'
+
+            ) and
+      TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '09:30:00' AND '16:50:00'
+
+    group by TRANSACTIONTYPE,trunc(SYSTEMTIMESTAMP)
+    order by trunc(trans.SYSTEMTIMESTAMP)  ;
+
 with trans as (
     select
         *
@@ -916,14 +974,14 @@ select
     group by TRANSACTIONTYPE , trunc(SYSTEMTIMESTAMP)
         ;
 
--- In the Streets 09/13/2025  Inconsistencies with the BRANCH of registration. Also two terminals.
+-- In the Streets 09/12/2026  Inconsistencies with the BRANCH of registration. Also two terminals.
 with trans as (
     select log.patronid patron,log.TRANSACTIONTYPE, log.PATRONID, log.SYSTEMTIMESTAMP, log.txtransdate, log.termnumber, log.usernumber, log.ENVBRANCH ,
            log.Patronbranchofregistration regbranch from txlog_v2 log
-     where  TO_CHAR(log.SYSTEMTIMESTAMP,'DD-MM-YY') = '13-09-25'  and TRANSACTIONTYPE='PR' )
+     where  TO_CHAR(log.SYSTEMTIMESTAMP,'DD-MM-YY') = '12-09-26'  and TRANSACTIONTYPE='PR' )
 select
 
-       trans.patronid patron, newreg.regby regisby,trans.termnumber,trans.SYSTEMTIMESTAMP timestamp, trans.usernumber,
+       trans.patronid patron, newreg.NAME, newreg.street1, /*newreg.regby regisby,trans.termnumber*/ newreg.CITY1, trans.SYSTEMTIMESTAMP timestamp, trans.usernumber,
        branch.branchcode,regbranch.branchcode regisbranch
     from trans
         inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
@@ -931,17 +989,19 @@ select
     inner join branch_v2 regbranch on trans.regbranch = regbranch.BRANCHNUMBER
     where
       -- upper(branch.BRANCHCODE)=:BRANCHCODE and
-      TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '10:30:00' AND '17:00:00'
+        newreg.REGBY='vo0'  and
+      TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '09:00:00' AND '17:00:00'
     --group by TRANSACTIONTYPE , trunc(SYSTEMTIMESTAMP)
+        order by SYSTEMTIMESTAMP
         ;
 
 with trans as (
     select log.patronid patron,log.TRANSACTIONTYPE, log.PATRONID, log.SYSTEMTIMESTAMP,
            log.txtransdate, log.termnumber, log.ENVBRANCH ,
            log.Patronbranchofregistration regbranch from txlog_v2 log
-     where  TO_CHAR(log.SYSTEMTIMESTAMP,'DD-MM-YY') = '13-09-25'
-       --and TRANSACTIONTYPE='PR'
-           and log.patronid = '1198290009513')
+     where  TO_CHAR(log.SYSTEMTIMESTAMP,'DD-MM-YY') = '12-09-26'
+       and TRANSACTIONTYPE='PR'
+       --    and log.patronid = '1198290009513')
 
 select
        trans.patronid patron, trans.transactiontype, newreg.regby regisby,trans.termnumber,trans.SYSTEMTIMESTAMP timestamp,

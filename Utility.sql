@@ -1,3 +1,9 @@
+-- Misc Utilities
+-- SHOW DATABASES;
+-- SHOW TABLES IN database;
+-- SHOW COLUMNS IN table;
+-- DESCRIBE table;
+
 SELECT
   DISTINCT
   s.client_version
