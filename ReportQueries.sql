@@ -1030,22 +1030,112 @@ with trans as (
            log.SYSTEMTIMESTAMP,
             log.txtransdate, log.ENVBRANCH,
             log.Patronbranchofregistration regbranch from txlog_v2 log
-     where  trunc(log.SYSTEMTIMESTAMP) between (current_date + (1- current_date)  )  and current_date
-       and TRANSACTIONTYPE='PR'
+     where
+         --trunc(log.SYSTEMTIMESTAMP) between (current_date + (1- current_date)  )  and current_date
+       trunc(log.systemtimestamp)  between (trunc(sysdate,'MM')  )  and sysdate
+         and TRANSACTIONTYPE='PR'
                )
 
 select
-       trans.patronid patron, trans.transactiontype, newreg.regby regisby,trans.SYSTEMTIMESTAMP timestamp,
+       trans.patron, trans.transactiontype, newreg.regby regisby,trans.SYSTEMTIMESTAMP timestamp,
        branch.branchcode,regbranch.branchcode regisbranch
     from trans
-        inner join patron_v2 newreg on  trans.patronid=newreg.PATRONID
+        inner join patron_v2 newreg on  trans.patron=newreg.PATRONID
         inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
     inner join branch_v2 regbranch on trans.regbranch = regbranch.BRANCHNUMBER
-    where
-      -- upper(branch.BRANCHCODE)=:BRANCHCODE and
-      TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '10:30:00' AND '17:00:00'
+    -- where
+      --upper(branch.BRANCHCODE)=:BRANCHCODE
+      --TO_CHAR(trans.SYSTEMTIMESTAMP, 'HH24:MI:SS') BETWEEN '10:30:00' AND '17:00:00'
     --group by TRANSACTIONTYPE , trunc(SYSTEMTIMESTAMP)
+    -- group by branch.BRANCHCODE
         ;
+
+-- 09/22/26 Registrations since start of month
+with trans as (
+    select log.patronid patron, log.TRANSACTIONTYPE,
+           log.SYSTEMTIMESTAMP,
+            log.txtransdate, log.ENVBRANCH,
+            log.Patronbranchofregistration regbranch from txlog_v2 log
+     where
+       trunc(log.systemtimestamp)  between (trunc(sysdate,'MM')  )  and sysdate
+         and TRANSACTIONTYPE='PR'
+               )
+
+select
+  REGBRANCH.BRANCHCODE,trunc(trans.SYSTEMTIMESTAMP) regdate,
+  count(regbranch.BRANCHCODE) regs,
+                            sum(count(regbranch.BRANCHCODE))
+                            over (partition by REGBRANCH.branchcode
+                                  order by trunc(trans.SYSTEMTIMESTAMP)
+                                rows between unbounded preceding and current row )
+                                as running
+    from trans
+        inner join patron_v2 newreg on  trans.patron=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    inner join branch_v2 regbranch on trans.regbranch = regbranch.BRANCHNUMBER
+    -- where
+    group by regbranch.BRANCHCODE, trunc(trans.SYSTEMTIMESTAMP)
+ order by trunc(trans.SYSTEMTIMESTAMP), regbranch.BRANCHCODE    ;
+
+-- Running overall total
+
+with trans as (
+    select log.patronid patron, log.TRANSACTIONTYPE,
+            to_date(log.SYSTEMTIMESTAMP) regdate,
+            -- log.txtransdate regdate,
+            log.ENVBRANCH,
+            log.Patronbranchofregistration regbranch from txlog_v2 log
+     where
+       to_date(log.SYSTEMTIMESTAMP) between (trunc(sysdate,'MM') )  and sysdate
+         and TRANSACTIONTYPE='PR'
+               )
+select
+  REGBRANCH.BRANCHCODE,trans.regdate,
+  count(regbranch.BRANCHCODE) regs,
+                            sum(count(regbranch.BRANCHCODE))
+                            over (
+                                partition by regbranch.BRANCHCODE
+                                order by trans.regdate
+                                rows between unbounded preceding and current row)
+                                as branch_tot,
+                            sum(count(regbranch.BRANCHCODE))
+                            over (
+
+                                order by trans.regdate
+                                rows between unbounded preceding and current row)
+                                as system_tot
+    from trans
+        inner join patron_v2 newreg on  trans.patron=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    inner join branch_v2 regbranch on trans.regbranch = regbranch.BRANCHNUMBER
+    -- where
+    group by regbranch.BRANCHCODE, trans.regdate
+ order by trans.regdate, regbranch.BRANCHCODE    ;
+
+-- For Graphing New Library Card Sign-ups in the Current Month
+with trans as (
+    select log.patronid patron, log.TRANSACTIONTYPE,
+           to_date(log.SYSTEMTIMESTAMP) regdate,
+            --log.txtransdate,
+            log.ENVBRANCH,
+            log.Patronbranchofregistration regbranch from txlog_v2 log
+     where
+     to_date(log.SYSTEMTIMESTAMP) between (trunc(sysdate,'MM')) and sysdate
+         and TRANSACTIONTYPE='PR'
+               )
+
+select
+  REGBRANCH.BRANCHCODE, trans.regdate,
+  count(regbranch.BRANCHCODE) regs
+-- sum(count(regbranch.BRANCHCODE)) total
+    from trans
+        inner join patron_v2 newreg on  trans.patron=newreg.PATRONID
+        inner join branch_v2 branch on trans.envbranch = branch.BRANCHNUMBER
+    inner join branch_v2 regbranch on trans.regbranch = regbranch.BRANCHNUMBER
+    -- where
+    group by regbranch.BRANCHCODE, trans.regdate
+ order by trans.regdate, regbranch.BRANCHCODE    ;
+
 
 -- September/October 2025
 -- Last Month:  trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))

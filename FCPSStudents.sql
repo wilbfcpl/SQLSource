@@ -847,13 +847,13 @@ and ( F2.PAYMENTCODE  not in ('P','W','C'))
 -- having count(f.ITEMID) = 1
 ORDER by PATRONID
 ;
+-- 09/21/26 SSCFees092126
 -- Students with Hard Block and Fines still on the books-not Waived,Paid, Cancelled
-select distinct student.patronid,  f.ITEMID, (f.AMOUNT / 100) FeeAmt,TO_DATE(f.CREATIONDATE) FeeDate,
-                student.NAME
-
---     from PATRON_V2 student
-from "SSCFees091426" fees
-    inner join PATRON_V2 student on student.PATRONID= to_char(fees.PATRONID)
+select distinct student.patronid, f.ITEMID, (f.AMOUNT / 100) FeeAmt,
+                TO_DATE(f.CREATIONDATE) FeeDate,student.NAME
+   from PATRON_V2 student
+-- from "SSCFees091426" fees
+--    inner join PATRON_V2 student on student.PATRONID= to_char(fees.PATRONID)
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
     JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
@@ -865,9 +865,7 @@ from "SSCFees091426" fees
     F.TRANSCODE = 'FS' and
     F.PAYMENTCODE is NULL
  AND  F2.ITEMID IS NULL
-
-order by PATRONID
-;
+order by PATRONID ;
 
 select  student.patronid, student.NAME, student.status,
         -- BTYCODE, branch.BRANCHCODE,
@@ -1048,8 +1046,8 @@ select  student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,
  AND  F2.ITEMID IS NULL
 order by Barcode, finedate desc , student.name asc
 ;
--- Find the api settled fees
-select  student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,
+--  09/18/2026 Find the api settled fees
+select  distinct student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,
         f.PAYMENTCODE paycode,
          TO_DATE(f.CREATIONDATE) settledate,
         student.NAME student,
@@ -1057,7 +1055,7 @@ select  student.patronid Barcode, f.ITEMID ITEM, (f.AMOUNT / 100) amount,
           f.alias,
           f.notes
 
-    from PATRON_V2 student
+    from "SSCFees091426" inner join PATRON_V2 student on to_char("SSCFees091426".PATRONID) = student.PATRONID
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
     JOIN PATRONFISCAL_V2 F ON student.PATRONID = F.PATRONID
@@ -1074,6 +1072,20 @@ order by settledate desc , student.name asc
 ;
 
 
+-- 09/18/2026 Fines and Fees WLB
+select f.patronid, f.alias, trunc(f.creationdate) as waive_date, f.paymentcode, f.itemid, f.notes, f.amount,
+       f.transcode, f.processed, f.fiscaltype, trunc(f.transdate) as transdate, trunc(f.duedate) as duedate
+FROM PATRON_V2 P
+JOIN PATRONFISCAL_V2 F ON P.PATRONID = F.PATRONID
+LEFT JOIN PATRONFISCAL_V2 F2 ON F2.ITEMID = F.ITEMID
+JOIN BTY_V2 T ON P.BTY=T.BTYNUMBER
+LEFT JOIN BRANCH_V2 B ON P.DEFAULTBRANCH=B.BRANCHNUMBER
+join location_v2 L on F.location=l.locnumber
+
+where
+   upper(f.notes) like 'WAIVED%'
+order by waive_date desc
+;
 
 -- Want unpaid, not yet blocked
     select  student.patronid Barcode, student.NAME,
@@ -1303,7 +1315,7 @@ where birthdate is not null order by patronid ;
 select patronid,name,street1,birthdate, actdate, regdate, editdate,status from patron_v2 inner join bty_v2 on patron_v2.bty=bty_v2.btynumber
 where btycode='STUDNT' and birthdate is null and trunc(editdate)>  ADD_MONTHS(trunc(sysdate,'MM') ,-1 ) order by patronid , editdate desc;
 
--- MSD Students before 05-Feb-2026
+-- MSD Students on Sep 28, 2026
 select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
        street1, student.city1, student.state1, student.zip1, student.status,
        trunc(sactdate) selfactivity,btycode, branchcode,
@@ -1315,32 +1327,51 @@ select student.patronid, student.firstname, student.lastname,udf.VALUENAME grade
     inner join udflabel_v2 label on udf.fieldid=label.fieldid
     where
      branchcode ='SSL' and
-      label.label = 'Grade' and
-      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+      label.label = 'Grade'
+  -- and ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+   -- and ( upper(student.street1) like '%OLD MONT%' )
+        and ( upper(student.street1) like '%101 CLARKE%' )
      -- and trunc(student.sactdate)>='01-APR-2025'
    -- and (trunc(student.SACTDATE)<='1-FEB-2020' or trunc(student.SACTDATE) is null)
     -- and ( trunc(student.editdate) < '01-SEP-2025')
     -- and ( trunc(student.regdate) <'01-SEP-2025')
-        and ( trunc(student.editdate) < '05-FEB-2026')
-    and ( trunc(student.regdate) <'05-FEB-2026')
+     --   and ( trunc(student.editdate) < '05-FEB-2026')
+  and     (TO_DATE(student.REGDATE) >= '28-SEP-2026'
+        OR TO_DATE(student.EDITDATE) >= '28-SEP-2026'
+        )
 
-    order by editdate desc, LASTNAME;
+    order by LASTNAME;
 --
 
--- MSD Students not in the 05-Feb-2026 Update temporary table MSDSTUDENTS020526
+-- MSD Students not in the 09-28-26 Update temporary tables MSD_COLUMBIA_092826 and MSD_FREDERICK_092826
 select
        --student.patronid, msdstudents.student_number,
-    case substr(student.patronid,1,1)
-        when '1' then  substr(student.patronid,10)
-        when '3' then substr(student.patronid,2)
-        end MSD_ID,
-       student.patronid, student.firstname, student.lastname,udf.VALUENAME grade,
-       street1, student.status,
-       trunc(sactdate) selfactivity,btycode, branchcode,
-       trunc(regdate),trunc(editdate), student.userid
+
+       student.patronid,
+    --   student.userid,
+    --   to_char(msdstudents1."Student ID") students1,
+    --   to_char(msdstudents2."Student ID") students2,
+       student.firstname,
+       student.lastname,
+      -- udf.VALUENAME grade,
+       street1,
+       --student.status,
+       TO_DATE(editdate),
+       TO_DATE(regdate),
+       TO_DATE(sactdate) selfactivity
+
+--   btycode, branchcode,
     from patron_v2 student
-    left outer join MSDSTUDENTS020526 msdstudents ON (  (instr(student.patronid,msdstudents.student_number,10) !=0 )
-                                                            OR (instr(student.patronid,msdstudents.student_number,2) !=0))
+    left outer join MSD_COLUMBIA_092826 msdstudents1 ON
+         ( substr(student.PATRONID,10,5)=substr(to_char(msdstudents1."Student ID" ),1,5) OR
+          substr(student.PATRONID,11,4)=substr(to_char(msdstudents1."Student ID" ),1,4)
+             )
+    left outer join MSD_FREDERICK_092826 msdstudents2 ON
+         ( substr(student.PATRONID,10,5)=substr(to_char(msdstudents2."Student ID" ),1,5) OR
+          substr(student.PATRONID,11,4)=substr(to_char(msdstudents2."Student ID" ),1,4)
+             )
+
+
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
@@ -1349,9 +1380,204 @@ select
      branchcode ='SSL' and   label.label = 'Grade' and
       ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
     and
-         (  msdstudents.student_number is null  and trunc(student.editdate)<'05-FEB-2026'))
+         (  msdstudents1."Student ID" is null ) AND
+         (  msdstudents2."Student ID" is null )
+       --  (       and trunc(student.editdate)<'28-SEP-2026')
 
-    order by editdate desc, LASTNAME;
+    order by editdate desc;
+
+-- MSD Students not in the 09-28-26 Update temporary tables MSD_COLUMBIA_092826, MSD_FREDERICK_092826, and MSD_STUDENTS_TO_REMOVE_092826
+select
+       --student.patronid, msdstudents.student_number,
+
+       student.patronid,
+    --   student.userid,
+    --   to_char(msdstudents1."Student ID") students1,
+    --   to_char(msdstudents2."Student ID") students2,
+       student.firstname,
+       student.lastname,
+      -- udf.VALUENAME grade,
+       street1,
+       --student.status,
+       TO_DATE(editdate),
+       TO_DATE(regdate),
+       TO_DATE(sactdate) selfactivity
+
+--   btycode, branchcode,
+    from patron_v2 student
+    left outer join MSD_COLUMBIA_092826 msdstudents1 ON
+         ( substr(student.PATRONID,10,5)=substr(to_char(msdstudents1."Student ID" ),1,5) OR
+          substr(student.PATRONID,11,4)=substr(to_char(msdstudents1."Student ID" ),1,4)
+             )
+    left outer join MSD_FREDERICK_092826 msdstudents2 ON
+         ( substr(student.PATRONID,10,5)=substr(to_char(msdstudents2."Student ID" ),1,5) OR
+          substr(student.PATRONID,11,4)=substr(to_char(msdstudents2."Student ID" ),1,4)
+             )
+
+        left outer join MSD_STUDENTS_TO_REMOVE_092826 msdstudents3 ON
+            student.patronid=
+         (
+            case UPPER(to_char(CAMPUS))
+            when 'COLUMBIA' then '3' || to_char(msdstudents3."Student ID")
+            when 'FREDERICK' then
+                                case length(to_char(msdstudents3."Student ID"))
+                                when 4 then '119829190' || to_char(msdstudents3."Student ID")
+                                when 5 then '11982919' || to_char(msdstudents3."Student ID")
+                                end
+            end
+             )
+
+
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and   label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+    and
+         (  msdstudents1."Student ID" is null ) AND
+         (  msdstudents2."Student ID" is null ) AND
+         (  msdstudents3."Student ID" is null )
+       --  (       and trunc(student.editdate)<'28-SEP-2026')
+
+    order by selfactivity desc, editdate desc, REGDATE desc ;
+
+-- MSD PatronID length != 14
+select
+
+       student.patronid,
+       student.firstname,
+       student.lastname,
+       udf.VALUENAME grade,
+      ZIP1,
+       --student.status,
+       -- BTYCODE,
+       TO_DATE(editdate),
+       TO_DATE(regdate),
+       TO_DATE(sactdate) selfactivity
+
+--   btycode, branchcode,
+    from patron_v2 student
+
+
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and   label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+
+    and TO_DATE(student.editdate)<'28-SEP-2026'
+
+    and length(student.patronid)!=14
+
+    order by editdate desc;
+
+-- MSD same name, two IDs
+select
+       student.patronid id1,
+       student2.PATRONID id2,
+       student.name,
+       student.firstname,
+       student.lastname,
+       udf.VALUENAME grade,
+      student.ZIP1,
+       --student.status,
+       -- BTYCODE,
+       TO_DATE(student.editdate) firstedit,
+       TO_DATE(student.regdate) firstreg,
+       TO_DATE(student.sactdate) firstsact,
+       TO_DATE(student2.editdate) secondedit,
+       TO_DATE(student2.regdate)  secondreg,
+       TO_DATE(student2.sactdate) secondsact
+--   btycode, branchcode,
+    from patron_v2 student
+
+    join PATRON_V2 student2 on ((student.NAME = student2.NAME) and (student.PATRONID!=student2.PATRONID))
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and   label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+    --and student2.PATRONID is not null
+   -- and TO_DATE(student.editdate)<'28-SEP-2026'
+
+   -- and length(student.patronid)!=14
+
+    order by student.editdate desc;
+
+-- Students to Remove
+ select
+
+       student.patronid,
+       student.firstname,
+       student.lastname,
+       udf.VALUENAME grade,
+      ZIP1,
+       --student.status,
+       -- BTYCODE,
+       TO_DATE(editdate),
+       TO_DATE(regdate),
+       TO_DATE(sactdate) selfactivity
+
+--   btycode, branchcode,
+    from patron_v2 student
+    inner join MSD_STUDENTS_TO_REMOVE_092826 msdremove on ( student.PATRONID = '119829219' || substr(to_char(msdremove."Student ID"),1,5))
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and   label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+
+    and TO_DATE(student.editdate)<'28-SEP-2026'
+
+    and length(student.patronid)!=14
+
+    order by editdate desc;
+
+-- Identify Student accounts to remove listed in MSD_STUDENtS_TO_REMOVE_092826
+
+select
+        CAMPUS,
+        case UPPER(to_char(CAMPUS))
+            when 'COLUMBIA' then '3' || msdstudent."Student ID"
+            when 'FREDERICK' then
+                                case length(to_char(msdstudent."Student ID"))
+                                when 4 then '119829190' || msdstudent."Student ID"
+                                when 5 then '11982919' || msdstudent."Student ID"
+                                end
+            end concatid,
+       msdstudent."First Name",
+       msdstudent."Last Name",
+    udf.VALUENAME grade,
+   -- ZIP1,
+       TO_DATE(editdate) edit,
+       TO_DATE(regdate) reg,
+       TO_DATE(sactdate) selfactivity
+--   btycode, branchcode,
+    from MSD_STUDENTS_TO_REMOVE_092826 msdstudent
+    -- from patron_v2 student
+    inner join patron_v2 student  on (
+                                  (student.PATRONID = '1198292190' || substr(to_char(msdstudent."Student ID"),1,4))
+                                OR
+                                  (student.PATRONID = '119829219' || substr(to_char(msdstudent."Student ID"),1,5))
+                                OR
+                                (student.PATRONID = '3' || substr(to_char(msdstudent."Student ID"),1,5))
+        )
+     inner join bty_v2 type on student.bty = type.BTYNUMBER
+     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+     inner join udflabel_v2 label on udf.fieldid=label.fieldid
+
+   order by selfactivity desc, editdate desc, regdate desc
+;
+
 
 -- MSD Students not in the 05-Feb-2026 Update temporary table MSDSTUDENTS020526
 with uncertain_ids as (select
