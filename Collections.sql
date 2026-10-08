@@ -643,6 +643,49 @@ where ( marc.TAGNUMBER = '245' and upper(tags.WORDDATA) like '%JUNETEENTH%'
 group by bib.bid, bib.CALLNUMBER, bib.title
 having count(bib.bid) < 3;
 
+-- 10/08/2026
+-- FCPL catalog Holiday Movies from IMDB Best 50 List in table XMASFLICKS
+-- FCPL copies of IMDB top 50 XMASFLICKS
+
+select distinct bib.bid,
+       bib.CALLNUMBER,
+       bib.title,
+       to_char(XMASFLICKS.TITLE),
+       bib.ERESOURCE
+--,item.ITEM
+from bbibmap_v2 bib
+    inner join ITEM_V2 item on item.BID = bib.bid
+    inner join MEDIA_V2 media on media.MEDNUMBER = item.MEDIA
+    inner join XMASFLICKS on
+   trim(upper(bib.TITLE)) like trim(upper(TO_CHAR(XMASFLICKS.TITLE))) || '%'
+
+     -- slow ( upper(CONVERT(bib.TITLE,'AL32UTF8')) like (upper(CONVERT(to_char(XMASFLICKS.TITLE),'AL32UTF8')) || '%'))
+   --substr(upper(bib.TITLE),1,20)=substr(upper(TO_CHAR(XMASFLICKS.TITLE)),1,20)
+  --UTL_MATCH.JARO_WINKLER(to_char(XMASFLICKS.TITLE), bib.TITLE) > 0.90
+where ( (bib.ERESOURCE ='Y') OR (media.MEDNAME like '%DVD%') )
+
+order by bib.TITLE ;
+
+
+-- 10/08/2026
+-- eVideo XMASFLICKS
+select distinct bib.bid,
+       bib.CALLNUMBER,
+       bib.title,
+       tags.WORDDATA as Marc245,
+       to_char(XMASFLICKS.TITLE),
+       bib.ERESOURCE
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on marc.tagnumber='245' and tags.tagid = marc.tagid
+    inner join FORMATTERM_V2 format on format.FORMATTERMID = bib.FORMAT and bib.FORMAT=51
+     inner join XMASFLICKS on
+    UTL_MATCH.JARO_WINKLER(to_char(XMASFLICKS.TITLE), tags.WORDDATA) > 0.95
+    --upper(tags.WORDDATA) like trim(upper(TO_CHAR(XMASFLICKS.TITLE))) || '%'
+where (bib.ERESOURCE ='Y')
+order by bib.TITLE ;
+
+
 select bib.bid,
        bib.recordtype,
        bib.format,

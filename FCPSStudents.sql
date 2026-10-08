@@ -1443,6 +1443,65 @@ select
 
     order by selfactivity desc, editdate desc, REGDATE desc ;
 
+-- MSD Columbia Digital Cards
+select
+
+       student.patronid,
+       student.name,
+      -- student.lastname,
+       udf.VALUENAME grade,
+      --   ZIP1,
+       --student.status,
+     -- BTYCODE,
+       TO_DATE(editdate),
+       TO_DATE(regdate),
+       TO_DATE(sactdate) selfactivity
+      --branchcode,
+    from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and   label.label = 'Grade'
+      --( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+      and ( upper(student.street1) like '%OLD MONT%' )
+      --and TO_DATE(student.editdate)<'28-SEP-2026'
+
+    and length(student.patronid)<14
+
+    order by selfactivity desc, EDITDATE desc;
+
+-- MSD Columbia Digital and New Cards
+select
+
+       student.patronid digitalcard,
+       student2.PATRONID fullcard,
+       student.name,
+      -- student.lastname,
+       udf.VALUENAME grade,
+      --   ZIP1,
+       --student.status,
+     -- BTYCODE,
+       TO_DATE(student2.editdate),
+       TO_DATE(student.regdate),
+       TO_DATE(student.sactdate) selfactivity
+      --branchcode,
+    from patron_v2 student inner join PATRON_V2 student2 on substr(student.PATRONID,2)=substr(student2.PATRONID,10,5)
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and   label.label = 'Grade'
+      --( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+      and ( upper(student.street1) like '%OLD MONT%' )
+      and TO_DATE(student2.editdate)>='28-SEP-2026'
+
+    and length(student.patronid)<14
+
+    order by selfactivity desc, student.EDITDATE desc;
+
 -- MSD PatronID length != 14
 select
 
@@ -1510,7 +1569,7 @@ select
 
     order by student.editdate desc;
 
--- Students to Remove
+-- Students to Remove List
  select
 
        student.patronid,
@@ -1542,7 +1601,6 @@ select
     order by editdate desc;
 
 -- Identify Student accounts to remove listed in MSD_STUDENtS_TO_REMOVE_092826
-
 select
         CAMPUS,
         case UPPER(to_char(CAMPUS))

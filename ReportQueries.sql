@@ -1170,7 +1170,7 @@ select count(patron.patronid) patroncount,
     -- trunc(regdate)  between ('01-SEP-25'  )  and trunc(sysdate)
 
 group by   bty.BTYCODE, trunc(patron.regdate), branch.branchcode
-order by regdate desc, branch.branchcode asc
+order by regdate, branch.branchcode
         ;
 
 select count(patron.patronid) patroncount,sum(count(patron.patronid)) over (order by trunc(patron.regdate)) runningtotal,
@@ -1186,17 +1186,17 @@ group by  trunc(patron.regdate)
 order by regdate desc
 ;
 -- Last Month New Cards excluding students
-select count(patron.patronid) patroncount,sum(count(patron.patronid)) over (order by trunc(patron.regdate)) runningtotal,
-            trunc(patron.regdate) regdate
+select count(patron.patronid) patroncount,sum(count(patron.patronid)) over (order by to_date(patron.regdate)) runningtotal,
+            to_date(patron.regdate) regdate
             from patron_v2 patron
                 inner join bty_v2 bty on patron.BTY=bty.BTYNUMBER
                 inner join branch_v2 branch on patron.defaultbranch =branch.BRANCHNUMBER
     where
     bty.btycode NOT IN ( 'GRAD','ILL','INST','LIBUSE','STFBRW','STUDNT','TEMP'  )  and
-   trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+   to_date(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
 
-group by  trunc(patron.regdate)
-order by regdate desc
+group by  to_date(patron.regdate)
+order by regdate
 ;
 -- Up to :MonthsBack Months. User has to enter '-5' for 5 months back
 select count(patron.patronid) patroncount,sum(count(patron.patronid)) over (order by trunc(patron.regdate)) runningtotal,
@@ -1218,29 +1218,31 @@ select count(patron.patronid) patroncount,sum(count(patron.patronid)) over (orde
                 inner join branch_v2 branch on patron.defaultbranch =branch.BRANCHNUMBER
     where
     bty.btycode NOT IN ( 'GRAD','ILL','INST','LIBUSE','STFBRW','STUDNT')  and
-   trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
-
+trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+--regdate between '01-SEP-26' and '30-SEP-26'
 group by  trunc(patron.regdate)
-order by regdate desc
+order by regdate
 ;
-select trunc(patron.regdate) regdate, branch.branchcode, count(patron.patronid) patroncount,
-           sum(count(patron.patronid)) over (partition by patron.defaultbranch order by trunc(patron.regdate)) branchrunningtotal,
-           sum(count(patron.patronid)) over ( order by trunc(patron.regdate) range between 1 preceding and current row) dailytotal,
+
+
+select to_date(patron.regdate) regdate, branch.branchcode, count(patron.patronid) patroncount,
+           sum(count(patron.patronid)) over (partition by patron.defaultbranch order by to_date(patron.regdate)) branchrunningtotal,
+           sum(count(patron.patronid)) over ( order by to_date(patron.regdate) range between 1 preceding and current row) dailytotal,
       --      sum(count(patron.patronid)) over ( partition by patron.defaultbranch order by trunc(patron.regdate) range between 1 preceding and current row) branchdailytotal,
-           sum(count(patron.patronid)) over ( order by trunc(patron.regdate)) runningtotal
+           sum(count(patron.patronid)) over ( order by to_date(patron.regdate)) runningtotal
 
             from patron_v2 patron
                 inner join bty_v2 bty on patron.BTY=bty.BTYNUMBER
                 inner join branch_v2 branch on patron.defaultbranch =branch.BRANCHNUMBER
     where
     bty.btycode NOT IN ( 'GRAD','ILL','INST','LIBUSE','STFBRW','STUDNT')  and
-   trunc(regdate)  between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
+   trunc(regdate) between trunc(ADD_MONTHS(sysdate,-1 ),'MM') and LAST_DAY(ADD_MONTHS(sysdate,-1))
 
-group by  trunc(patron.regdate) , patron.defaultbranch,branch.branchcode
-order by regdate desc, branch.branchcode asc
+group by  to_date(patron.regdate) , patron.defaultbranch,branch.branchcode
+order by to_date(regdate) , branch.branchcode
 ;
 
--- Patron Registation Past Month
+-- Patron Registration Past Month
 select trunc(patron.regdate) regdate, branch.branchcode,
         sum(count(patron.patronid)) over ( partition by patron.defaultbranch) indivbranchdailytotal,
         sum(count(patron.patronid)) over ( order by trunc(patron.regdate) range between 1 preceding and current row) allbrdailytotal,
@@ -1260,7 +1262,7 @@ select trunc(patron.regdate) regdate, branch.branchcode,
    trunc(regdate) between ADD_MONTHS(trunc(sysdate,'MM') ,-1 )  and LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 ))
 
 group by trunc(patron.regdate) , patron.defaultbranch,branch.branchcode,btycode
-order by regdate desc, branch.branchcode asc;
+order by regdate , branch.branchcode ;
 
 select trunc(patron.regdate) regdate, branch.branchcode,
         sum(count(patron.patronid)) over ( partition by patron.defaultbranch) indivbranchdailytotal,
@@ -1300,8 +1302,9 @@ select trunc(patron.regdate) regdate, branch.branchcode,
    trunc(regdate) between LAST_DAY(ADD_MONTHS(trunc(sysdate,'MM') ,-1 )) and last_day(trunc(sysdate))
 
 group by trunc(patron.regdate) , patron.defaultbranch,branch.branchcode,btycode
-order by regdate desc, branch.branchcode asc
+order by regdate , branch.branchcode
 ;
+
 -- 01/05/2026 Mount St. Mary Students active the past year
 select patronid,name, trunc(sactdate),trunc(regdate),status, street1 from patron_v2
 where    street1 like '%16300%' or regexp_like (upper(street1), '.+S(AIN)*T MARY')
