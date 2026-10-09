@@ -663,12 +663,32 @@ from bbibmap_v2 bib
    --substr(upper(bib.TITLE),1,20)=substr(upper(TO_CHAR(XMASFLICKS.TITLE)),1,20)
   --UTL_MATCH.JARO_WINKLER(to_char(XMASFLICKS.TITLE), bib.TITLE) > 0.90
 where ( (bib.ERESOURCE ='Y') OR (media.MEDNAME like '%DVD%') )
-
 order by bib.TITLE ;
 
 
 -- 10/08/2026
--- eVideo XMASFLICKS
+-- Combined Video Match
+select distinct bib.bid,
+       bib.CALLNUMBER,
+       bib.title,
+       tags.WORDDATA as Marc245,
+       to_char(FLICKS.TITLE),
+       bib.ERESOURCE
+from bbibmap_v2 bib
+     inner join bbibcontents_v2 marc on bib.bid = marc.bid
+     inner join btags_v2 tags on marc.tagnumber='245' and tags.tagid = marc.tagid
+     inner join FORMATTERM_V2 format on (format.FORMATTERMID = bib.FORMAT) and (bib.FORMAT=51 or bib.FORMAT=43 or bib.FORMAT=67 or bib.FORMAT=63)
+     left outer join ITEM_V2 item on item.BID = bib.bid
+
+     inner join XMASFLICKS FLICKS on
+    trim(upper(bib.TITLE)) like trim(upper(TO_CHAR(FLICKS.TITLE))) || '%'
+    OR
+    (UTL_MATCH.JARO_WINKLER(to_char(FLICKS.TITLE), tags.WORDDATA) > 0.95)
+
+order by bib.TITLE ;
+
+--10/09/2026 Kanopy Vid
+
 select distinct bib.bid,
        bib.CALLNUMBER,
        bib.title,
@@ -684,7 +704,6 @@ from bbibmap_v2 bib
     --upper(tags.WORDDATA) like trim(upper(TO_CHAR(XMASFLICKS.TITLE))) || '%'
 where (bib.ERESOURCE ='Y')
 order by bib.TITLE ;
-
 
 select bib.bid,
        bib.recordtype,
