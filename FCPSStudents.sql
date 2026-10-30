@@ -1534,7 +1534,7 @@ select
 
     order by editdate desc;
 
--- MSD same name, two IDs
+-- MSD same name, two different IDs
 select
        student.patronid id1,
        student2.PATRONID id2,
@@ -1569,7 +1569,55 @@ select
 
     order by student.editdate desc;
 
--- Students to Remove List
+
+-- PatronID to delete: MSD same name, two different IDs find one edited before Sept 28, 2026.
+select
+
+
+       student.PATRONID id1,
+       student2.PATRONID id2,
+       student.name,
+      student.ZIP1 zip1,
+      student2.ZIP1 zip2,
+       TO_DATE(student.editdate) s1edit,
+       TO_DATE(student2.editdate) s2dedit
+    from patron_v2 student
+    inner join PATRON_V2 student2 on ((student.NAME = student2.NAME) and
+                                 (student.PATRONID!=student2.PATRONID)
+                                 and
+                                TO_DATE(student2.editdate) > '27-SEP-2026'
+
+                                    )
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and   label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+    order by student.PATRONID  ;
+
+-- MSD IDS to Delete 10/30/2026
+    select
+       dups.ID1 dupid,
+       student.PATRONID,
+       student.name,
+      dups.ZIP1 zip1,
+      student.ZIP1 student_zip1,
+       TO_DATE(dups.s1edit) dupedit,
+       TO_DATE(student.editdate)  student_dedit
+    from MSD_DELETE_DUPIDS dups
+    inner join PATRON_V2 student on (student.PATRONID = dups.ID1  )
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join udflabel_v2 label on udf.fieldid=label.fieldid
+    where
+     branchcode ='SSL' and label.label = 'Grade' and
+      ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
+    order by student.PATRONID  ;
+
+-- Students to Remove List, not in the update files 092826
  select
 
        student.patronid,
@@ -1600,7 +1648,7 @@ select
 
     order by editdate desc;
 
--- Identify Student accounts to remove listed in MSD_STUDENtS_TO_REMOVE_092826
+-- Identify Student accounts to remove listed in MSD_STUDENTS_TO_REMOVE_092826
 select
         CAMPUS,
         case UPPER(to_char(CAMPUS))

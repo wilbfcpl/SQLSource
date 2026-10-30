@@ -397,3 +397,11 @@ and p.regdate > '28-FEB-25'
 
 
 ORDER BY p.regdate desc, p.name
+
+-- Early Start Patron Accounts
+select student.patronid, student.name,  BRANCHCODE,
+       student.EMAIL, student.STREET1, student.city1,student.STATUS
+from patron_v2 student
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+    inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+   where btycode = 'ESPTRN' and branchcode ='BKE' and UPPER(CITY1) like 'IJAMSVILLE';
