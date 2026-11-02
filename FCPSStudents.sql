@@ -1633,18 +1633,22 @@ select
 
 --   btycode, branchcode,
     from patron_v2 student
-    inner join MSD_STUDENTS_TO_REMOVE_092826 msdremove on ( student.PATRONID = '119829219' || substr(to_char(msdremove."Student ID"),1,5))
+    inner join MSD_STUDENTS_TO_REMOVE_092826 msdremove on
+        ( student.PATRONID = '119829219' || substr(to_char(msdremove."Student ID"),1,5))
+        OR
+    ( student.PATRONID = '3' || substr(to_char(msdremove."Student ID"),1,5))
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
     inner join udflabel_v2 label on udf.fieldid=label.fieldid
     where
-     branchcode ='SSL' and   label.label = 'Grade' and
+    branchcode ='SSL' and   label.label = 'Grade' and
       ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
 
-    and TO_DATE(student.editdate)<'28-SEP-2026'
+   -- and TO_DATE(student.editdate)<'28-SEP-2026'
+       and TO_DATE(student.sactdate) is NULL or TO_DATE(SACTDATE)<'01-NOV-2023'
 
-    and length(student.patronid)!=14
+   -- and length(student.patronid)!=14
 
     order by editdate desc;
 
@@ -1684,6 +1688,39 @@ select
    order by selfactivity desc, editdate desc, regdate desc
 ;
 
+
+--------------------------------------------------------------------------------------------
+--
+-- Backup the Student Account ToBackup for potential restore by the Patron Loader
+--Patron Loader Input Column Order
+--patronid,first,middle,last,grade,schooladdr,city,state,zip,status,regdate,DOB,<null>
+--
+--------------------------------------------------------------------------------------------
+-- Column format order Suitable for export and use by the Patron Loader
+
+select
+
+    student.PATRONID,student.FIRSTNAME, student.MIDDLENAME,student.LASTNAME, udf.VALUENAME grade,
+    STREET1,city1,state1,zip1,student.STATUS,student.REGDATE,student.BIRTHDATE
+--,msdstudent."Student ID"
+
+    from PATRON_V2 student
+        inner join "MSD_STUDENTS_TO_REMOVE_092826" msdstudent on (
+        (student.PATRONID = '1198292190' || substr(to_char(msdstudent."Student ID"), 1, 4))
+            OR
+        (student.PATRONID = '119829219' || substr(to_char(msdstudent."Student ID"), 1, 5))
+            OR
+        (student.PATRONID = '3' || substr(to_char(msdstudent."Student ID"), 1, 5))
+        )
+    inner join bty_v2 type on student.bty = type.BTYNUMBER
+   inner join branch_v2 branch on student.REGBRANCH = branch.BRANCHNUMBER
+    inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+    inner join UDFLABEL_V2 label on label.FIELDID = udf.FIELDID
+where
+    BTYCODE = 'STUDNT' and
+    branch.BRANCHCODE='SSL' and
+     upper(label.label)='GRADE'
+;
 
 -- MSD Students not in the 05-Feb-2026 Update temporary table MSDSTUDENTS020526
 with uncertain_ids as (select
