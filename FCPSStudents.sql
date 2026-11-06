@@ -1387,21 +1387,26 @@ select
     order by editdate desc;
 
 -- MSD Students not in the 09-28-26 Update temporary tables MSD_COLUMBIA_092826, MSD_FREDERICK_092826, and MSD_STUDENTS_TO_REMOVE_092826
+-- Nov 5, 2026
+-- MSD Not in 092826 Note MSD Student ID lengths 4,5,6,9
+--
 select
        --student.patronid, msdstudents.student_number,
-
        student.patronid,
+    --   msdstudents3."Student ID",
     --   student.userid,
     --   to_char(msdstudents1."Student ID") students1,
     --   to_char(msdstudents2."Student ID") students2,
-       student.firstname,
+
        student.lastname,
+        student.firstname,
       -- udf.VALUENAME grade,
-       street1,
-       --student.status,
+       student.status,
        TO_DATE(editdate),
-       TO_DATE(regdate),
-       TO_DATE(sactdate) selfactivity
+       TO_DATE(sactdate) selfactivity,
+       street1
+    --   TO_DATE(regdate),
+
 
 --   btycode, branchcode,
     from patron_v2 student
@@ -1413,21 +1418,21 @@ select
          ( substr(student.PATRONID,10,5)=substr(to_char(msdstudents2."Student ID" ),1,5) OR
           substr(student.PATRONID,11,4)=substr(to_char(msdstudents2."Student ID" ),1,4)
              )
-
-        left outer join MSD_STUDENTS_TO_REMOVE_092826 msdstudents3 ON
-            student.patronid=
-         (
-            case UPPER(to_char(CAMPUS))
-            when 'COLUMBIA' then '3' || to_char(msdstudents3."Student ID")
-            when 'FREDERICK' then
-                                case length(to_char(msdstudents3."Student ID"))
-                                when 4 then '119829190' || to_char(msdstudents3."Student ID")
-                                when 5 then '11982919' || to_char(msdstudents3."Student ID")
-                                end
+     left outer join MSD_STUDENTS_TO_REMOVE_09282026 msdstudents3 ON
+        student.patronid=
+         ( case upper(to_char(CAMPUS))
+             when 'FREDERICK' then
+              case length(to_char(msdstudents3."Student ID"))
+                when 4 then '1198292190' || to_char(msdstudents3."Student ID")
+                when 5 then '119829219'  || to_char(msdstudents3."Student ID")
+                when 6 then '119829219'  || substr(to_char(msdstudents3."Student ID"),1,5)
+                when 9 then '119829219'  || substr(to_char(msdstudents3."Student ID"),1,5)
+                else 'BAD ID'
+               end
+             when 'COLUMBIA' then '3' || to_char(msdstudents3."Student ID")
+            else 'BAD'
             end
-             )
-
-
+         )
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
@@ -1439,9 +1444,9 @@ select
          (  msdstudents1."Student ID" is null ) AND
          (  msdstudents2."Student ID" is null ) AND
          (  msdstudents3."Student ID" is null )
-       --  (       and trunc(student.editdate)<'28-SEP-2026')
+        and ( (to_date(student.sactdate)<'06-NOV-2023') or (student.SACTDATE is NULL) )
 
-    order by selfactivity desc, editdate desc, REGDATE desc ;
+    order by editdate desc, lastname ;
 
 -- MSD Columbia Digital Cards
 select
@@ -1518,7 +1523,6 @@ select
 
 --   btycode, branchcode,
     from patron_v2 student
-
 
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
@@ -1617,7 +1621,7 @@ select
       ( upper(student.street1) like '%DEAF%' or upper(student.street1) like '%MSD%')
     order by student.PATRONID  ;
 
--- Students to Remove List, not in the update files 092826
+-- Students to Remove List
  select
 
        student.patronid,
@@ -1633,10 +1637,14 @@ select
 
 --   btycode, branchcode,
     from patron_v2 student
-    inner join MSD_STUDENTS_TO_REMOVE_092826 msdremove on
-        ( student.PATRONID = '119829219' || substr(to_char(msdremove."Student ID"),1,5))
+    inner join MSD_STUDENTS_TO_REMOVE_09282026 msdremove on
+     ( student.PATRONID = '119829219' || substr(to_char(msdremove."Student ID"),1,5))
         OR
-    ( student.PATRONID = '3' || substr(to_char(msdremove."Student ID"),1,5))
+     (student.PATRONID = '3' || substr(to_char(msdremove."Student ID"),1,5))
+        or
+        (student.PATRONID = '1198292190' || substr(to_char(msdremove."Student ID"), 1, 4)
+        )
+
     inner join bty_v2 type on student.bty = type.BTYNUMBER
     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
@@ -1654,7 +1662,8 @@ select
 
 -- Identify Student accounts to remove listed in MSD_STUDENTS_TO_REMOVE_092826
 select
-        CAMPUS,
+
+       CAMPUS,
         case UPPER(to_char(CAMPUS))
             when 'COLUMBIA' then '3' || msdstudent."Student ID"
             when 'FREDERICK' then
@@ -1687,7 +1696,85 @@ select
 
    order by selfactivity desc, editdate desc, regdate desc
 ;
+-- Identify Students grade 12th or higher from list in MSD_STUDENTS_TO_REMOVE_092826
+select
+        student.PATRONID,
+      msdstudent."Student ID",
+       msdstudent."First Name",
+       msdstudent."Last Name",
+    udf.VALUENAME grade,
+   -- ZIP1,
+       TO_DATE(editdate) edit,
+       TO_DATE(regdate) reg,
+       TO_DATE(sactdate) selfactivity,
+    CAMPUS
+    from MSD_STUDENTS_TO_REMOVE_09282026 msdstudent
+    inner join patron_v2 student  on (
+                                  (student.PATRONID = '1198292190' || substr(to_char(msdstudent."Student ID"),1,4))
+                                OR
+                                  (student.PATRONID = '119829219' || substr(to_char(msdstudent."Student ID"),1,5))
+                                OR
+                                (student.PATRONID = '3' || substr(to_char(msdstudent."Student ID"),1,5))
+        )
+     inner join bty_v2 type on student.bty = type.BTYNUMBER
+     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+     inner join udflabel_v2 label on udf.fieldid=label.fieldid
 
+    where TO_CHAR(msdstudent.grade) in ('12','13','14','15')
+   order by selfactivity desc, editdate desc, regdate desc
+;
+--------------------------------------------------------------------------------------------
+-- Identify Students grade 12th or higher from list in MSD_STUDENTS_TO_REMOVE_092826
+--Patron Loader Input Column Order
+--patronid,first,middle,last,grade,schooladdr,city,state,zip,status,regdate,DOB,<null>
+--
+--------------------------------------------------------------------------------------------
+select
+     student.PATRONID,student.FIRSTNAME, student.MIDDLENAME,student.LASTNAME, udf.VALUENAME grade,
+    STREET1,city1,state1,zip1,student.STATUS,student.REGDATE,student.BIRTHDATE
+
+    from MSD_STUDENTS_TO_REMOVE_09282026 msdstudent
+    inner join patron_v2 student  on (
+                                  (student.PATRONID = '1198292190' || substr(to_char(msdstudent."Student ID"),1,4))
+                                OR
+                                  (student.PATRONID = '119829219' || substr(to_char(msdstudent."Student ID"),1,5))
+                                OR
+                                (student.PATRONID = '3' || substr(to_char(msdstudent."Student ID"),1,5))
+        )
+     inner join bty_v2 type on student.bty = type.BTYNUMBER
+     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+     inner join udflabel_v2 label on udf.fieldid=label.fieldid
+
+    where TO_CHAR(msdstudent.grade) in ('12','13','14','15')
+   order by student.PATRONID  ;
+
+--------------------------------------------------------------------------------------------
+-- Identify Students grades below 12 from list in MSD_STUDENTS_TO_REMOVE_092826
+--Patron Loader Input Column Order
+--patronid,first,middle,last,grade,schooladdr,city,state,zip,status,regdate,DOB,<null>
+--
+--------------------------------------------------------------------------------------------
+select
+     student.PATRONID,student.FIRSTNAME, student.MIDDLENAME,student.LASTNAME, udf.VALUENAME grade,
+    STREET1,city1,state1,zip1,student.STATUS,student.REGDATE,student.BIRTHDATE
+
+    from MSD_STUDENTS_TO_REMOVE_09282026 msdstudent
+    inner join patron_v2 student  on (
+                                  (student.PATRONID = '1198292190' || substr(to_char(msdstudent."Student ID"),1,4))
+                                OR
+                                  (student.PATRONID = '119829219' || substr(to_char(msdstudent."Student ID"),1,5))
+                                OR
+                                (student.PATRONID = '3' || substr(to_char(msdstudent."Student ID"),1,5))
+        )
+     inner join bty_v2 type on student.bty = type.BTYNUMBER
+     inner join branch_v2 branch on student.DEFAULTBRANCH = branch.BRANCHNUMBER
+     inner join UDFPATRON_V2 udf on student.patronid=udf.patronid
+     inner join udflabel_v2 label on udf.fieldid=label.fieldid
+
+    where TO_CHAR(msdstudent.grade) not in ('12','13','14','15')
+   order by student.PATRONID  ;
 
 --------------------------------------------------------------------------------------------
 --

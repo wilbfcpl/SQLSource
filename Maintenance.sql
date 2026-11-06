@@ -1464,4 +1464,8 @@ and tx.termnumber = '$ZT0.#EC'
      and tx.termnumber='$ZT0.#EC'
     ) select PATRONID, NAME, EMAILNOTICES, EMAIL from logstuff;
 
-
+-- Nov 5, 2026
+-- Test the Phone Number updates to PHONE_NUMBERS_TO_REFORMAT
+select PATRON.patronid, PATRON.PH1, to_char(badphone.ph1),patron.PH2,to_char(badphone.ph2), patron.NAME
+from PATRON_V2 patron
+inner join PHONE_NUMBERS_TO_REFORMAT badphone on patron.PATRONID=to_char(badphone.PATRONID) ;
